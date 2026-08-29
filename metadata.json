@@ -1,0 +1,6 @@
+{
+  "name": "UR-GEDT Portal & Management System",
+  "description": "Portail institutionnel et système de gestion interne de l'Unité de Recherche sur la Gouvernance, l'Environnement et le Développement Territorial (UR-GEDT) de l'Université de Lubumbashi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-gold: #D4AF37;
+  --color-gold-dark: #B5932A;
+  --color-gold-light: #F2E3B5;
+  --color-charcoal: #1A1A1A;
+  --color-charcoal-light: #2D2D2D;
+}
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-[#0B1220] via-[#101B2E] to-[#0D1826] text-gray-200 font-sans antialiased scroll-smooth;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+}
+
+/* Print Stylesheet for Receipts & Reports */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  
+  .print-card {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    page-break-inside: avoid;
+  }
+}
+
+/* Light Theme Overrides for AdminDashboard */
+.theme-light {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+.theme-light aside {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+.theme-light header {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #e2e8f0 !important;
+}
+
+.theme-light input, 
+.theme-light select, 
+.theme-light textarea {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.theme-light input::placeholder, 
+.theme-light textarea::placeholder {
+  color: #64748b !important;
+}
+
+.theme-light .bg-\[\#111111\],
+.theme-light .bg-\[\#151515\],
+.theme-light .bg-\[\#141414\],
+.theme-light .bg-\[\#181818\],
+.theme-light .bg-\[\#1A1A1A\],
+.theme-light .bg-\[\#111\],
+.theme-light .bg-\[\#0a0a0a\],
+.theme-light .bg-\[\#0A0A0A\],
+.theme-light .bg-\[\#121212\],
+.theme-light .bg-\[\#1E1E1E\],
+.theme-light .bg-\[\#222\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+.theme-light .border-white\/5,
+.theme-light .border-white\/10,
+.theme-light .border-white\/20 {
+  border-color: #e2e8f0 !important;
+}
+
+.theme-light .text-white {
+  color: #0f172a !important;
+}
+
+.theme-light .text-slate-100,
+.theme-light .text-slate-200,
+.theme-light .text-slate-300 {
+  color: #1e293b !important;
+}
+
+.theme-light .text-slate-400,
+.theme-light .text-slate-500 {
+  color: #64748b !important;
+}
+
+.theme-light .hover\:bg-\[\#151515\]:hover,
+.theme-light .hover\:bg-\[\#1E1E1E\]:hover,
+.theme-light .hover\:bg-\[\#181818\]:hover,
+.theme-light .hover\:bg-white\/5:hover,
+.theme-light .hover\:bg-white\/10:hover {
+  background-color: #f1f5f9 !important;
+}
+
+.theme-light .bg-white\/5,
+.theme-light .bg-white\/10 {
+  background-color: #f8fafc !important;
+}
+

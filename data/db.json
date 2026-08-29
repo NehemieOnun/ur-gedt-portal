@@ -1,0 +1,355 @@
+{
+  "users": [
+    {
+      "id": "u-1",
+      "name": "Prof. Dr. Jean-Claude Mpanga",
+      "email": "directeur@urgedt.org",
+      "password": "t2XtrKS4oaIy",
+      "role": "Directeur",
+      "active": true,
+      "avatarUrl": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": "u-2",
+      "name": "M. Albert Kabeya",
+      "email": "comptable@urgedt.org",
+      "password": "pxVT06PhR4nD",
+      "role": "Comptable",
+      "active": true,
+      "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": "u-3",
+      "name": "Mme. Chantal Mwamba",
+      "email": "secretaire@urgedt.org",
+      "password": "EKLs62VoCbd7",
+      "role": "Secrétaire",
+      "active": true,
+      "avatarUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": "u-4",
+      "name": "Dr. Patrick Mulamba",
+      "email": "chercheur@urgedt.org",
+      "password": "DXQLnoMxP312",
+      "role": "Chercheur",
+      "active": true,
+      "avatarUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": "u-5",
+      "name": "Admin UR-GEDT",
+      "email": "admin@urgedt.org",
+      "password": "vhOGlcMPR6FP",
+      "role": "Administrateur",
+      "active": true,
+      "avatarUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": "u-17",
+      "name": "Dr. Alain Mbayo",
+      "email": "a.mbayo@urgedt.org",
+      "password": "PSSROrP9UxdQ",
+      "role": "Chercheur",
+      "active": true,
+      "avatarUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
+    }
+  ],
+  "news": [
+    {
+      "id": "n-1",
+      "title": "Lancement du projet de cartographie des conflits fonciers dans le Haut-Katanga",
+      "content": "L'UR-GEDT a officiellement lancé son nouveau programme de recherche visant à cartographier les conflits fonciers périurbains autour de Lubumbashi. Ce projet financé par nos partenaires institutionnels permettra de proposer des solutions durables aux autorités provinciales.",
+      "date": "2026-07-01",
+      "author": "Mme. Chantal Mwamba",
+      "image": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80",
+      "category": "Recherche"
+    },
+    {
+      "id": "n-2",
+      "title": "Rapport sur l'impact de l'exploitation minière artisanale à Kolwezi",
+      "content": "Une équipe pluridisciplinaire de l'UR-GEDT a publié un rapport d'étape alarmant sur les conséquences environnementales et sanitaires de l'exploitation artisanale du cobalt à Kolwezi. Les analyses d'eau révèlent des concentrations préoccupantes de métaux lourds.",
+      "date": "2026-06-15",
+      "author": "Dr. Patrick Mulamba",
+      "image": "https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&w=800&q=80",
+      "category": "Environnement"
+    },
+    {
+      "id": "n-3",
+      "title": "Atelier de formation sur la gouvernance environnementale locale",
+      "content": "En collaboration avec l'Université de Lubumbashi (UNILU), l'UR-GEDT a organisé un atelier intensif de trois jours pour former les chefs coutumiers et de chefferies du Katanga aux principes de la législation environnementale et foncière congolaise.",
+      "date": "2026-05-20",
+      "author": "Prof. Dr. Jean-Claude Mpanga",
+      "image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
+      "category": "Formation"
+    }
+  ],
+  "activities": [
+    {
+      "id": "act-1",
+      "title": "Prélèvements de sol à Kipushi",
+      "description": "Mission de collecte d'échantillons de sol et d'eau à proximité de l'ancienne mine de Kipushi afin d'analyser l'infiltration acide et la contamination par le plomb et le cadmium.",
+      "location": "Kipushi, Haut-Katanga",
+      "date": "2026-06-10",
+      "status": "Réalisé",
+      "budget": 2500,
+      "researchers": [
+        "Dr. Patrick Mulamba",
+        "Prof. Dr. Jean-Claude Mpanga"
+      ]
+    },
+    {
+      "id": "act-2",
+      "title": "Enquêtes ménages sur l'accès au foncier à Kolwezi",
+      "description": "Entretiens structurés avec 150 ménages déplacés par l'extension des concessions minières industrielles à Kolwezi afin d'évaluer la compensation foncière reçue.",
+      "location": "Kolwezi, Lualaba",
+      "date": "2026-07-25",
+      "status": "Planifié",
+      "budget": 4200,
+      "researchers": [
+        "Dr. Patrick Mulamba"
+      ]
+    },
+    {
+      "id": "act-3",
+      "title": "Cartographie GPS de la forêt de la Luano",
+      "description": "Relevés GPS de l'état de dégradation forestière de la Luano dû à la production de charbon de bois (makala) pour approvisionner Lubumbashi.",
+      "location": "Luano, Lubumbashi",
+      "date": "2026-07-02",
+      "status": "En cours",
+      "budget": 1800,
+      "researchers": [
+        "Dr. Patrick Mulamba",
+        "Prof. Dr. Jean-Claude Mpanga"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "title": "Gouvernance Minière RSE & Développement Local",
+      "description": "Étude critique de l'application de la Responsabilité Sociétale des Entreprises (RSE) dans les provinces minières du Haut-Katanga et Lualaba, et impact direct sur la rétrocession de la dotation de 0.3% aux communautés.",
+      "startDate": "2025-01-01",
+      "endDate": "2026-12-31",
+      "status": "En cours",
+      "budget": 45000,
+      "leader": "Prof. Dr. Jean-Claude Mpanga",
+      "funding": "Enabel (Belgique)"
+    },
+    {
+      "id": "proj-2",
+      "title": "Reforestation Communautaire & Makala Durable",
+      "description": "Projet de modélisation et de mise en place de zones de sylviculture villageoise contrôlée pour la production durable de charbon de bois autour de Lubumbashi pour atténuer la déforestation de la région miombo.",
+      "startDate": "2024-06-01",
+      "endDate": "2026-06-01",
+      "status": "Terminé",
+      "budget": 32000,
+      "leader": "Dr. Patrick Mulamba",
+      "funding": "PNUD"
+    },
+    {
+      "id": "proj-3",
+      "title": "Observatoire des Conflits Fonciers du Haut-Katanga",
+      "description": "Plateforme d'alerte, de cartographie participative et de documentation juridique des litiges fonciers opposant les exploitants agricoles locaux et les concessions minières privées.",
+      "startDate": "2026-03-01",
+      "endDate": "2028-02-28",
+      "status": "En cours",
+      "budget": 60000,
+      "leader": "Prof. Dr. Jean-Claude Mpanga",
+      "funding": "Union Européenne"
+    }
+  ],
+  "publications": [
+    {
+      "id": "pub-1",
+      "title": "Exploitation du Cobalt et Gouvernance Locale à Kolwezi : Entre RSE et Réalités de Terrain",
+      "authors": "Jean-Claude Mpanga, Patrick Mulamba",
+      "journal": "Revue Congolaise de Gestion Environnementale",
+      "year": 2025,
+      "url": "https://example.com/pub1",
+      "type": "Article"
+    },
+    {
+      "id": "pub-2",
+      "title": "La Ceinture Verte de Lubumbashi sous Pression : Analyse Spatiale de la Déforestation 2015-2025",
+      "authors": "Patrick Mulamba",
+      "journal": "Annales de l'Université de Lubumbashi",
+      "year": 2025,
+      "url": "https://example.com/pub2",
+      "type": "Article"
+    },
+    {
+      "id": "pub-3",
+      "title": "Gouvernance Territoriale et Conflits Fonciers en RD Congo",
+      "authors": "Jean-Claude Mpanga (Dir.)",
+      "journal": "Éditions Universitaires Africaines",
+      "year": 2024,
+      "url": "https://example.com/pub3",
+      "type": "Livre"
+    }
+  ],
+  "gallery": [
+    {
+      "id": "gal-1",
+      "title": "Mission d'analyse environnementale à Kipushi",
+      "description": "Prélèvement de sédiments pollués près de l'ancienne usine de traitement.",
+      "type": "photo",
+      "url": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80",
+      "date": "2026-06-10"
+    },
+    {
+      "id": "gal-2",
+      "title": "Atelier de concertation multi-acteurs",
+      "description": "Réunion entre leaders communautaires, directeurs de mines et experts UR-GEDT à Kolwezi.",
+      "type": "photo",
+      "url": "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&w=800&q=80",
+      "date": "2026-05-18"
+    },
+    {
+      "id": "gal-3",
+      "title": "Présentation des résultats de recherche à l'UNILU",
+      "description": "Le Directeur de l'UR-GEDT présente les conclusions de l'Observatoire Foncier.",
+      "type": "photo",
+      "url": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80",
+      "date": "2026-04-12"
+    }
+  ],
+  "partners": [
+    {
+      "id": "part-1",
+      "name": "Université de Lubumbashi (UNILU)",
+      "logo": "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?auto=format&fit=crop&w=200&q=80",
+      "website": "https://unilu.ac.cd",
+      "type": "Académique"
+    },
+    {
+      "id": "part-2",
+      "name": "Enabel - Agence Belge de Développement",
+      "logo": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=200&q=80",
+      "website": "https://enabel.be",
+      "type": "Financier"
+    },
+    {
+      "id": "part-3",
+      "name": "Ministère de l'Environnement et Développement Durable RDC",
+      "logo": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=200&q=80",
+      "website": "https://medd.gouv.cd",
+      "type": "Institutionnel"
+    }
+  ],
+  "contactMessages": [
+    {
+      "id": "msg-1",
+      "senderName": "Jean Kabange",
+      "senderEmail": "jkabange@gmail.com",
+      "subject": "Demande de collaboration de stage",
+      "message": "Bonjour, je suis étudiant en deuxième master en gestion de l'environnement à l'UNILU. Je souhaite postuler pour un stage de recherche au sein de votre unité de recherche pour mon mémoire sur le reboisement.",
+      "date": "2026-07-11T14:35:00Z",
+      "readStatus": false
+    },
+    {
+      "id": "msg-2",
+      "senderName": "Mme. Marie Josée",
+      "senderEmail": "mjosee@gmail.com",
+      "subject": "Accès au rapport d'impact de Kolwezi",
+      "message": "Félicitations pour votre rapport sur l'impact environnemental du cobalt. Comment puis-je obtenir une copie physique ou en PDF de haute qualité pour notre association locale ?",
+      "date": "2026-07-09T09:12:00Z",
+      "readStatus": true
+    }
+  ],
+  "recipes": [
+    {
+      "id": "REC-2026-0001",
+      "description": "Première tranche subvention projet Gouvernance Minière",
+      "source": "Enabel (Belgique)",
+      "amount": 15000,
+      "date": "2026-01-15T10:00:00Z",
+      "recordedBy": "M. Albert Kabeya",
+      "type": "Subvention"
+    },
+    {
+      "id": "REC-2026-0002",
+      "description": "Fonds de démarrage Observatoire des Conflits Fonciers",
+      "source": "Union Européenne",
+      "amount": 25000,
+      "date": "2026-03-10T11:30:00Z",
+      "recordedBy": "M. Albert Kabeya",
+      "type": "Subvention"
+    },
+    {
+      "id": "REC-2026-0003",
+      "description": "Remboursement frais logistiques par l'UNILU",
+      "source": "Université de Lubumbashi",
+      "amount": 1800,
+      "date": "2026-05-02T14:15:00Z",
+      "recordedBy": "M. Albert Kabeya",
+      "type": "Prestation de service"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "DEP-2026-0001",
+      "description": "Achat d'équipements de laboratoire (réactifs et fioles)",
+      "beneficiary": "Congo Lab Tech",
+      "amount": 1850,
+      "date": "2026-02-12T09:45:00Z",
+      "recordedBy": "M. Albert Kabeya",
+      "category": "Matériel"
+    },
+    {
+      "id": "DEP-2026-0002",
+      "description": "Frais de déplacement et logement mission Kipushi",
+      "beneficiary": "Dr. Patrick Mulamba",
+      "amount": 800,
+      "date": "2026-06-08T15:00:00Z",
+      "recordedBy": "M. Albert Kabeya",
+      "category": "Logistique"
+    },
+    {
+      "id": "DEP-2026-0003",
+      "description": "Indemnités des enquêteurs périurbains Lubumbashi",
+      "beneficiary": "Chercheurs stagiaires",
+      "amount": 1500,
+      "date": "2026-07-05T12:00:00Z",
+      "recordedBy": "M. Albert Kabeya",
+      "category": "RH"
+    }
+  ],
+  "budget": {
+    "year": 2026,
+    "totalBudget": 150000,
+    "allocatedResearch": 60000,
+    "allocatedLogistics": 30000,
+    "allocatedEquipment": 35000,
+    "allocatedPersonnel": 25000
+  },
+  "logs": [
+    {
+      "id": "log-1",
+      "userId": "u-2",
+      "userName": "M. Albert Kabeya",
+      "userRole": "Comptable",
+      "action": "Ajout Recette",
+      "details": "Ajout de la recette REC-2026-0003 d'un montant de 1800 USD.",
+      "timestamp": "2026-05-02T14:15:00Z"
+    },
+    {
+      "id": "log-2",
+      "userId": "u-2",
+      "userName": "M. Albert Kabeya",
+      "userRole": "Comptable",
+      "action": "Ajout Dépense",
+      "details": "Ajout de la dépense DEP-2026-0002 d'un montant de 800 USD.",
+      "timestamp": "2026-06-08T15:00:00Z"
+    },
+    {
+      "id": "log-3",
+      "userId": "u-3",
+      "userName": "Mme. Chantal Mwamba",
+      "userRole": "Secrétaire",
+      "action": "Ajout Actualité",
+      "details": "Lancement du projet de cartographie des conflits fonciers dans le Haut-Katanga",
+      "timestamp": "2026-07-01T10:00:00Z"
+    }
+  ]
+}

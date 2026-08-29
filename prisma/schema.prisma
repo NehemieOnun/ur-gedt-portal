@@ -1,0 +1,193 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique // Super Administrateur, Administrateur, Directeur, Comptable, Chercheur, Secrétaire, Visiteur
+  description String?
+  permissions String   // JSON string of permissions or simple string
+  users       User[]
+}
+
+model User {
+  id         String    @id @default(uuid())
+  name       String
+  email      String    @unique
+  password   String    // bcrypt hashed
+  roleId     String
+  role       Role      @relation(fields: [roleId], references: [id])
+  active     Boolean   @default(true)
+  avatarUrl  String?
+  phone      String?
+  department String?
+  function   String?
+  bio        String?
+  lastLogin  DateTime?
+  createdAt  DateTime  @default(now())
+}
+
+model SiteSetting {
+  id        String   @id @default("1")
+  siteName  String   @default("UR-GEDT Portal")
+  logo      String   @default("/logo.jpg")
+  favicon   String   @default("/favicon.ico")
+  address   String   @default("Université de Lubumbashi, Route Kasapa, Lubumbashi, RDC")
+  phone     String   @default("+243 990 000 000")
+  email     String   @default("contact@urgedt-unilu.org")
+  facebook  String   @default("https://facebook.com")
+  linkedin  String   @default("https://linkedin.com")
+  twitter   String   @default("https://x.com")
+  youtube   String   @default("https://youtube.com")
+  github    String   @default("https://github.com")
+  whatsapp  String   @default("https://wa.me/243990000000")
+  updatedAt DateTime @updatedAt @default(now())
+}
+
+model News {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  date      String
+  author    String
+  image     String?
+  category  String
+  createdAt DateTime @default(now())
+}
+
+model Activity {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  location    String
+  date        String
+  status      String   // Réalisé, Planifié, En cours
+  budget      Float
+  researchers String   // Semicolon-separated or JSON array string
+  createdAt   DateTime @default(now())
+}
+
+model Project {
+  id                    String   @id @default(uuid())
+  title                 String
+  status                String
+  progress              Int
+  startYear             Int
+  duration              String
+  principalInvestigator String
+  description           String
+  objectives            String   // Semicolon-separated or JSON
+  partners              String   // Semicolon-separated or JSON
+  budgetAmount          Float
+  spentAmount           Float
+  lastUpdate            String
+  createdAt             DateTime @default(now())
+}
+
+model Publication {
+  id          String   @id @default(uuid())
+  title       String
+  authors     String
+  journal     String
+  year        Int
+  type        String
+  status      String
+  doi         String?
+  abstractUrl String?
+  createdAt   DateTime @default(now())
+}
+
+model Gallery {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  type        String   // photo, video, audio, pdf
+  url         String
+  date        String
+  createdAt   DateTime @default(now())
+}
+
+model Partner {
+  id              String   @id @default(uuid())
+  name            String
+  type            String   // Académique, Institutionnel, Technique, Financier
+  logo            String
+  website         String?
+  cooperationType String
+  createdAt       DateTime @default(now())
+}
+
+model ContactMessage {
+  id          String   @id @default(uuid())
+  senderName  String
+  senderEmail String
+  subject     String
+  message     String
+  date        String
+  status      String   // Lu, Non lu
+  createdAt   DateTime @default(now())
+}
+
+model Recipe {
+  id          String   @id @default(uuid())
+  description String
+  source      String
+  amount      Float
+  date        String
+  recordedBy  String
+  type        String   // Subvention, Donation, Prestation, Autre
+  createdAt   DateTime @default(now())
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  description String
+  beneficiary String
+  amount      Float
+  category    String   // Matériel, Logistique, Recherche, RH, Autre
+  date        String
+  status      String   // Approuvé, En attente, Rejeté
+  recordedBy  String
+  createdAt   DateTime @default(now())
+}
+
+model Budget {
+  id                 String @id @default(uuid())
+  year               Int    @unique
+  totalBudget        Float
+  allocatedResearch  Float
+  allocatedLogistics  Float
+  allocatedEquipment  Float
+  allocatedPersonnel  Float
+}
+
+model Log {
+  id          String   @id @default(uuid())
+  userId      String?
+  userName    String
+  userRole    String
+  action      String
+  details     String
+  timestamp   DateTime @default(now())
+  ip          String?
+  userAgent   String?
+  oldContent  String?  // JSON string
+  newContent  String?  // JSON string
+}
+
+model Notification {
+  id            String   @id @default(uuid())
+  title         String
+  message       String
+  type          String   // info, warning, success
+  isRead        Boolean  @default(false)
+  recipientRole String?  // Role name or null for all
+  createdAt     DateTime @default(now())
+}
