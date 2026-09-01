@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { AuthController } from "../controllers/authController";
-import { DbController } from "../controllers/dbController";
-import { requirePermission, requireAuth } from "../middlewares/authMiddleware";
-import { GeminiService } from "../services/geminiService";
+import { AuthController } from "../controllers/authController.js";
+import { DbController } from "../controllers/dbController.js";
+import { requirePermission, requireAuth } from "../middlewares/authMiddleware.js";
+import { GeminiService } from "../services/geminiService.js";
 
 const router = Router();
 

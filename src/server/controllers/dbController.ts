@@ -1,9 +1,9 @@
 import { Response } from "express";
-import { prisma } from "../config/prisma";
-import { AuthenticatedRequest } from "../middlewares/authMiddleware";
-import { recipeSchema, expenseSchema, newsSchema, projectSchema, contactMessageSchema } from "../validators/zodSchemas";
-import { DEFAULT_DATABASE } from "../../data/defaultDb";
-import { AuthService } from "../services/authService";
+import { prisma } from "../config/prisma.js";
+import { AuthenticatedRequest } from "../middlewares/authMiddleware.js";
+import { recipeSchema, expenseSchema, newsSchema, projectSchema, contactMessageSchema } from "../validators/zodSchemas.js";
+import { DEFAULT_DATABASE } from "../../data/defaultDb.js";
+import { AuthService } from "../services/authService.js";
 
 /**
  * A simple asynchronous mutex lock to serialize database writes.

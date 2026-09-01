@@ -6,7 +6,7 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import compression from "compression";
 import morgan from "morgan";
-import v1Router from "./src/server/routes/v1";
+import v1Router from "./src/server/routes/v1.js";
 
 dotenv.config();
 

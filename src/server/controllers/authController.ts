@@ -1,8 +1,8 @@
 import { Response } from "express";
-import { prisma } from "../config/prisma";
-import { AuthService } from "../services/authService";
-import { loginSchema, forgotPasswordSchema, changePasswordSchema, resetPasswordSchema } from "../validators/zodSchemas";
-import { AuthenticatedRequest } from "../middlewares/authMiddleware";
+import { prisma } from "../config/prisma.js";
+import { AuthService } from "../services/authService.js";
+import { loginSchema, forgotPasswordSchema, changePasswordSchema, resetPasswordSchema } from "../validators/zodSchemas.js";
+import { AuthenticatedRequest } from "../middlewares/authMiddleware.js";
 
 export class AuthController {
   public static async login(req: any, res: Response) {

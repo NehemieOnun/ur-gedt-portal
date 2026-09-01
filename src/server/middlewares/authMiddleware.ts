@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { AuthService } from "../services/authService";
-import { prisma } from "../config/prisma";
+import { AuthService } from "../services/authService.js";
+import { prisma } from "../config/prisma.js";
 
 export interface AuthenticatedRequest extends Request {
   user?: {
