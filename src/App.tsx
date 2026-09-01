@@ -1535,6 +1535,7 @@ export default function App() {
       {printItem && (
         <PrintReceipt 
           item={printItem} 
+          users={db.users || []}
           onClose={() => setPrintItem(null)} 
         />
       )}

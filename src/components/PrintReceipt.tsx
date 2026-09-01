@@ -10,15 +10,27 @@ interface PrintReceiptProps {
     type: "recette" | "depense" | "projet" | "activite" | "publication" | "actualite" | "message" | "user" | "rapport_recettes" | "rapport_depenses" | "rapport_projets" | "rapport_activites";
     data: any; // Can be Recipe, Expense, Project, FieldActivity, Publication, News, etc. or full arrays for reports
   } | null;
+  users?: { name: string; role: string; active?: boolean }[];
   onClose: () => void;
 }
 
-export default function PrintReceipt({ item, onClose }: PrintReceiptProps) {
+export default function PrintReceipt({ item, users = [], onClose }: PrintReceiptProps) {
   const [isExporting, setIsExporting] = useState(false);
   const [showQrDetails, setShowQrDetails] = useState(false);
   const [copiedPayload, setCopiedPayload] = useState(false);
 
   if (!item) return null;
+
+  // Look up the current real holder of each institutional role from live data,
+  // instead of a hardcoded name — so the signature block always reflects who is
+  // actually in the system, not whoever was there when this template was written.
+  const getRoleHolderName = (roleName: string): string => {
+    const holder = users.find((u) => u.role === roleName && u.active !== false);
+    return holder ? holder.name : "Poste vacant";
+  };
+  const secretaireName = getRoleHolderName("Secrétaire");
+  const comptableName = getRoleHolderName("Comptable");
+  const directeurName = getRoleHolderName("Directeur");
 
   // Compute QR Verification Payload and Hash
   const computeVerificationData = () => {
@@ -748,16 +760,16 @@ export default function PrintReceipt({ item, onClose }: PrintReceiptProps) {
               <div className="grid grid-cols-3 gap-8 pt-10 text-center text-xs font-sans text-slate-800 border-t border-slate-200">
                 <div className="space-y-12">
                   <p className="font-bold uppercase tracking-wider text-[10px] text-slate-500">Le Secrétaire Principal</p>
-                  <p className="font-semibold text-slate-900 italic">Mwamba C.</p>
+                  <p className="font-semibold text-slate-900 italic">{secretaireName}</p>
                 </div>
                 <div className="space-y-12">
                   <p className="font-bold uppercase tracking-wider text-[10px] text-slate-500">Le Comptable Agrée</p>
-                  <p className="font-semibold text-slate-900 italic">Kabeya A.</p>
+                  <p className="font-semibold text-slate-900 italic">{comptableName}</p>
                 </div>
                 <div className="space-y-12">
                   <p className="font-bold uppercase tracking-wider text-[10px] text-slate-500">Le Directeur de l'UR-GEDT</p>
                   <p className="font-bold text-slate-950 uppercase border-b border-slate-300 pb-1 inline-block">
-                    Prof. Dr. J.C. Mpanga
+                    {directeurName}
                   </p>
                 </div>
               </div>
