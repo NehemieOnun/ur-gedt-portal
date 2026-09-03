@@ -87,6 +87,7 @@ export default function App() {
   // Print System State
   const [printItem, setPrintItem] = useState<{ type: any; data: any } | null>(null);
   const [showQrScanner, setShowQrScanner] = useState(false);
+  const [qrInitialQuery, setQrInitialQuery] = useState("");
 
   // Server Sync Timestamp State & Persistence
   const [lastSyncTime, setLastSyncTime] = useState<Date | null>(() => {
@@ -153,6 +154,7 @@ export default function App() {
     const verifyDocParam = params.get("verifyDoc");
     if (verifyDocParam) {
       setShowQrScanner(true);
+      setQrInitialQuery(window.location.href);
     }
     
     // Check local session
@@ -1544,6 +1546,7 @@ export default function App() {
       {showQrScanner && (
         <QrScannerModal
           db={db}
+          initialQuery={qrInitialQuery}
           onClose={() => setShowQrScanner(false)}
           onOpenReceipt={(receiptItem) => {
             setShowQrScanner(false);

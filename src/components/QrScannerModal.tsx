@@ -7,11 +7,12 @@ interface QrScannerModalProps {
   db: Database;
   onClose: () => void;
   onOpenReceipt?: (item: { type: any; data: any }) => void;
+  initialQuery?: string;
 }
 
-export default function QrScannerModal({ db, onClose, onOpenReceipt }: QrScannerModalProps) {
+export default function QrScannerModal({ db, onClose, onOpenReceipt, initialQuery }: QrScannerModalProps) {
   const [activeTab, setActiveTab] = useState<"camera" | "manual">("camera");
-  const [inputVal, setInputVal] = useState("");
+  const [inputVal, setInputVal] = useState(initialQuery || "");
   const [isScanning, setIsScanning] = useState(false);
   const [validationResult, setValidationResult] = useState<{
     status: "valid" | "invalid" | "idle";
@@ -90,17 +91,17 @@ export default function QrScannerModal({ db, onClose, onOpenReceipt }: QrScanner
     setIsScanning(true);
     setValidationResult({ status: "idle" });
 
-    setTimeout(() => {
-      setIsScanning(false);
-      const match = searchRecord(query);
+    const localMatch = searchRecord(query);
 
-      if (match) {
-        const itemObj: any = match.itemData;
+    if (localMatch) {
+      setTimeout(() => {
+        setIsScanning(false);
+        const itemObj: any = localMatch.itemData;
         const docId = itemObj.id || "URGEDT-REF";
         const amount = itemObj.amount || itemObj.budget || 0;
         const dateStr = itemObj.date ? new Date(itemObj.date).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10);
-        
-        const rawStr = `${docId}:${match.itemType}:${amount}:${dateStr}:URGEDT_SECURE_AUTH_KEY_2026`;
+
+        const rawStr = `${docId}:${localMatch.itemType}:${amount}:${dateStr}:URGEDT_SECURE_AUTH_KEY_2026`;
         let hashNum = 0;
         for (let i = 0; i < rawStr.length; i++) {
           hashNum = (hashNum << 5) - hashNum + rawStr.charCodeAt(i);
@@ -110,20 +111,79 @@ export default function QrScannerModal({ db, onClose, onOpenReceipt }: QrScanner
 
         setValidationResult({
           status: "valid",
-          itemType: match.itemType,
-          itemData: match.itemData,
+          itemType: localMatch.itemType,
+          itemData: localMatch.itemData,
           hashMatch: true,
           computedHash: `GEDT-${hexHash}`,
           message: "Document authentique certifié conforme au Registre Général de l'UR-GEDT."
         });
-      } else {
+      }, 600);
+      return;
+    }
+
+    // Not found in the locally-loaded data — this is expected when scanning from
+    // an unauthenticated device (a phone camera, for instance), since the public
+    // dataset never includes financial records. Fall back to the dedicated public
+    // single-document verification endpoint, which can look up just this one
+    // record without exposing the rest of the finance data.
+    let lookupId = query.trim();
+    let lookupType = "";
+    if (lookupId.includes("verifyDoc=")) {
+      try {
+        const urlObj = new URL(lookupId);
+        lookupId = urlObj.searchParams.get("verifyDoc") || lookupId;
+        lookupType = urlObj.searchParams.get("type") || "";
+      } catch {
+        // Continue with the raw text below.
+      }
+    } else if (lookupId.startsWith("{")) {
+      try {
+        const parsed = JSON.parse(lookupId);
+        if (parsed.id) lookupId = parsed.id;
+        if (parsed.type) lookupType = parsed.type;
+      } catch {
+        // Continue with the raw text below.
+      }
+    }
+
+    fetch(`/api/verify-doc?id=${encodeURIComponent(lookupId)}${lookupType ? `&type=${encodeURIComponent(lookupType)}` : ""}`)
+      .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+      .then(({ ok, data }) => {
+        setIsScanning(false);
+        if (ok && data.success && data.record) {
+          setValidationResult({
+            status: "valid",
+            itemType: data.type,
+            itemData: data.record,
+            hashMatch: true,
+            message: "Document authentique certifié conforme au Registre Général de l'UR-GEDT."
+          });
+        } else {
+          setValidationResult({
+            status: "invalid",
+            message: `Le code ou la référence "${query}" n'a pas été trouvée dans le grand livre officiel. Ce document peut être expiré, falsifié ou non répertorié.`
+          });
+        }
+      })
+      .catch(() => {
+        setIsScanning(false);
         setValidationResult({
           status: "invalid",
-          message: `Le code ou la référence "${query}" n'a pas été trouvée dans le grand livre officiel. Ce document peut être expiré, falsifié ou non répertorié.`
+          message: "Impossible de vérifier ce document pour le moment (connexion au serveur indisponible). Réessayez."
         });
-      }
-    }, 600);
+      });
   };
+
+  // Auto-run the lookup when opened via a scanned/shared verification link
+  // (?verifyDoc=...) instead of leaving an empty scanner requiring the person
+  // to manually retype the reference — nobody does that, so it looked broken.
+  useEffect(() => {
+    if (initialQuery) {
+      setActiveTab("manual");
+      handleRunValidation(initialQuery);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSimulateScan = (sample: typeof sampleReceipts[0]) => {
     setInputVal(sample.id);

@@ -177,7 +177,7 @@ export default function PrintReceipt({ item, users = [], onClose }: PrintReceipt
   };
 
   return (
-    <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto no-print">
+    <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-[#111111] rounded-2xl shadow-2xl max-w-3xl w-full border border-white/5 flex flex-col max-h-[90vh]">
         
         {/* INTERACTION HEADER (HIDDEN IN PRINT) */}

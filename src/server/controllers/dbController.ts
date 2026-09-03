@@ -292,6 +292,74 @@ export class DbController {
     }
   }
 
+  /**
+   * Public, unauthenticated single-document verification lookup — used by the QR
+   * code printed on official documents (expenses, recipes, projects, activities,
+   * publications). Deliberately returns ONLY the one matching record, never a full
+   * table — someone scanning a receipt's QR code shouldn't be able to see every
+   * other financial record in the system just because they're both unauthenticated
+   * lookups against the same underlying data.
+   */
+  public static async verifyDocument(req: any, res: Response) {
+    try {
+      const id = String(req.query.id || "").trim().toLowerCase();
+      const type = String(req.query.type || "").trim().toLowerCase();
+
+      if (!id) {
+        return res.status(400).json({ success: false, error: "Identifiant de document manquant." });
+      }
+
+      const fullDb = await DbController.fetchFullDbData();
+
+      const lookups: Record<string, () => any> = {
+        recette: () => (fullDb.recipes || []).find((r: any) => String(r.id).toLowerCase() === id),
+        depense: () => (fullDb.expenses || []).find((e: any) => String(e.id).toLowerCase() === id),
+        projet: () => (fullDb.projects || []).find((p: any) => String(p.id || "").toLowerCase() === id),
+        activite: () => (fullDb.activities || []).find((a: any) => String(a.id || "").toLowerCase() === id),
+        publication: () => (fullDb.publications || []).find((p: any) => String(p.id || "").toLowerCase() === id)
+      };
+
+      let foundType: string | null = null;
+      let record: any = null;
+
+      if (type && lookups[type]) {
+        record = lookups[type]();
+        if (record) foundType = type;
+      } else {
+        // No type hint (or unknown) — try every table until one matches.
+        for (const [key, lookup] of Object.entries(lookups)) {
+          const match = lookup();
+          if (match) {
+            record = match;
+            foundType = key;
+            break;
+          }
+        }
+      }
+
+      if (!record || !foundType) {
+        return res.status(404).json({ success: false, error: "Document introuvable ou identifiant invalide." });
+      }
+
+      // Return only the fields relevant to verifying a document's authenticity —
+      // never anything else from the record's table.
+      const safeRecord: Record<string, any> = {
+        id: record.id,
+        date: record.date,
+        description: record.description || record.title || null
+      };
+      if ("amount" in record) safeRecord.amount = record.amount;
+      if ("budget" in record) safeRecord.budget = record.budget;
+      if ("category" in record) safeRecord.category = record.category;
+      if ("source" in record) safeRecord.source = record.source;
+
+      res.json({ success: true, type: foundType, record: safeRecord });
+    } catch (err: any) {
+      console.error("verifyDocument error:", err);
+      res.status(503).json({ success: false, error: "Vérification indisponible pour le moment. Réessayez." });
+    }
+  }
+
   private static readonly TABLE_PERMISSIONS: Record<string, string> = {
     news: "manage_content",
     projects: "manage_content",

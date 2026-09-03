@@ -15,6 +15,7 @@ router.post("/change-password", requirePermission("view_content"), AuthControlle
 
 // --- UNIFIED DATABASE ---
 router.get("/db/public", DbController.getPublicDb);
+router.get("/verify-doc", DbController.verifyDocument);
 router.get("/db", requireAuth, DbController.getFullDb);
 router.post("/db/update-table", requireAuth, DbController.updateTable);
 
