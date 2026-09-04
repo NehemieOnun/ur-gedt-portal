@@ -33,6 +33,8 @@ export default function PrintReceipt({ item, users = [], onClose }: PrintReceipt
   const directeurName = getRoleHolderName("Directeur");
 
   // Compute QR Verification Payload and Hash
+  const isTempId = (id: string) => /^(exp|rec|rev)-\d{10,}$/.test(id);
+
   const computeVerificationData = () => {
     let docId = "URGEDT-DOC";
     let amount = 0;
@@ -80,6 +82,8 @@ export default function PrintReceipt({ item, users = [], onClose }: PrintReceipt
   };
 
   const qrData = computeVerificationData();
+  const currentDocId = !Array.isArray(item.data) ? String(item.data?.id || "") : "";
+  const qrPending = currentDocId !== "" && isTempId(currentDocId);
 
   const handleCopyPayload = () => {
     navigator.clipboard.writeText(qrData.verifyUrl);
@@ -222,6 +226,13 @@ export default function PrintReceipt({ item, users = [], onClose }: PrintReceipt
           </div>
         </div>
 
+        {qrPending && (
+          <div className="no-print px-6 py-2.5 bg-amber-500/10 border-b border-amber-500/30 text-amber-400 text-xs font-semibold flex items-center gap-2 shrink-0">
+            <Loader2 className="h-3.5 w-3.5 animate-spin shrink-0" />
+            <span>Enregistrement en cours de confirmation par le serveur — patientez avant d'imprimer ou de scanner le code QR, sans quoi il pourrait ne pas être reconnu lors de la vérification.</span>
+          </div>
+        )}
+
         {/* PRINTABLE AREA */}
         <div className="p-8 md:p-12 overflow-y-auto flex-grow bg-[#131C2C]" id="printable-receipt-content">
           <div className="border-4 border-double border-[#D4AF37]/40 p-6 md:p-8 rounded-lg relative bg-white print-card text-slate-800">
@@ -243,12 +254,18 @@ export default function PrintReceipt({ item, users = [], onClose }: PrintReceipt
               {/* TOP HEADER QR SECURITY EMBLEM */}
               <div className="hidden sm:flex flex-col items-center justify-center p-2 bg-slate-50 border border-slate-200 rounded-lg shadow-sm shrink-0">
                 <div className="p-1 bg-white rounded border border-slate-200 shadow-inner">
-                  <QRCodeSVG 
-                    value={qrData.verifyUrl} 
-                    size={76} 
-                    level="H"
-                    fgColor="#0f172a"
-                  />
+                  {qrPending ? (
+                    <div style={{ width: 76, height: 76 }} className="flex items-center justify-center text-center text-[8px] font-bold text-slate-500 p-1">
+                      Génération du code en cours...
+                    </div>
+                  ) : (
+                    <QRCodeSVG 
+                      value={qrData.verifyUrl} 
+                      size={76} 
+                      level="H"
+                      fgColor="#0f172a"
+                    />
+                  )}
                 </div>
                 <span className="text-[8px] font-mono font-bold text-[#B8962E] mt-1 uppercase tracking-tight">QR Securisé</span>
                 <span className="text-[7px] font-mono text-slate-500">GEDT-{qrData.hexHash}</span>
@@ -721,12 +738,18 @@ export default function PrintReceipt({ item, users = [], onClose }: PrintReceipt
               <div className="mt-8 p-4 bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center space-x-4">
                   <div className="p-2 bg-white border-2 border-[#D4AF37]/50 rounded-lg shadow-md shrink-0">
-                    <QRCodeSVG 
-                      value={qrData.verifyUrl} 
-                      size={96} 
-                      level="H"
-                      fgColor="#0a0a0a"
-                    />
+                    {qrPending ? (
+                      <div style={{ width: 96, height: 96 }} className="flex items-center justify-center text-center text-[10px] font-bold text-slate-500 p-2">
+                        Génération du code de vérification en cours — actualisez après confirmation.
+                      </div>
+                    ) : (
+                      <QRCodeSVG 
+                        value={qrData.verifyUrl} 
+                        size={96} 
+                        level="H"
+                        fgColor="#0a0a0a"
+                      />
+                    )}
                   </div>
                   <div className="space-y-1 text-left">
                     <div className="flex items-center space-x-1.5">
@@ -797,12 +820,18 @@ export default function PrintReceipt({ item, users = [], onClose }: PrintReceipt
             </div>
 
             <div className="p-4 bg-white rounded-xl flex flex-col items-center justify-center space-y-2 border-2 border-[#D4AF37]/50 shadow-inner">
-              <QRCodeSVG 
-                value={qrData.verifyUrl} 
-                size={180} 
-                level="H"
-                fgColor="#0a0a0a"
-              />
+              {qrPending ? (
+                <div style={{ width: 180, height: 180 }} className="flex items-center justify-center text-center text-xs font-bold text-slate-500 p-4">
+                  ⏳ Enregistrement en cours de confirmation par le serveur. Fermez et rouvrez ce document une fois la sauvegarde terminée pour obtenir le code de vérification définitif.
+                </div>
+              ) : (
+                <QRCodeSVG 
+                  value={qrData.verifyUrl} 
+                  size={180} 
+                  level="H"
+                  fgColor="#0a0a0a"
+                />
+              )}
               <span className="text-xs font-mono font-bold text-slate-900 pt-1">Code HASH: GEDT-{qrData.hexHash}</span>
             </div>
 
