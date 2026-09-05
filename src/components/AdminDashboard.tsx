@@ -2971,9 +2971,13 @@ export default function AdminDashboard({
                       </button>
                     </>
                   ) : (
-                    <span className="text-[11px] text-slate-500 italic px-2">
-                      Modification réservée au Directeur (permission "approve_budget")
-                    </span>
+                    <div className="flex items-center gap-2.5 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2.5 text-slate-400">
+                      <Lock className="h-4 w-4 text-[#D4AF37] shrink-0" />
+                      <div className="text-[11px] leading-snug">
+                        <p className="font-bold text-slate-300">Budget verrouillé pour votre rôle</p>
+                        <p>Seul le Directeur peut modifier ou réinitialiser l'enveloppe budgétaire.</p>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
@@ -3042,7 +3046,7 @@ export default function AdminDashboard({
 
                   {canManageFinances() && (
                     <div className="flex flex-wrap gap-2">
-                      {hasPerm("approve_budget") && (
+                      {hasPerm("approve_budget") ? (
                         <>
                           <button
                             onClick={handleOpenBudgetModal}
@@ -3061,6 +3065,11 @@ export default function AdminDashboard({
                             <span>Réinitialiser Budget</span>
                           </button>
                         </>
+                      ) : (
+                        <div className="flex items-center gap-2 bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-[11px] text-slate-400">
+                          <Lock className="h-3.5 w-3.5 text-[#D4AF37] shrink-0" />
+                          <span>Budget verrouillé — modification réservée au Directeur</span>
+                        </div>
                       )}
                       <button
                         onClick={() => handleOpenForm("recipe")}
