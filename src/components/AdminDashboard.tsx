@@ -2951,22 +2951,30 @@ export default function AdminDashboard({
                 </div>
 
                 <div className="flex items-center gap-3 w-full md:w-auto shrink-0">
-                  <button
-                    type="button"
-                    onClick={handleOpenBudgetModal}
-                    className="flex-1 md:flex-none flex items-center justify-center space-x-2 bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-black px-4 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer shadow-lg hover:scale-[1.02]"
-                  >
-                    <Edit className="h-4 w-4" />
-                    <span>Modifier le Budget</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsResetBudgetConfirmOpen(true)}
-                    className="flex-1 md:flex-none flex items-center justify-center space-x-2 bg-red-500/15 hover:bg-red-500/25 text-red-400 border border-red-500/30 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-md hover:scale-[1.02]"
-                  >
-                    <RotateCcw className="h-4 w-4" />
-                    <span>Réinitialiser Budget</span>
-                  </button>
+                  {hasPerm("approve_budget") ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={handleOpenBudgetModal}
+                        className="flex-1 md:flex-none flex items-center justify-center space-x-2 bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-black px-4 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer shadow-lg hover:scale-[1.02]"
+                      >
+                        <Edit className="h-4 w-4" />
+                        <span>Modifier le Budget</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setIsResetBudgetConfirmOpen(true)}
+                        className="flex-1 md:flex-none flex items-center justify-center space-x-2 bg-red-500/15 hover:bg-red-500/25 text-red-400 border border-red-500/30 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-md hover:scale-[1.02]"
+                      >
+                        <RotateCcw className="h-4 w-4" />
+                        <span>Réinitialiser Budget</span>
+                      </button>
+                    </>
+                  ) : (
+                    <span className="text-[11px] text-slate-500 italic px-2">
+                      Modification réservée au Directeur (permission "approve_budget")
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -3034,22 +3042,26 @@ export default function AdminDashboard({
 
                   {canManageFinances() && (
                     <div className="flex flex-wrap gap-2">
-                      <button
-                        onClick={handleOpenBudgetModal}
-                        className="flex items-center space-x-1.5 bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/40 px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-[#D4AF37]/25 transition-all cursor-pointer shadow-sm"
-                        title="Modifier le budget global et la ventilation analytique en base de données"
-                      >
-                        <Sliders className="h-4 w-4 text-[#D4AF37]" />
-                        <span>Modifier Budget</span>
-                      </button>
-                      <button
-                        onClick={() => setIsResetBudgetConfirmOpen(true)}
-                        className="flex items-center space-x-1.5 bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-amber-500/20 transition-all cursor-pointer shadow-sm"
-                        title="Réinitialiser le budget aux valeurs par défaut (120 000 USD) en BDD"
-                      >
-                        <RotateCcw className="h-4 w-4" />
-                        <span>Réinitialiser Budget</span>
-                      </button>
+                      {hasPerm("approve_budget") && (
+                        <>
+                          <button
+                            onClick={handleOpenBudgetModal}
+                            className="flex items-center space-x-1.5 bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/40 px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-[#D4AF37]/25 transition-all cursor-pointer shadow-sm"
+                            title="Modifier le budget global et la ventilation analytique en base de données"
+                          >
+                            <Sliders className="h-4 w-4 text-[#D4AF37]" />
+                            <span>Modifier Budget</span>
+                          </button>
+                          <button
+                            onClick={() => setIsResetBudgetConfirmOpen(true)}
+                            className="flex items-center space-x-1.5 bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-amber-500/20 transition-all cursor-pointer shadow-sm"
+                            title="Réinitialiser le budget aux valeurs par défaut (120 000 USD) en BDD"
+                          >
+                            <RotateCcw className="h-4 w-4" />
+                            <span>Réinitialiser Budget</span>
+                          </button>
+                        </>
+                      )}
                       <button
                         onClick={() => handleOpenForm("recipe")}
                         className="flex items-center space-x-1.5 bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-emerald-500/25 transition-all cursor-pointer"
