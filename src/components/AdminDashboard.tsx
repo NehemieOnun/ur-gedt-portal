@@ -1993,7 +1993,7 @@ export default function AdminDashboard({
 
   return (
     <div className={`min-h-screen flex flex-col md:flex-row font-sans transition-colors duration-200 ${
-      theme === "light" ? "theme-light bg-slate-100 text-slate-900" : "bg-gradient-to-br from-[#0B1220] via-[#101B2E] to-[#0D1826] text-slate-100"
+      theme === "light" ? "theme-light bg-slate-100 text-slate-900" : "bg-gradient-to-br from-[#071A12] via-[#0F2A1C] to-[#0A2016] text-slate-100"
     }`}>
       
       {/* SIDEBAR */}

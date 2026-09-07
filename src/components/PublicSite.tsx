@@ -116,7 +116,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
   }, [db.gallery, galleryFilter]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0B1220] via-[#101B2E] to-[#0D1826] text-slate-100 selection:bg-[#D4AF37] selection:text-black font-sans antialiased overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#071A12] via-[#0F2A1C] to-[#0A2016] text-slate-100 selection:bg-[#D4AF37] selection:text-black font-sans antialiased overflow-x-hidden">
       
       {/* TOP ANNOUNCEMENT / UTILITY BAR */}
       <div className="bg-[#0A121E] border-b border-white/5 py-2 text-slate-400 text-xs hidden sm:block">
@@ -172,7 +172,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
       </div>
 
       {/* STICKY GLASS HEADER */}
-      <header className="sticky top-0 z-50 bg-[#101B2E]/85 backdrop-blur-xl border-b border-[#D4AF37]/20 shadow-2xl transition-all">
+      <header className="sticky top-0 z-50 bg-[#0F2A1C]/85 backdrop-blur-xl border-b border-[#D4AF37]/20 shadow-2xl transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           
           {/* Logo & Institution Brand */}
@@ -277,7 +277,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="xl:hidden bg-[#131C2C] border-t border-[#D4AF37]/20 shadow-2xl overflow-hidden"
+              className="xl:hidden bg-[#12261C] border-t border-[#D4AF37]/20 shadow-2xl overflow-hidden"
             >
               <div className="px-4 pt-3 pb-6 space-y-1">
                 <div className="grid grid-cols-2 gap-2 mb-3">
@@ -327,7 +327,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
             {activeTab === "accueil" && (
               <div>
                 {/* HERO SECTION */}
-                <section className="relative bg-[#0D1826] py-20 lg:py-28 overflow-hidden border-b border-[#D4AF37]/20">
+                <section className="relative bg-[#0A2016] py-20 lg:py-28 overflow-hidden border-b border-[#D4AF37]/20">
                   {/* Animated Background Video */}
                   <video
                     className="absolute inset-0 z-0 h-full w-full object-cover opacity-20 mix-blend-luminosity"
@@ -338,7 +338,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                     playsInline
                     aria-hidden="true"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#0D1826]/80 via-[#0D1826]/95 to-[#0D1826] z-0"></div>
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#0A2016]/80 via-[#0A2016]/95 to-[#0A2016] z-0"></div>
                   <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none"></div>
 
                   <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
@@ -401,7 +401,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                         key={idx} 
                         whileHover={{ y: -8, scale: 1.02 }} 
                         transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                        className="bg-[#131C2C] p-5 sm:p-6 rounded-2xl shadow-2xl border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 hover:shadow-[#D4AF37]/10 transition-all duration-300 group flex flex-col justify-between"
+                        className="bg-[#12261C] p-5 sm:p-6 rounded-2xl shadow-2xl border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 hover:shadow-[#D4AF37]/10 transition-all duration-300 group flex flex-col justify-between"
                       >
                         <div className="flex items-center justify-between mb-3">
                           <div className="p-2.5 sm:p-3 bg-[#D4AF37]/10 rounded-xl border border-[#D4AF37]/20 group-hover:scale-110 transition-transform">
@@ -456,7 +456,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                         key={idx} 
                         whileHover={{ y: -8, scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                        className="bg-[#131C2C] p-7 sm:p-8 rounded-2xl border border-white/10 hover:border-[#D4AF37]/50 shadow-xl transition-all duration-300 group"
+                        className="bg-[#12261C] p-7 sm:p-8 rounded-2xl border border-white/10 hover:border-[#D4AF37]/50 shadow-xl transition-all duration-300 group"
                       >
                         <div className="p-3.5 bg-[#D4AF37]/10 inline-block rounded-2xl mb-6 border border-[#D4AF37]/20 group-hover:bg-[#D4AF37] group-hover:text-black transition-all">
                           {pillar.icon}
@@ -469,7 +469,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                 </section>
 
                 {/* LATEST NEWS SECTION */}
-                <section className="bg-[#0D1826] py-20 border-y border-white/5">
+                <section className="bg-[#0A2016] py-20 border-y border-white/5">
                   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-12">
                       <div>
@@ -491,13 +491,13 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                           key={item.id} 
                           whileHover={{ y: -8, scale: 1.01 }}
                           transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                          className="bg-[#131C2C] rounded-2xl shadow-xl overflow-hidden border border-white/10 flex flex-col justify-between hover:border-[#D4AF37]/50 transition-all duration-300 group"
+                          className="bg-[#12261C] rounded-2xl shadow-xl overflow-hidden border border-white/10 flex flex-col justify-between hover:border-[#D4AF37]/50 transition-all duration-300 group"
                         >
                           <div>
                             <div className="relative h-48 w-full overflow-hidden bg-black/40">
                               <img src={item.image || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80"} alt={item.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                               <div className="absolute top-3 left-3">
-                                <span className="bg-[#101B2E]/90 backdrop-blur-md text-[#D4AF37] border border-[#D4AF37]/30 px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold uppercase">
+                                <span className="bg-[#0F2A1C]/90 backdrop-blur-md text-[#D4AF37] border border-[#D4AF37]/30 px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold uppercase">
                                   {item.category}
                                 </span>
                               </div>
@@ -550,7 +550,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                         key={proj.id} 
                         whileHover={{ y: -8, scale: 1.01 }}
                         transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                        className="bg-[#131C2C] p-7 sm:p-8 rounded-2xl border border-white/10 hover:border-[#D4AF37]/50 shadow-2xl flex flex-col justify-between group"
+                        className="bg-[#12261C] p-7 sm:p-8 rounded-2xl border border-white/10 hover:border-[#D4AF37]/50 shadow-2xl flex flex-col justify-between group"
                       >
                         <div>
                           <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
@@ -622,7 +622,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                 </div>
 
                 {/* AXES STRATÉGIQUES */}
-                <div className="bg-[#131C2C] text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-white/10 mb-20">
+                <div className="bg-[#12261C] text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-white/10 mb-20">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                     <div>
                       <h3 className="font-display text-xl sm:text-2xl font-bold text-[#D4AF37] mb-6 flex items-center gap-2">
@@ -691,11 +691,11 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                       key={member.id} 
                       whileHover={{ y: -8, scale: 1.02 }}
                       transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                      className="bg-[#131C2C] rounded-2xl shadow-xl border border-white/10 overflow-hidden text-center p-6 flex flex-col justify-between hover:border-[#D4AF37]/50 transition-all duration-300 group"
+                      className="bg-[#12261C] rounded-2xl shadow-xl border border-white/10 overflow-hidden text-center p-6 flex flex-col justify-between hover:border-[#D4AF37]/50 transition-all duration-300 group"
                     >
                       <div>
                         <div className="relative h-24 w-24 rounded-full mx-auto mb-4 p-1 bg-gradient-to-tr from-[#D4AF37] to-amber-500 shadow-xl group-hover:scale-105 transition-transform">
-                          <div className="h-full w-full rounded-full bg-[#0D1826] overflow-hidden flex items-center justify-center">
+                          <div className="h-full w-full rounded-full bg-[#0A2016] overflow-hidden flex items-center justify-center">
                             {member.avatarUrl ? (
                               <img src={member.avatarUrl} alt={member.name} className="h-full w-full object-cover" referrerPolicy="no-referrer" />
                             ) : (
@@ -749,7 +749,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                       key={proj.id} 
                       whileHover={{ y: -8, scale: 1.01 }}
                       transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                      className="bg-[#131C2C] rounded-2xl shadow-xl border border-white/10 overflow-hidden flex flex-col justify-between hover:border-[#D4AF37]/50 transition-all duration-300 group"
+                      className="bg-[#12261C] rounded-2xl shadow-xl border border-white/10 overflow-hidden flex flex-col justify-between hover:border-[#D4AF37]/50 transition-all duration-300 group"
                     >
                       <div className="p-6">
                         <div className="flex justify-between items-center mb-4">
@@ -774,7 +774,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                         </p>
                       </div>
 
-                      <div className="p-6 bg-[#101B2E] border-t border-white/5 space-y-2 text-xs text-slate-300">
+                      <div className="p-6 bg-[#0F2A1C] border-t border-white/5 space-y-2 text-xs text-slate-300">
                         <div className="flex items-center justify-between">
                           <span className="text-slate-400 font-medium">Bailleur:</span>
                           <span className="font-semibold text-white">{proj.funding}</span>
@@ -815,7 +815,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                       key={act.id} 
                       whileHover={{ y: -8, scale: 1.01 }}
                       transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                      className="bg-[#131C2C] rounded-2xl shadow-xl border border-white/10 overflow-hidden flex flex-col justify-between hover:border-[#D4AF37]/50 transition-all duration-300 group"
+                      className="bg-[#12261C] rounded-2xl shadow-xl border border-white/10 overflow-hidden flex flex-col justify-between hover:border-[#D4AF37]/50 transition-all duration-300 group"
                     >
                       <div className="p-6">
                         <div className="flex justify-between items-center mb-4">
@@ -839,7 +839,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                         </p>
                       </div>
 
-                      <div className="p-6 bg-[#101B2E] border-t border-white/5 text-xs space-y-3">
+                      <div className="p-6 bg-[#0F2A1C] border-t border-white/5 text-xs space-y-3">
                         <div className="flex items-center justify-between text-slate-400">
                           <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-[#D4AF37]" /> Date :</span>
                           <span className="font-mono text-white font-semibold">{new Date(act.date).toLocaleDateString("fr-FR")}</span>
@@ -879,7 +879,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                 </div>
 
                 {/* SEARCH AND FILTER BAR */}
-                <div className="bg-[#131C2C] p-4 sm:p-5 rounded-2xl shadow-xl border border-white/10 flex flex-col md:flex-row gap-4 items-center justify-between mb-10">
+                <div className="bg-[#12261C] p-4 sm:p-5 rounded-2xl shadow-xl border border-white/10 flex flex-col md:flex-row gap-4 items-center justify-between mb-10">
                   <div className="relative w-full md:max-w-md">
                     <Search className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-400" />
                     <input
@@ -887,7 +887,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                       placeholder="Rechercher par titre, auteur, revue..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 border border-white/10 rounded-xl bg-[#0D1826] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] text-xs sm:text-sm"
+                      className="w-full pl-10 pr-4 py-2.5 border border-white/10 rounded-xl bg-[#0A2016] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] text-xs sm:text-sm"
                     />
                   </div>
                   <div className="flex flex-wrap gap-2 w-full md:w-auto justify-start md:justify-end">
@@ -913,7 +913,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                       key={pub.id} 
                       whileHover={{ y: -4, x: 4, borderColor: "rgba(212,175,55,0.5)" }}
                       transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                      className="bg-[#131C2C] p-6 rounded-2xl shadow-xl border border-white/10 hover:border-[#D4AF37]/50 transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+                      className="bg-[#12261C] p-6 rounded-2xl shadow-xl border border-white/10 hover:border-[#D4AF37]/50 transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
                     >
                       <div className="space-y-2 flex-grow">
                         <div className="flex items-center space-x-2">
@@ -932,7 +932,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                         href={pub.url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="flex items-center space-x-2 bg-[#0D1826] text-slate-200 border border-[#D4AF37]/30 hover:bg-[#D4AF37] hover:text-slate-950 px-4 py-2.5 rounded-xl text-xs font-bold shadow-sm transition-all shrink-0 cursor-pointer"
+                        className="flex items-center space-x-2 bg-[#0A2016] text-slate-200 border border-[#D4AF37]/30 hover:bg-[#D4AF37] hover:text-slate-950 px-4 py-2.5 rounded-xl text-xs font-bold shadow-sm transition-all shrink-0 cursor-pointer"
                       >
                         <BookOpen className="h-4 w-4" />
                         <span>Consulter</span>
@@ -940,7 +940,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                     </motion.div>
                   ))}
                   {filteredPublications.length === 0 && (
-                    <div className="p-12 text-center text-slate-400 bg-[#131C2C] rounded-2xl border border-white/5">
+                    <div className="p-12 text-center text-slate-400 bg-[#12261C] rounded-2xl border border-white/5">
                       Aucune publication ne correspond à votre recherche.
                     </div>
                   )}
@@ -967,7 +967,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                       key={item.id} 
                       whileHover={{ y: -8, scale: 1.01 }}
                       transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                      className="bg-[#131C2C] rounded-2xl shadow-xl border border-white/10 overflow-hidden flex flex-col justify-between hover:border-[#D4AF37]/50 transition-all duration-300 group"
+                      className="bg-[#12261C] rounded-2xl shadow-xl border border-white/10 overflow-hidden flex flex-col justify-between hover:border-[#D4AF37]/50 transition-all duration-300 group"
                     >
                       <div>
                         {item.image && (item.image.startsWith("data:application/pdf") || item.image.endsWith(".pdf") || item.image.includes("pdf")) ? (
@@ -1010,7 +1010,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                         </div>
                       </div>
 
-                      <div className="p-6 bg-[#101B2E] border-t border-white/5 text-xs text-slate-400 flex justify-between items-center">
+                      <div className="p-6 bg-[#0F2A1C] border-t border-white/5 text-xs text-slate-400 flex justify-between items-center">
                         <span>Auteur : <strong className="text-white">{item.author}</strong></span>
                         <span className="text-[#D4AF37] font-bold font-mono">UR-GEDT</span>
                       </div>
@@ -1042,7 +1042,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                       className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                         galleryFilter === cat
                           ? "bg-[#D4AF37] text-slate-950 shadow-md shadow-[#D4AF37]/20"
-                          : "bg-[#131C2C] text-slate-300 hover:text-white border border-white/10"
+                          : "bg-[#12261C] text-slate-300 hover:text-white border border-white/10"
                       }`}
                     >
                       {cat}
@@ -1058,7 +1058,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                       whileTap={{ scale: 0.98 }}
                       transition={{ type: "spring", stiffness: 350, damping: 22 }}
                       onClick={() => setSelectedImage(item)}
-                      className="bg-[#131C2C] rounded-2xl overflow-hidden shadow-xl border border-white/10 group cursor-pointer hover:border-[#D4AF37]/50 transition-all duration-300 flex flex-col justify-between"
+                      className="bg-[#12261C] rounded-2xl overflow-hidden shadow-xl border border-white/10 group cursor-pointer hover:border-[#D4AF37]/50 transition-all duration-300 flex flex-col justify-between"
                     >
                       <div className="relative overflow-hidden h-60 w-full bg-black/40">
                         {item.type === "photo" ? (
@@ -1069,7 +1069,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                             referrerPolicy="no-referrer"
                           />
                         ) : item.type === "video" ? (
-                          <div className="w-full h-full bg-[#0D1826] flex flex-col items-center justify-center relative">
+                          <div className="w-full h-full bg-[#0A2016] flex flex-col items-center justify-center relative">
                             {item.url && item.url.startsWith("data:image") ? (
                               <img src={item.url} alt={item.title} className="w-full h-full object-cover opacity-50" />
                             ) : (
@@ -1091,7 +1091,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                             <span className="text-xs font-bold text-white uppercase font-display">Audio</span>
                           </div>
                         ) : (
-                          <div className="w-full h-full bg-[#101B2E] flex flex-col items-center justify-center relative p-6 text-center">
+                          <div className="w-full h-full bg-[#0F2A1C] flex flex-col items-center justify-center relative p-6 text-center">
                             <div className="h-14 w-14 bg-red-500/10 rounded-full flex items-center justify-center text-red-400 mb-2 border border-red-500/20 group-hover:scale-105 transition-transform">
                               <File className="h-6 w-6" />
                             </div>
@@ -1134,7 +1134,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                       </button>
                       <div className="max-w-4xl w-full text-center my-8" onClick={(e) => e.stopPropagation()}>
                         
-                        <div className="bg-[#131C2C] p-6 rounded-3xl border border-white/10 max-w-2xl mx-auto shadow-2xl">
+                        <div className="bg-[#12261C] p-6 rounded-3xl border border-white/10 max-w-2xl mx-auto shadow-2xl">
                           {selectedImage.type === "photo" && (
                             <img 
                               src={selectedImage.url} 
@@ -1212,7 +1212,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                                 <a 
                                   href={selectedImage.url} 
                                   download={`${selectedImage.title.toLowerCase().replace(/ /g, "_")}.pdf`}
-                                  className="bg-[#131C2C] hover:bg-white/10 text-white border border-white/10 font-bold px-5 py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-2"
+                                  className="bg-[#12261C] hover:bg-white/10 text-white border border-white/10 font-bold px-5 py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-2"
                                 >
                                   <FileDown className="h-4 w-4 text-[#D4AF37]" />
                                   <span>Télécharger le document</span>
@@ -1260,7 +1260,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                           key={p.id} 
                           whileHover={{ y: -6, scale: 1.02 }}
                           transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                          className="bg-[#131C2C] p-6 rounded-2xl shadow-xl border border-white/10 flex items-center space-x-4 hover:border-[#D4AF37]/50 transition-all cursor-pointer group"
+                          className="bg-[#12261C] p-6 rounded-2xl shadow-xl border border-white/10 flex items-center space-x-4 hover:border-[#D4AF37]/50 transition-all cursor-pointer group"
                         >
                           <img 
                             src={p.logo} 
@@ -1305,7 +1305,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
                   
                   {/* COORDONNÉES */}
-                  <div className="space-y-8 bg-[#131C2C] text-white p-8 sm:p-10 rounded-3xl shadow-2xl border border-white/10">
+                  <div className="space-y-8 bg-[#12261C] text-white p-8 sm:p-10 rounded-3xl shadow-2xl border border-white/10">
                     <div>
                       <h3 className="font-display text-xl font-bold text-[#D4AF37] mb-3">Secrétariat UR-GEDT</h3>
                       <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
@@ -1364,7 +1364,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                   </div>
 
                   {/* FORMULAIRE DE CONTACT */}
-                  <div className="bg-[#131C2C] p-8 sm:p-10 rounded-3xl shadow-2xl border border-white/10">
+                  <div className="bg-[#12261C] p-8 sm:p-10 rounded-3xl shadow-2xl border border-white/10">
                     <h3 className="font-display text-xl font-bold text-white mb-6">Formulaire de Message</h3>
                     
                     <form onSubmit={handleContactSubmit} className="space-y-4">
@@ -1376,7 +1376,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                           value={contactForm.senderName}
                           onChange={(e) => setContactForm({ ...contactForm, senderName: e.target.value })}
                           placeholder="Ex: Prof. Maurice Ntububa"
-                          className="w-full px-4 py-2.5 border border-white/10 rounded-xl bg-[#0D1826] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] text-xs sm:text-sm"
+                          className="w-full px-4 py-2.5 border border-white/10 rounded-xl bg-[#0A2016] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] text-xs sm:text-sm"
                         />
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1388,7 +1388,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                             value={contactForm.senderEmail}
                             onChange={(e) => setContactForm({ ...contactForm, senderEmail: e.target.value })}
                             placeholder="Ex: contact@unilu.ac.cd"
-                            className="w-full px-4 py-2.5 border border-white/10 rounded-xl bg-[#0D1826] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] text-xs sm:text-sm"
+                            className="w-full px-4 py-2.5 border border-white/10 rounded-xl bg-[#0A2016] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] text-xs sm:text-sm"
                           />
                         </div>
                         <div>
@@ -1399,7 +1399,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                             value={contactForm.subject}
                             onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
                             placeholder="Ex: Demande de partenariat"
-                            className="w-full px-4 py-2.5 border border-white/10 rounded-xl bg-[#0D1826] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] text-xs sm:text-sm"
+                            className="w-full px-4 py-2.5 border border-white/10 rounded-xl bg-[#0A2016] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] text-xs sm:text-sm"
                           />
                         </div>
                       </div>
@@ -1411,7 +1411,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                           value={contactForm.message}
                           onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                           placeholder="Rédigez votre demande de façon claire et détaillée..."
-                          className="w-full px-4 py-2.5 border border-white/10 rounded-xl bg-[#0D1826] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] text-xs sm:text-sm"
+                          className="w-full px-4 py-2.5 border border-white/10 rounded-xl bg-[#0A2016] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] text-xs sm:text-sm"
                         ></textarea>
                       </div>
 

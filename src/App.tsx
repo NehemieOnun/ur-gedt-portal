@@ -849,7 +849,7 @@ export default function App() {
 
   if (!db) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0B1220] via-[#101B2E] to-[#0D1826] flex flex-col items-center justify-center text-white space-y-4">
+      <div className="min-h-screen bg-gradient-to-br from-[#071A12] via-[#0F2A1C] to-[#0A2016] flex flex-col items-center justify-center text-white space-y-4">
         <div className="h-12 w-12 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin"></div>
         <p className="font-display font-semibold text-xs uppercase tracking-wider text-[#D4AF37]">Chargement de la plateforme UR-GEDT...</p>
       </div>
@@ -885,14 +885,14 @@ export default function App() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="min-h-screen bg-gradient-to-br from-[#0B1220] via-[#101B2E] to-[#0D1826] text-gray-200 flex items-center justify-center p-4 relative overflow-hidden"
+            className="min-h-screen bg-gradient-to-br from-[#071A12] via-[#0F2A1C] to-[#0A2016] text-gray-200 flex items-center justify-center p-4 relative overflow-hidden"
           >
             {/* Back backgrounds elements */}
             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-[0.07]"></div>
             <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-[#D4AF37]/10 blur-3xl"></div>
-            <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-[#1E3A5F]/30 blur-3xl"></div>
+            <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-[#1E5F3A]/30 blur-3xl"></div>
 
-            <div className="max-w-md w-full bg-[#131C2C]/90 backdrop-blur-xl border border-[#D4AF37]/20 rounded-2xl shadow-2xl p-8 relative z-10 space-y-6">
+            <div className="max-w-md w-full bg-[#12261C]/90 backdrop-blur-xl border border-[#D4AF37]/20 rounded-2xl shadow-2xl p-8 relative z-10 space-y-6">
               
               <button
                 onClick={() => {

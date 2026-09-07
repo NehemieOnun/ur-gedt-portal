@@ -234,7 +234,7 @@ export default function PrintReceipt({ item, users = [], onClose }: PrintReceipt
         )}
 
         {/* PRINTABLE AREA */}
-        <div className="p-8 md:p-12 overflow-y-auto flex-grow bg-[#131C2C]" id="printable-receipt-content">
+        <div className="p-8 md:p-12 overflow-y-auto flex-grow bg-[#12261C]" id="printable-receipt-content">
           <div className="border-4 border-double border-[#D4AF37]/40 p-6 md:p-8 rounded-lg relative bg-white print-card text-slate-800">
             
             {/* OFFICIAL HEADER WITH INTEGRATED QR SECURITY BADGE */}

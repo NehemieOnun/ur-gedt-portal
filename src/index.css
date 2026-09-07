@@ -15,7 +15,7 @@
 
 @layer base {
   body {
-    @apply bg-gradient-to-br from-[#0B1220] via-[#101B2E] to-[#0D1826] text-gray-200 font-sans antialiased scroll-smooth;
+    @apply bg-gradient-to-br from-[#071A12] via-[#0F2A1C] to-[#0A2016] text-gray-200 font-sans antialiased scroll-smooth;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -29,21 +29,40 @@
     background-color: white;
     color: black;
   }
-  
+
   .no-print {
     display: none !important;
   }
-  
+
   .print-only {
     display: block !important;
   }
-  
+
   .print-card {
     border: 1px solid #ccc !important;
     box-shadow: none !important;
     margin: 0 !important;
     padding: 20px !important;
     page-break-inside: avoid;
+  }
+
+  /* Isolate printing to the receipt/report modal content only — without this,
+     the entire underlying page (dashboard, charts, sidebar, everything) prints
+     alongside the receipt, since window.print() otherwise prints the whole DOM. */
+  body * {
+    visibility: hidden;
+  }
+
+  #printable-receipt-content,
+  #printable-receipt-content * {
+    visibility: visible;
+  }
+
+  #printable-receipt-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
   }
 }
 
