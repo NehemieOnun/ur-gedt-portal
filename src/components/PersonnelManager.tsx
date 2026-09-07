@@ -1016,6 +1016,9 @@ export const PersonnelManager: React.FC<PersonnelManagerProps> = ({
                       className="w-full bg-[#181818] border border-white/10 focus:border-[#D4AF37] rounded-xl p-2.5 text-xs text-white focus:outline-none font-mono cursor-pointer"
                     >
                       <option value="Chercheur" className="bg-[#1a1a1a]">Chercheur</option>
+                      <option value="Coordonnateur Scientifique et Technique" className="bg-[#1a1a1a]">Coordonnateur Scientifique et Technique</option>
+                      <option value="Coordonnateur Mobilisation Communautaire et Partenariats" className="bg-[#1a1a1a]">Coordonnateur Mobilisation Communautaire et Partenariats</option>
+                      <option value="Coordonnatrice Administration, Finance et Genre" className="bg-[#1a1a1a]">Coordonnatrice Administration, Finance et Genre</option>
                       <option value="Administrateur" className="bg-[#1a1a1a]">Administrateur</option>
                       <option value="Directeur" className="bg-[#1a1a1a]">Directeur</option>
                       <option value="Comptable" className="bg-[#1a1a1a]">Comptable</option>

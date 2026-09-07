@@ -37,6 +37,21 @@ async function main() {
       permissions: JSON.stringify(["manage_research", "view_content"])
     },
     {
+      name: "Coordonnateur Scientifique et Technique",
+      description: "Supervision scientifique et technique des projets, publications et activités de terrain.",
+      permissions: JSON.stringify(["manage_research", "manage_content", "view_content", "view_finances"])
+    },
+    {
+      name: "Coordonnateur Mobilisation Communautaire et Partenariats",
+      description: "Coordination de la mobilisation communautaire, des partenariats et de la communication.",
+      permissions: JSON.stringify(["manage_content", "view_content"])
+    },
+    {
+      name: "Coordonnatrice Administration, Finance et Genre",
+      description: "Coordination administrative, financière et des questions de genre au sein du projet.",
+      permissions: JSON.stringify(["manage_finances", "view_finances", "manage_content", "view_users"])
+    },
+    {
       name: "Secrétaire",
       description: "Gestion administrative, publications d'actualités et messagerie.",
       permissions: JSON.stringify(["manage_content", "view_content"])
