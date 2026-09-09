@@ -341,6 +341,40 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                   <div className="absolute inset-0 bg-gradient-to-b from-[#0A2016]/80 via-[#0A2016]/95 to-[#0A2016] z-0"></div>
                   <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none"></div>
 
+                  {/* Floating leaf particles — subtle organic motion echoing the
+                      environmental/ministry aesthetic (drifting foliage shapes) */}
+                  <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
+                    {[
+                      { left: "6%", size: 22, duration: 16, delay: 0, drift: 40, opacity: 0.18 },
+                      { left: "18%", size: 14, duration: 12, delay: 2, drift: -30, opacity: 0.14 },
+                      { left: "32%", size: 26, duration: 20, delay: 4, drift: 25, opacity: 0.16 },
+                      { left: "47%", size: 16, duration: 14, delay: 1, drift: -20, opacity: 0.12 },
+                      { left: "61%", size: 24, duration: 18, delay: 6, drift: 35, opacity: 0.15 },
+                      { left: "74%", size: 18, duration: 13, delay: 3, drift: -25, opacity: 0.13 },
+                      { left: "85%", size: 20, duration: 17, delay: 5, drift: 30, opacity: 0.14 },
+                      { left: "93%", size: 15, duration: 15, delay: 7, drift: -15, opacity: 0.11 }
+                    ].map((leaf, i) => (
+                      <span
+                        key={i}
+                        className="absolute bottom-[-10%] leaf-float"
+                        style={{
+                          left: leaf.left,
+                          width: leaf.size,
+                          height: leaf.size,
+                          animationDuration: `${leaf.duration}s`,
+                          animationDelay: `${leaf.delay}s`,
+                          // @ts-ignore custom properties consumed by the leaf-float keyframes
+                          "--drift": `${leaf.drift}px`,
+                          "--leaf-opacity": leaf.opacity
+                        } as React.CSSProperties}
+                      >
+                        <svg viewBox="0 0 24 24" fill="#4ADE80" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z" />
+                        </svg>
+                      </span>
+                    ))}
+                  </div>
+
                   <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
                     <div className="max-w-3xl">
                       
