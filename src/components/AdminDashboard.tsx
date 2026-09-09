@@ -79,7 +79,7 @@ const formatSyncTimestamp = (val?: Date | string | null) => {
 const CustomChartTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#111111] border border-white/10 p-3.5 rounded-xl shadow-2xl text-xs font-sans space-y-2 z-50">
+      <div className="bg-[#12261C] border border-white/10 p-3.5 rounded-xl shadow-2xl text-xs font-sans space-y-2 z-50">
         <p className="font-bold font-display text-white border-b border-white/10 pb-1.5 flex items-center justify-between gap-3">
           <span>{label} 2026</span>
           <span className="text-[10px] font-mono text-[#D4AF37] bg-[#D4AF37]/10 px-1.5 py-0.5 rounded border border-[#D4AF37]/20">UR-GEDT</span>
@@ -1997,7 +1997,7 @@ export default function AdminDashboard({
     }`}>
       
       {/* SIDEBAR */}
-      <aside className="w-full md:w-64 bg-[#111111] border-r border-white/5 flex flex-col justify-between shrink-0 no-print">
+      <aside className="w-full md:w-64 bg-[#12261C] border-r border-white/5 flex flex-col justify-between shrink-0 no-print">
         <div>
           {/* Dashboard Header Brand */}
           <div className="p-6 border-b border-white/5 flex items-center space-x-3">
@@ -2045,7 +2045,7 @@ export default function AdminDashboard({
         </div>
 
         {/* Sidebar Footer Controls: Theme Switcher & Logout */}
-        <div className="p-3 border-t border-white/5 bg-[#111111] shrink-0 space-y-2">
+        <div className="p-3 border-t border-white/5 bg-[#12261C] shrink-0 space-y-2">
           <button
             onClick={toggleTheme}
             className="w-full flex items-center justify-between px-3 py-2 bg-[#151515] hover:bg-[#1E1E1E] border border-white/5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white transition-all cursor-pointer"
@@ -2074,7 +2074,7 @@ export default function AdminDashboard({
       <div className="flex-grow flex flex-col min-w-0">
         
         {/* TOP BAR WITH REAL-TIME GLOBAL SEARCH */}
-        <header className="h-16 border-b border-white/5 bg-[#111111]/80 backdrop-blur-md flex items-center justify-between px-4 sm:px-6 shrink-0 no-print relative z-30">
+        <header className="h-16 border-b border-white/5 bg-[#12261C]/80 backdrop-blur-md flex items-center justify-between px-4 sm:px-6 shrink-0 no-print relative z-30">
           <div className="flex items-center space-x-3 shrink-0">
             <h1 className="font-display text-base sm:text-lg font-extrabold text-white uppercase tracking-tight">
               {sidebarItems.find(i => i.id === activePanel)?.label}
@@ -2505,7 +2505,7 @@ export default function AdminDashboard({
                 /* Accountants ('Comptable') & Managers ('Administrateur', 'Directeur') View */
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5">
                   {/* Total Recettes Card */}
-                  <div className="bg-[#111111] p-5 rounded-xl border border-white/5 shadow-md flex flex-col justify-between">
+                  <div className="bg-[#12261C] p-5 rounded-xl border border-white/5 shadow-md flex flex-col justify-between">
                     <div className="flex justify-between items-center mb-3 text-slate-500">
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono">Total Recettes</span>
                       <TrendingUp className="h-5 w-5 text-emerald-400" />
@@ -2517,7 +2517,7 @@ export default function AdminDashboard({
                   </div>
                   
                   {/* Total Dépenses Card */}
-                  <div className="bg-[#111111] p-5 rounded-xl border border-white/5 shadow-md flex flex-col justify-between">
+                  <div className="bg-[#12261C] p-5 rounded-xl border border-white/5 shadow-md flex flex-col justify-between">
                     <div className="flex justify-between items-center mb-3 text-slate-500">
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono">Total Dépenses</span>
                       <TrendingDown className="h-5 w-5 text-red-400" />
@@ -2529,7 +2529,7 @@ export default function AdminDashboard({
                   </div>
 
                   {/* Solde Trésorerie Card */}
-                  <div className="bg-[#111111] p-5 rounded-xl border border-white/5 shadow-md flex flex-col justify-between">
+                  <div className="bg-[#12261C] p-5 rounded-xl border border-white/5 shadow-md flex flex-col justify-between">
                     <div className="flex justify-between items-center mb-3 text-slate-500">
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono">Solde Trésorerie</span>
                       <DollarSign className="h-5 w-5 text-[#D4AF37]" />
@@ -2541,7 +2541,7 @@ export default function AdminDashboard({
                   </div>
 
                   {/* Validations Financières en Attente Card (Accountant / Manager exclusive) */}
-                  <div className="bg-[#111111] p-5 rounded-xl border border-amber-500/20 bg-amber-500/[0.02] shadow-md flex flex-col justify-between relative overflow-hidden group">
+                  <div className="bg-[#12261C] p-5 rounded-xl border border-amber-500/20 bg-amber-500/[0.02] shadow-md flex flex-col justify-between relative overflow-hidden group">
                     <div className="flex justify-between items-center mb-3 text-amber-400">
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono flex items-center gap-1 text-amber-300">
                         Validations Fin.
@@ -2569,7 +2569,7 @@ export default function AdminDashboard({
                   </div>
 
                   {/* Projets Actifs Card */}
-                  <div className="bg-[#111111] p-5 rounded-xl border border-white/5 shadow-md flex flex-col justify-between">
+                  <div className="bg-[#12261C] p-5 rounded-xl border border-white/5 shadow-md flex flex-col justify-between">
                     <div className="flex justify-between items-center mb-3 text-slate-500">
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono">Projets Actifs</span>
                       <Briefcase className="h-5 w-5 text-blue-400" />
@@ -2583,7 +2583,7 @@ export default function AdminDashboard({
               ) : (
                 /* Standard Members (Chercheur, Secrétaire, etc.) - Decluttered Academic & Research Summary Cards */
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+                  <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                     <div className="flex justify-between items-center mb-4 text-slate-500">
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono">Projets Académiques</span>
                       <Briefcase className="h-5 w-5 text-blue-400" />
@@ -2592,7 +2592,7 @@ export default function AdminDashboard({
                     <p className="text-[11px] text-slate-500 mt-1 font-mono">Recherches en cours au Katanga</p>
                   </div>
 
-                  <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+                  <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                     <div className="flex justify-between items-center mb-4 text-slate-500">
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono">Publications Sci.</span>
                       <BookOpen className="h-5 w-5 text-purple-400" />
@@ -2601,7 +2601,7 @@ export default function AdminDashboard({
                     <p className="text-[11px] text-slate-500 mt-1 font-mono">Base de savoir académique</p>
                   </div>
 
-                  <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+                  <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                     <div className="flex justify-between items-center mb-4 text-slate-500">
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono">Activités Terrain</span>
                       <Activity className="h-5 w-5 text-emerald-400" />
@@ -2610,7 +2610,7 @@ export default function AdminDashboard({
                     <p className="text-[11px] text-slate-500 mt-1 font-mono">Investigations & enquêtes</p>
                   </div>
 
-                  <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+                  <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                     <div className="flex justify-between items-center mb-4 text-slate-500">
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono">Actualités Publiées</span>
                       <FileText className="h-5 w-5 text-[#D4AF37]" />
@@ -2622,7 +2622,7 @@ export default function AdminDashboard({
               )}
 
               {/* RECHARTS MONTHLY FINANCIAL TRENDS */}
-              <div className="bg-[#111111] p-6 rounded-2xl border border-white/5 shadow-xl space-y-4">
+              <div className="bg-[#12261C] p-6 rounded-2xl border border-white/5 shadow-xl space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
                   <div>
                     <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
@@ -2695,7 +2695,7 @@ export default function AdminDashboard({
               {/* DENSE GRID: RECENT ACTIVITY & SYSTEM LOGS */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Visual Chart Placeholder styled purely with native SVG representing Budgeting */}
-                <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+                <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                   <div className="flex justify-between items-center mb-6">
                     <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                       <BarChart2 className="h-4 w-4 text-[#D4AF37]" />
@@ -2744,7 +2744,7 @@ export default function AdminDashboard({
                 </div>
 
                 {/* Journal simplié */}
-                <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+                <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                   <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
                     <Clock className="h-4 w-4 text-[#D4AF37]" />
                     <span>Derniers Événements du Système</span>
@@ -2769,7 +2769,7 @@ export default function AdminDashboard({
               </div>
 
               {/* REPORT CENTER PANEL */}
-              <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+              <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                 <h3 className="font-display text-sm font-bold text-[#D4AF37] uppercase tracking-wider mb-4 flex items-center gap-2">
                   <FileSpreadsheet className="h-4 w-4" />
                   <span>Centre de Rapports Officiels (PDF / Impression)</span>
@@ -2789,7 +2789,7 @@ export default function AdminDashboard({
                       <button
                         type="button"
                         onClick={() => onTriggerPrint({ type: "rapport_recettes", data: db.recipes })}
-                        className="flex-1 flex items-center justify-center space-x-1 py-1.5 bg-[#111111] hover:bg-white/5 text-slate-300 hover:text-white border border-white/10 rounded text-[11px] font-bold transition-colors cursor-pointer"
+                        className="flex-1 flex items-center justify-center space-x-1 py-1.5 bg-[#12261C] hover:bg-white/5 text-slate-300 hover:text-white border border-white/10 rounded text-[11px] font-bold transition-colors cursor-pointer"
                         title="Imprimer le rapport PDF"
                       >
                         <Printer className="h-3 w-3" />
@@ -2820,7 +2820,7 @@ export default function AdminDashboard({
                       <button
                         type="button"
                         onClick={() => onTriggerPrint({ type: "rapport_depenses", data: db.expenses })}
-                        className="flex-1 flex items-center justify-center space-x-1 py-1.5 bg-[#111111] hover:bg-white/5 text-slate-300 hover:text-white border border-white/10 rounded text-[11px] font-bold transition-colors cursor-pointer"
+                        className="flex-1 flex items-center justify-center space-x-1 py-1.5 bg-[#12261C] hover:bg-white/5 text-slate-300 hover:text-white border border-white/10 rounded text-[11px] font-bold transition-colors cursor-pointer"
                         title="Imprimer le rapport PDF"
                       >
                         <Printer className="h-3 w-3" />
@@ -2851,7 +2851,7 @@ export default function AdminDashboard({
                       <button
                         type="button"
                         onClick={() => onTriggerPrint({ type: "rapport_projets", data: db.projects })}
-                        className="flex-1 flex items-center justify-center space-x-1 py-1.5 bg-[#111111] hover:bg-white/5 text-slate-300 hover:text-white border border-white/10 rounded text-[11px] font-bold transition-colors cursor-pointer"
+                        className="flex-1 flex items-center justify-center space-x-1 py-1.5 bg-[#12261C] hover:bg-white/5 text-slate-300 hover:text-white border border-white/10 rounded text-[11px] font-bold transition-colors cursor-pointer"
                         title="Imprimer le rapport PDF"
                       >
                         <Printer className="h-3 w-3" />
@@ -2882,7 +2882,7 @@ export default function AdminDashboard({
                       <button
                         type="button"
                         onClick={() => onTriggerPrint({ type: "rapport_activites", data: db.activities })}
-                        className="flex-1 flex items-center justify-center space-x-1 py-1.5 bg-[#111111] hover:bg-white/5 text-slate-300 hover:text-white border border-white/10 rounded text-[11px] font-bold transition-colors cursor-pointer"
+                        className="flex-1 flex items-center justify-center space-x-1 py-1.5 bg-[#12261C] hover:bg-white/5 text-slate-300 hover:text-white border border-white/10 rounded text-[11px] font-bold transition-colors cursor-pointer"
                         title="Imprimer le rapport PDF"
                       >
                         <Printer className="h-3 w-3" />
@@ -2991,7 +2991,7 @@ export default function AdminDashboard({
                     placeholder="Filtrer par description, source..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-[#111111] text-slate-100 pl-10 pr-4 py-2 border border-white/5 rounded-lg text-xs focus:ring-1 focus:ring-[#D4AF37]"
+                    className="w-full bg-[#12261C] text-slate-100 pl-10 pr-4 py-2 border border-white/5 rounded-lg text-xs focus:ring-1 focus:ring-[#D4AF37]"
                   />
                 </div>
                 <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
@@ -3119,7 +3119,7 @@ export default function AdminDashboard({
               </div>
 
               {/* BUDGET TARGET ALLOCATION SECTION */}
-              <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+              <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                   <div>
                     <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
@@ -3183,7 +3183,7 @@ export default function AdminDashboard({
               </div>
 
               {/* RECHARTS MONTHLY FINANCIAL TRENDS (FINANCES PANEL) */}
-              <div className="bg-[#111111] p-6 rounded-2xl border border-white/5 shadow-xl space-y-4">
+              <div className="bg-[#12261C] p-6 rounded-2xl border border-white/5 shadow-xl space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
                   <div>
                     <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
@@ -3256,7 +3256,7 @@ export default function AdminDashboard({
               {/* DOUBLE LISTINGS: RECIPES & EXPENSES */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* RECIPES TABLE */}
-                <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+                <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="font-display text-sm font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
                       <TrendingUp className="h-5 w-5" />
@@ -3338,7 +3338,7 @@ export default function AdminDashboard({
                 </div>
 
                 {/* EXPENSES TABLE */}
-                <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+                <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="font-display text-sm font-bold text-red-400 uppercase tracking-wider flex items-center gap-2">
                       <TrendingDown className="h-5 w-5" />
@@ -3443,7 +3443,7 @@ export default function AdminDashboard({
                     placeholder="Rechercher actualités..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-[#111111] text-slate-100 pl-10 pr-4 py-2 border border-white/5 rounded-lg text-xs"
+                    className="w-full bg-[#12261C] text-slate-100 pl-10 pr-4 py-2 border border-white/5 rounded-lg text-xs"
                   />
                 </div>
                 {canManageNews() && (
@@ -3461,7 +3461,7 @@ export default function AdminDashboard({
                 {db.news
                   .filter(n => n.title.toLowerCase().includes(searchQuery.toLowerCase()))
                   .map((item) => (
-                    <div key={item.id} className="bg-[#111111] rounded-xl border border-white/5 overflow-hidden flex flex-col justify-between">
+                    <div key={item.id} className="bg-[#12261C] rounded-xl border border-white/5 overflow-hidden flex flex-col justify-between">
                       <div>
                         {item.image && (item.image.startsWith("data:application/pdf") || item.image.endsWith(".pdf") || item.image.includes("pdf")) ? (
                           <div className="h-40 w-full bg-[#151515] flex flex-col items-center justify-center border-b border-white/5 relative group p-4">
@@ -3497,17 +3497,17 @@ export default function AdminDashboard({
                         <div className="flex space-x-1.5">
                           <button
                             onClick={() => onTriggerPrint({ type: "actualite", data: item })}
-                            className="p-1.5 bg-[#111111] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded transition-colors cursor-pointer"
+                            className="p-1.5 bg-[#12261C] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded transition-colors cursor-pointer"
                             title="Aperçu avant impression (Fiche Actualité)"
                           >
                             <Printer className="h-3 w-3" />
                           </button>
                           {canManageNews() && (
                             <>
-                              <button onClick={() => handleOpenForm("news", item)} className="p-1.5 bg-[#111111] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded cursor-pointer">
+                              <button onClick={() => handleOpenForm("news", item)} className="p-1.5 bg-[#12261C] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded cursor-pointer">
                                 <Edit className="h-3 w-3" />
                               </button>
-                              <button onClick={() => handleDeleteItem("news", item.id, item.title)} className="p-1.5 bg-[#111111] hover:bg-red-950/40 text-slate-500 hover:text-red-400 border border-white/5 rounded cursor-pointer">
+                              <button onClick={() => handleDeleteItem("news", item.id, item.title)} className="p-1.5 bg-[#12261C] hover:bg-red-950/40 text-slate-500 hover:text-red-400 border border-white/5 rounded cursor-pointer">
                                 <Trash2 className="h-3 w-3" />
                               </button>
                             </>
@@ -3531,7 +3531,7 @@ export default function AdminDashboard({
                     placeholder="Rechercher des projets..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-[#111111] text-slate-100 pl-10 pr-4 py-2 border border-white/5 rounded-lg text-xs"
+                    className="w-full bg-[#12261C] text-slate-100 pl-10 pr-4 py-2 border border-white/5 rounded-lg text-xs"
                   />
                 </div>
                 <div className="flex items-center space-x-2 shrink-0">
@@ -3560,7 +3560,7 @@ export default function AdminDashboard({
                 {db.projects
                   .filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase()))
                   .map((proj) => (
-                    <div key={proj.id} className="bg-[#111111] rounded-xl border border-white/5 p-6 flex flex-col justify-between space-y-4">
+                    <div key={proj.id} className="bg-[#12261C] rounded-xl border border-white/5 p-6 flex flex-col justify-between space-y-4">
                       <div>
                         <div className="flex justify-between items-center mb-3">
                           <span className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold uppercase ${
@@ -3616,7 +3616,7 @@ export default function AdminDashboard({
                     placeholder="Filtrer par lieu, titre..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-[#111111] text-slate-100 pl-10 pr-4 py-2 border border-white/5 rounded-lg text-xs"
+                    className="w-full bg-[#12261C] text-slate-100 pl-10 pr-4 py-2 border border-white/5 rounded-lg text-xs"
                   />
                 </div>
                 {canManageAcademic() && (
@@ -3634,7 +3634,7 @@ export default function AdminDashboard({
                 {db.activities
                   .filter(a => a.title.toLowerCase().includes(searchQuery.toLowerCase()) || a.location.toLowerCase().includes(searchQuery.toLowerCase()))
                   .map((act) => (
-                    <div key={act.id} className="bg-[#111111] rounded-xl border border-white/5 p-5 flex flex-col justify-between space-y-4">
+                    <div key={act.id} className="bg-[#12261C] rounded-xl border border-white/5 p-5 flex flex-col justify-between space-y-4">
                       <div>
                         <div className="flex items-center justify-between mb-3 text-[11px]">
                           <span className="text-[#D4AF37] font-bold uppercase tracking-wider flex items-center gap-1">
@@ -3724,7 +3724,7 @@ export default function AdminDashboard({
 
           {/* PANEL: PUBLICATIONS */}
           {activePanel === "publications" && (
-            <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+            <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div className="relative max-w-xs w-full">
                   <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
@@ -3803,7 +3803,7 @@ export default function AdminDashboard({
           {activePanel === "galerie" && (
             <div className="space-y-8">
               {/* GALERIE PHOTOS SECTION */}
-              <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+              <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <Image className="h-5 w-5 text-[#D4AF37]" />
@@ -3826,7 +3826,7 @@ export default function AdminDashboard({
                         <span className="text-[9px] bg-white/10 text-slate-400 px-1 rounded uppercase font-mono font-bold">{g.type}</span>
                         <h5 className="font-display font-bold text-white text-xs leading-snug mt-1.5 line-clamp-1">{g.title}</h5>
                       </div>
-                      <div className="p-2 bg-[#111111] border-t border-white/5 flex justify-end space-x-1.5">
+                      <div className="p-2 bg-[#12261C] border-t border-white/5 flex justify-end space-x-1.5">
                         <button onClick={() => handleOpenForm("gallery", g)} className="p-1 bg-[#151515] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] rounded border border-white/5 cursor-pointer">
                           <Edit className="h-2.5 w-2.5" />
                         </button>
@@ -3840,7 +3840,7 @@ export default function AdminDashboard({
               </div>
 
               {/* PARTENAIRES SECTION */}
-              <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+              <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <Users className="h-5 w-5 text-[#D4AF37]" />
@@ -3866,10 +3866,10 @@ export default function AdminDashboard({
                         </div>
                       </div>
                       <div className="flex space-x-1 shrink-0 ml-3">
-                        <button onClick={() => handleOpenForm("partner", p)} className="p-1 bg-[#111111] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] rounded cursor-pointer">
+                        <button onClick={() => handleOpenForm("partner", p)} className="p-1 bg-[#12261C] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] rounded cursor-pointer">
                           <Edit className="h-3 w-3" />
                         </button>
-                        <button onClick={() => handleDeleteItem("partner", p.id, p.name)} className="p-1 bg-[#111111] hover:bg-red-950/45 text-slate-500 hover:text-red-400 rounded cursor-pointer">
+                        <button onClick={() => handleDeleteItem("partner", p.id, p.name)} className="p-1 bg-[#12261C] hover:bg-red-950/45 text-slate-500 hover:text-red-400 rounded cursor-pointer">
                           <Trash2 className="h-3 w-3" />
                         </button>
                       </div>
@@ -3882,7 +3882,7 @@ export default function AdminDashboard({
 
           {/* PANEL: CONTACT MESSAGES */}
           {activePanel === "messages" && (
-            <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+            <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
               <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2">
                 <Mail className="h-5 w-5 text-[#D4AF37]" />
                 <span>Boîte de réception des messages publics</span>
@@ -3924,7 +3924,7 @@ export default function AdminDashboard({
                       </a>
                       <button
                         onClick={() => onTriggerPrint({ type: "message", data: msg })}
-                        className="flex items-center space-x-1.5 bg-[#111111] hover:bg-[#D4AF37]/10 text-slate-300 hover:text-[#D4AF37] border border-white/5 hover:border-[#D4AF37]/30 px-3 py-1.5 rounded text-[11px] font-bold uppercase transition-colors cursor-pointer"
+                        className="flex items-center space-x-1.5 bg-[#12261C] hover:bg-[#D4AF37]/10 text-slate-300 hover:text-[#D4AF37] border border-white/5 hover:border-[#D4AF37]/30 px-3 py-1.5 rounded text-[11px] font-bold uppercase transition-colors cursor-pointer"
                         title="Aperçu avant impression (Fiche Message)"
                       >
                         <Printer className="h-3 w-3" />
@@ -3934,7 +3934,7 @@ export default function AdminDashboard({
                         onClick={() => handleToggleMessageRead(msg)}
                         className={`flex items-center space-x-1.5 px-3 py-1.5 rounded text-[11px] font-bold uppercase transition-colors border cursor-pointer ${
                           msg.readStatus 
-                            ? "bg-[#111111] text-slate-400 border-white/5 hover:bg-[#151515]" 
+                            ? "bg-[#12261C] text-slate-400 border-white/5 hover:bg-[#151515]" 
                             : "bg-[#D4AF37] text-slate-950 border-[#D4AF37] hover:bg-[#D4AF37]/80"
                         }`}
                       >
@@ -3943,7 +3943,7 @@ export default function AdminDashboard({
                       </button>
                       <button
                         onClick={() => handleDeleteItem("message", msg.id, msg.senderName)}
-                        className="flex items-center space-x-1.5 bg-[#111111] hover:bg-red-950/40 text-slate-500 hover:text-red-400 border border-white/5 hover:border-red-900 px-3 py-1.5 rounded text-[11px] font-bold uppercase transition-colors cursor-pointer"
+                        className="flex items-center space-x-1.5 bg-[#12261C] hover:bg-red-950/40 text-slate-500 hover:text-red-400 border border-white/5 hover:border-red-900 px-3 py-1.5 rounded text-[11px] font-bold uppercase transition-colors cursor-pointer"
                       >
                         <Trash2 className="h-3 w-3" />
                         <span>Supprimer</span>
@@ -4032,7 +4032,7 @@ export default function AdminDashboard({
             <div className="space-y-6">
               {/* Top Banner & KPI Stat Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-[#111111] border border-white/5 p-4.5 rounded-xl shadow-md flex items-center justify-between">
+                <div className="bg-[#12261C] border border-white/5 p-4.5 rounded-xl shadow-md flex items-center justify-between">
                   <div>
                     <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Total Comptes Institutionnels</p>
                     <p className="text-2xl font-black text-white font-display mt-1">{db.users.length}</p>
@@ -4043,7 +4043,7 @@ export default function AdminDashboard({
                   </div>
                 </div>
 
-                <div className="bg-[#111111] border border-white/5 p-4.5 rounded-xl shadow-md flex items-center justify-between">
+                <div className="bg-[#12261C] border border-white/5 p-4.5 rounded-xl shadow-md flex items-center justify-between">
                   <div>
                     <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Accès Autorisés (Actifs)</p>
                     <p className="text-2xl font-black text-emerald-400 font-display mt-1">
@@ -4058,7 +4058,7 @@ export default function AdminDashboard({
                   </div>
                 </div>
 
-                <div className="bg-[#111111] border border-white/5 p-4.5 rounded-xl shadow-md flex items-center justify-between">
+                <div className="bg-[#12261C] border border-white/5 p-4.5 rounded-xl shadow-md flex items-center justify-between">
                   <div>
                     <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Accès Révoqués / Suspendus</p>
                     <p className="text-2xl font-black text-red-400 font-display mt-1">
@@ -4071,7 +4071,7 @@ export default function AdminDashboard({
                   </div>
                 </div>
 
-                <div className="bg-[#111111] border border-white/5 p-4.5 rounded-xl shadow-md flex items-center justify-between">
+                <div className="bg-[#12261C] border border-white/5 p-4.5 rounded-xl shadow-md flex items-center justify-between">
                   <div>
                     <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Membres Direction & Admin</p>
                     <p className="text-2xl font-black text-[#D4AF37] font-display mt-1">
@@ -4086,7 +4086,7 @@ export default function AdminDashboard({
               </div>
 
               {/* Control Panel Header: Title, Search, Filters & Action Buttons */}
-              <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md space-y-5">
+              <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md space-y-5">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-white/5">
                   <div>
                     <h3 className="font-display text-base font-bold text-white uppercase tracking-wider flex items-center gap-2.5">
@@ -4316,7 +4316,7 @@ export default function AdminDashboard({
                             <div className="flex items-center space-x-1">
                               <button
                                 onClick={() => onTriggerPrint({ type: "user", data: u })}
-                                className="p-1.5 bg-[#111111] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded-lg cursor-pointer transition-colors"
+                                className="p-1.5 bg-[#12261C] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded-lg cursor-pointer transition-colors"
                                 title="Imprimer la Fiche Membre"
                               >
                                 <Printer className="h-3.5 w-3.5" />
@@ -4325,14 +4325,14 @@ export default function AdminDashboard({
                                 <>
                                   <button
                                     onClick={() => handleOpenForm("user", u)}
-                                    className="p-1.5 bg-[#111111] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded-lg cursor-pointer transition-colors"
+                                    className="p-1.5 bg-[#12261C] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded-lg cursor-pointer transition-colors"
                                     title="Modifier la fiche du personnel"
                                   >
                                     <Edit className="h-3.5 w-3.5" />
                                   </button>
                                   <button
                                     onClick={() => handleOpenPasswordModal(u)}
-                                    className="px-2.5 py-1.5 bg-[#111111] hover:bg-amber-500/15 text-amber-400 hover:text-amber-300 border border-amber-500/25 rounded-lg cursor-pointer transition-colors flex items-center gap-1.5 shadow-sm"
+                                    className="px-2.5 py-1.5 bg-[#12261C] hover:bg-amber-500/15 text-amber-400 hover:text-amber-300 border border-amber-500/25 rounded-lg cursor-pointer transition-colors flex items-center gap-1.5 shadow-sm"
                                     title="Modifier le mot de passe"
                                   >
                                     <Key className="h-3.5 w-3.5 text-amber-400" />
@@ -4369,7 +4369,7 @@ export default function AdminDashboard({
 
                                 <button
                                   onClick={() => handleDeleteItem("user", u.id, u.name)}
-                                  className="p-1.5 bg-[#111111] hover:bg-red-950/40 text-slate-500 hover:text-red-400 border border-white/5 hover:border-red-900/40 rounded-lg cursor-pointer transition-colors"
+                                  className="p-1.5 bg-[#12261C] hover:bg-red-950/40 text-slate-500 hover:text-red-400 border border-white/5 hover:border-red-900/40 rounded-lg cursor-pointer transition-colors"
                                   title="Supprimer définitivement"
                                 >
                                   <Trash2 className="h-3.5 w-3.5" />
@@ -4451,7 +4451,7 @@ export default function AdminDashboard({
                                 <div className="flex items-center justify-end space-x-2">
                                   <button
                                     onClick={() => onTriggerPrint({ type: "user", data: u })}
-                                    className="p-1.5 bg-[#111111] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded cursor-pointer"
+                                    className="p-1.5 bg-[#12261C] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded cursor-pointer"
                                     title="Imprimer Fiche"
                                   >
                                     <Printer className="h-3.5 w-3.5" />
@@ -4460,14 +4460,14 @@ export default function AdminDashboard({
                                     <>
                                       <button
                                         onClick={() => handleOpenForm("user", u)}
-                                        className="p-1.5 bg-[#111111] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded cursor-pointer"
+                                        className="p-1.5 bg-[#12261C] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded cursor-pointer"
                                         title="Modifier les infos"
                                       >
                                         <Edit className="h-3.5 w-3.5" />
                                       </button>
                                       <button
                                         onClick={() => handleOpenPasswordModal(u)}
-                                        className="px-2 py-1 bg-[#111111] hover:bg-amber-500/15 text-amber-400 hover:text-amber-300 border border-amber-500/25 rounded cursor-pointer transition-colors flex items-center gap-1 font-mono text-[11px] font-bold"
+                                        className="px-2 py-1 bg-[#12261C] hover:bg-amber-500/15 text-amber-400 hover:text-amber-300 border border-amber-500/25 rounded cursor-pointer transition-colors flex items-center gap-1 font-mono text-[11px] font-bold"
                                         title="Modifier le mot de passe"
                                       >
                                         <Key className="h-3 w-3 text-amber-400" />
@@ -4487,7 +4487,7 @@ export default function AdminDashboard({
                                       </button>
                                       <button
                                         onClick={() => handleDeleteItem("user", u.id, u.name)}
-                                        className="p-1.5 bg-[#111111] hover:bg-red-950/40 text-slate-500 hover:text-red-400 border border-white/5 rounded cursor-pointer"
+                                        className="p-1.5 bg-[#12261C] hover:bg-red-950/40 text-slate-500 hover:text-red-400 border border-white/5 rounded cursor-pointer"
                                         title="Supprimer"
                                       >
                                         <Trash2 className="h-3.5 w-3.5" />
@@ -4538,7 +4538,7 @@ export default function AdminDashboard({
             return (
               <div className="space-y-6">
                 {/* Header Banner */}
-                <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-lg relative overflow-hidden">
+                <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-lg relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative z-10">
                     <div>
@@ -4635,7 +4635,7 @@ export default function AdminDashboard({
                 </div>
 
                 {/* Filter Controls Bar */}
-                <div className="bg-[#111111] p-4 rounded-xl border border-white/5 shadow-md space-y-3">
+                <div className="bg-[#12261C] p-4 rounded-xl border border-white/5 shadow-md space-y-3">
                   <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
                     {/* Category Filter Tabs */}
                     <div className="flex flex-wrap items-center gap-1.5 p-1 bg-[#151515] rounded-xl border border-white/5">
@@ -4702,7 +4702,7 @@ export default function AdminDashboard({
                 </div>
 
                 {/* Audit Logs Main Table */}
-                <div className="bg-[#111111] rounded-xl border border-white/5 shadow-md overflow-hidden">
+                <div className="bg-[#12261C] rounded-xl border border-white/5 shadow-md overflow-hidden">
                   <div className="p-4 border-b border-white/5 flex items-center justify-between">
                     <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
                       <Clock className="h-4 w-4 text-[#D4AF37]" />
@@ -4828,7 +4828,7 @@ export default function AdminDashboard({
           {/* PANEL: CONFIGURATION / PARAMÈTRES */}
           {activePanel === "parametres" && (
             <div className="space-y-6">
-              <div className="bg-[#111111] p-6 rounded-xl border border-white/5 shadow-md">
+              <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-white/5">
                   <div>
                     <h3 className="font-display text-base font-bold text-white uppercase tracking-wider flex items-center gap-2.5">
@@ -5165,7 +5165,7 @@ export default function AdminDashboard({
               initial={{ scale: 0.95, y: 15 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 15 }}
-              className="bg-[#111111] border border-white/5 rounded-2xl max-w-lg w-full shadow-2xl flex flex-col text-slate-100 max-h-[90vh] overflow-y-auto my-4 sm:my-8"
+              className="bg-[#12261C] border border-white/5 rounded-2xl max-w-lg w-full shadow-2xl flex flex-col text-slate-100 max-h-[90vh] overflow-y-auto my-4 sm:my-8"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#151515]">
@@ -6050,7 +6050,7 @@ export default function AdminDashboard({
               initial={{ scale: 0.95, y: 15 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 15 }}
-              className="bg-[#111111] border border-white/10 rounded-2xl max-w-4xl w-full h-[85vh] flex flex-col shadow-2xl overflow-hidden text-slate-100"
+              className="bg-[#12261C] border border-white/10 rounded-2xl max-w-4xl w-full h-[85vh] flex flex-col shadow-2xl overflow-hidden text-slate-100"
             >
               {/* Header */}
               <div className="p-5 border-b border-white/5 flex justify-between items-center bg-[#151515]">
@@ -6169,7 +6169,7 @@ export default function AdminDashboard({
                                 <Check className="h-3 w-3 stroke-[3]" />
                               </div>
 
-                              <div className="h-28 w-full bg-[#111111] border-b border-white/5 flex items-center justify-center relative overflow-hidden">
+                              <div className="h-28 w-full bg-[#12261C] border-b border-white/5 flex items-center justify-center relative overflow-hidden">
                                 {file.type === "pdf" ? (
                                   <div className="flex flex-col items-center justify-center text-red-500 p-2">
                                     <FileText className="h-10 w-10 mb-1 group-hover:scale-110 transition-transform" />
@@ -6227,7 +6227,7 @@ export default function AdminDashboard({
                 <button
                   type="button"
                   onClick={() => setIsFileLibraryOpen(false)}
-                  className="px-4 py-2 bg-[#111111] hover:bg-white/5 border border-white/5 rounded text-xs font-bold cursor-pointer transition-colors"
+                  className="px-4 py-2 bg-[#12261C] hover:bg-white/5 border border-white/5 rounded text-xs font-bold cursor-pointer transition-colors"
                 >
                   Fermer sans sélectionner
                 </button>
@@ -6253,7 +6253,7 @@ export default function AdminDashboard({
               animate={{ scale: 1 }}
               exit={{ scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-[#111111] border border-white/15 rounded-2xl max-w-2xl w-full p-5 shadow-2xl relative cursor-default flex flex-col space-y-4"
+              className="bg-[#12261C] border border-white/15 rounded-2xl max-w-2xl w-full p-5 shadow-2xl relative cursor-default flex flex-col space-y-4"
             >
               <div className="flex justify-between items-center pb-3 border-b border-white/5">
                 <div className="flex items-center space-x-2">
@@ -6297,7 +6297,7 @@ export default function AdminDashboard({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-[#111111] border border-white/10 rounded-2xl max-w-4xl w-full shadow-2xl relative flex flex-col my-8 overflow-hidden max-h-[90vh]"
+              className="bg-[#12261C] border border-white/10 rounded-2xl max-w-4xl w-full shadow-2xl relative flex flex-col my-8 overflow-hidden max-h-[90vh]"
             >
               {/* Header */}
               <div className="flex justify-between items-center px-6 py-4.5 border-b border-white/5 bg-black/40">

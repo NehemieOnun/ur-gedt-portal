@@ -606,6 +606,63 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                   </div>
                 </section>
 
+                {/* LEADERSHIP PREVIEW — mirrors the ministry site's cabinet cards
+                    (photo, name, title, "En savoir plus" link) */}
+                {(() => {
+                  const leadershipRoles = ["Directeur", "Coordonnateur Scientifique et Technique", "Coordonnatrice Administration, Finance et Genre"];
+                  const leaders = leadershipRoles
+                    .map((role) => (db.users || []).find((u) => u.role === role && u.active !== false))
+                    .filter(Boolean) as User[];
+                  if (leaders.length === 0) return null;
+                  return (
+                    <section className="py-20 sm:py-24 bg-[#0A2016]">
+                      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center max-w-2xl mx-auto mb-14">
+                          <span className="text-xs font-bold text-[#D4AF37] tracking-widest uppercase font-mono bg-[#D4AF37]/10 px-3 py-1 rounded-full border border-[#D4AF37]/20">
+                            Une administration responsable
+                          </span>
+                          <h2 className="font-display text-2xl sm:text-4xl font-bold text-white mt-4">Notre Direction</h2>
+                          <p className="text-slate-400 mt-3 text-sm sm:text-base">
+                            L'équipe dirigeante qui pilote la vision scientifique, administrative et financière de l'UR-GEDT.
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+                          {leaders.map((leader) => (
+                            <motion.div
+                              key={leader.id}
+                              whileHover={{ y: -8 }}
+                              transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                              className="bg-[#12261C] rounded-2xl border border-white/10 hover:border-[#D4AF37]/50 shadow-xl overflow-hidden group transition-all duration-300"
+                            >
+                              <div className="h-56 w-full overflow-hidden bg-black/40 relative">
+                                <img
+                                  src={leader.avatarUrl || "/logo.jpg"}
+                                  alt={leader.name}
+                                  className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                  referrerPolicy="no-referrer"
+                                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/logo.jpg"; }}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0A2016] via-transparent to-transparent"></div>
+                              </div>
+                              <div className="p-5 text-center">
+                                <h3 className="font-display font-bold text-lg text-white">{leader.name}</h3>
+                                <p className="text-xs text-[#D4AF37] font-mono uppercase tracking-wide mt-1">{leader.role}</p>
+                                <button
+                                  onClick={() => navigateTo("equipe")}
+                                  className="mt-4 text-xs font-bold text-slate-300 hover:text-white flex items-center justify-center gap-1 mx-auto group/link cursor-pointer"
+                                >
+                                  <span>En savoir plus</span>
+                                  <ChevronRight className="h-3.5 w-3.5 group-hover/link:translate-x-1 transition-transform" />
+                                </button>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    </section>
+                  );
+                })()}
+
                 {/* PARTNERS STRIP */}
                 {db.partners && db.partners.length > 0 && (
                   <section className="py-14 bg-[#0F2A1C] border-b border-white/5 overflow-hidden">
