@@ -160,7 +160,18 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
   }, [db.gallery, galleryFilter]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#071A12] via-[#0F2A1C] to-[#0A2016] text-slate-100 selection:bg-[#D4AF37] selection:text-black font-sans antialiased overflow-x-hidden">
+    <div className="relative min-h-screen flex flex-col text-slate-100 selection:bg-[#D4AF37] selection:text-black font-sans antialiased overflow-x-hidden">
+      {/* Fixed forest background photo, in the spirit of the ministry's site —
+          a real nature image rather than a flat color, with a dark overlay so
+          text stays readable throughout. Confined to the public site; the admin
+          dashboard keeps a flat background for data-screen readability. */}
+      <div
+        className="fixed inset-0 z-0 bg-cover bg-center bg-fixed"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80')" }}
+        aria-hidden="true"
+      ></div>
+      <div className="fixed inset-0 z-0 bg-gradient-to-br from-[#071A12]/93 via-[#0F2A1C]/95 to-[#0A2016]/97"></div>
+      <div className="relative z-10 flex flex-col min-h-screen">
       
       {/* TOP ANNOUNCEMENT / UTILITY BAR */}
       <div className="bg-[#0A121E] border-b border-white/5 py-2 text-slate-400 text-xs hidden sm:block">
@@ -371,7 +382,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
             {activeTab === "accueil" && (
               <div>
                 {/* HERO SECTION */}
-                <section className="relative bg-[#0A2016] py-20 lg:py-28 overflow-hidden border-b border-[#D4AF37]/20">
+                <section className="relative py-20 lg:py-28 overflow-hidden border-b border-[#D4AF37]/20">
                   {/* Animated Background Video */}
                   <video
                     className="absolute inset-0 z-0 h-full w-full object-cover opacity-20 mix-blend-luminosity"
@@ -1683,6 +1694,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
 
       {/* Toast Notification Container */}
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
+      </div>
     </div>
   );
 }
