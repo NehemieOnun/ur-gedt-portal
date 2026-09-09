@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   BookOpen, Users, Briefcase, Calendar, MapPin, Mail, 
@@ -15,6 +15,50 @@ interface PublicSiteProps {
   onNavigateToLogin: () => void;
   onSubmitContact: (form: { senderName: string; senderEmail: string; subject: string; message: string }) => Promise<boolean>;
   onOpenQrScanner?: () => void;
+}
+
+/**
+ * Animates a number counting up from 0 to `target` once it scrolls into view,
+ * matching the "counter" style used on institutional/ministry sites for stats.
+ * Runs once per mount; respects prefers-reduced-motion by jumping straight to
+ * the final value instead of animating.
+ */
+function AnimatedCounter({ target, duration = 1400 }: { target: number; duration?: number }) {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      setValue(target);
+      return;
+    }
+
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated.current) {
+          hasAnimated.current = true;
+          const start = performance.now();
+          const step = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+            setValue(Math.round(eased * target));
+            if (progress < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [target, duration]);
+
+  return <span ref={ref}>{value}</span>;
 }
 
 export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onOpenQrScanner }: PublicSiteProps) {
@@ -442,7 +486,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                             {stat.icon}
                           </div>
                           <span className="font-display text-2xl sm:text-4xl font-black text-white group-hover:text-[#D4AF37] transition-colors">
-                            {stat.count}
+                            <AnimatedCounter target={stat.count} />
                           </span>
                         </div>
                         <div>
@@ -561,6 +605,34 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                     </div>
                   </div>
                 </section>
+
+                {/* PARTNERS STRIP */}
+                {db.partners && db.partners.length > 0 && (
+                  <section className="py-14 bg-[#0F2A1C] border-b border-white/5 overflow-hidden">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                      <p className="text-center text-xs font-bold text-slate-400 tracking-widest uppercase font-mono mb-8">
+                        Nos Partenaires &amp; Institutions Collaboratrices
+                      </p>
+                      <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 sm:gap-x-14">
+                        {db.partners.map((partner) => (
+                          <div
+                            key={partner.id}
+                            className="flex flex-col items-center gap-2 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all duration-300"
+                            title={partner.name}
+                          >
+                            <img
+                              src={partner.logo}
+                              alt={partner.name}
+                              className="h-10 sm:h-12 w-auto object-contain"
+                              referrerPolicy="no-referrer"
+                              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </section>
+                )}
 
                 {/* FEATURED PROJECTS */}
                 <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
