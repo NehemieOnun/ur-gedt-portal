@@ -167,7 +167,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
           dashboard keeps a flat background for data-screen readability. */}
       <div
         className="fixed inset-0 z-0 bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80')" }}
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1761998940222-a9c2d2d8c7ab?auto=format&fit=crop&w=1920&q=80')" }}
         aria-hidden="true"
       ></div>
       <div className="fixed inset-0 z-0 bg-gradient-to-br from-[#071A12]/93 via-[#0F2A1C]/95 to-[#0A2016]/97"></div>
@@ -488,8 +488,11 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                     ].map((stat, idx) => (
                       <motion.div 
                         key={idx} 
-                        whileHover={{ y: -8, scale: 1.02 }} 
-                        transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                        initial={{ opacity: 0, y: 24 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                        transition={{ duration: 0.5, delay: idx * 0.1 }}
+                        whileHover={{ y: -8, scale: 1.02, transition: { type: "spring", stiffness: 350, damping: 22 } }}
                         className="bg-[#12261C] p-5 sm:p-6 rounded-2xl shadow-2xl border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 hover:shadow-[#D4AF37]/10 transition-all duration-300 group flex flex-col justify-between"
                       >
                         <div className="flex items-center justify-between mb-3">
@@ -511,7 +514,13 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
 
                 {/* DOMAINES D'EXCELLENCE / PILIERS */}
                 <section className="py-20 sm:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="text-center max-w-3xl mx-auto mb-16">
+                  <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="text-center max-w-3xl mx-auto mb-16"
+                  >
                     <span className="text-xs font-bold text-[#D4AF37] tracking-widest uppercase font-mono bg-[#D4AF37]/10 px-3 py-1 rounded-full border border-[#D4AF37]/20">
                       Piliers Scientifiques
                     </span>
@@ -521,7 +530,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                     <p className="text-slate-300 mt-4 text-sm sm:text-base leading-relaxed">
                       Nous combinons rigueur académique et enquêtes de terrain pour éclairer les décideurs politiques et la société civile sur les mutations environnementales et territoriales.
                     </p>
-                  </div>
+                  </motion.div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                     {[
@@ -849,7 +858,13 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
             {/* NOTRE ÉQUIPE */}
             {activeTab === "equipe" && (
               <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto mb-16">
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="text-center max-w-3xl mx-auto mb-16"
+                >
                   <span className="text-xs font-bold text-[#D4AF37] tracking-widest uppercase font-mono bg-[#D4AF37]/10 px-3 py-1 rounded-full border border-[#D4AF37]/20">
                     Les Scientifiques
                   </span>
@@ -857,7 +872,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                   <p className="text-slate-300 mt-4 text-sm sm:text-base leading-relaxed">
                     L'UR-GEDT réunit des professeurs, chercheurs, docteurs, doctorants et gestionnaires travaillant en synergie.
                   </p>
-                </div>
+                </motion.div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                   {db.users.map((member) => (
