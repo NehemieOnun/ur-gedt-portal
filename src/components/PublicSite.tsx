@@ -170,7 +170,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
         style={{ backgroundImage: "url('https://images.unsplash.com/photo-1761998940222-a9c2d2d8c7ab?auto=format&fit=crop&w=1920&q=80')" }}
         aria-hidden="true"
       ></div>
-      <div className="fixed inset-0 z-0 bg-gradient-to-br from-[#071A12]/93 via-[#0F2A1C]/95 to-[#0A2016]/97"></div>
+      <div className="fixed inset-0 z-0 bg-gradient-to-b from-[#071A12]/55 via-[#0A2016]/40 to-[#0A2016]/80"></div>
       <div className="relative z-10 flex flex-col min-h-screen">
       
       {/* TOP ANNOUNCEMENT / UTILITY BAR */}
@@ -393,7 +393,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                     playsInline
                     aria-hidden="true"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#0A2016]/80 via-[#0A2016]/95 to-[#0A2016] z-0"></div>
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#0A2016]/30 via-[#0A2016]/50 to-[#0A2016]/85 z-0"></div>
                   <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none"></div>
 
                   {/* Floating leaf particles — subtle organic motion echoing the
@@ -443,7 +443,7 @@ export default function PublicSite({ db, onNavigateToLogin, onSubmitContact, onO
                       </div>
 
                       {/* Main Title */}
-                      <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15]">
+                      <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15]" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.6)" }}>
                         Gouvernance, Environnement & <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-amber-300 to-amber-500">Développement Territorial</span>
                       </h1>
 
