@@ -96,7 +96,11 @@ export function cacheDbSnapshot(data: any) {
       const stripLargeStrings = (value: any): any => {
         if (typeof value === "string") {
           return value.startsWith("data:") && value.length > MAX_INLINE_LENGTH
-            ? "[média volumineux omis du cache local]"
+            // Use a real, already-shipped static asset rather than human-readable
+            // text — if this cached placeholder ever ends up used as an <img src>
+            // (e.g. an avatar/gallery URL that was too large to cache), it should
+            // resolve to something real instead of a broken 404 request.
+            ? "/logo.jpg"
             : value;
         }
         if (Array.isArray(value)) return value.map(stripLargeStrings);
