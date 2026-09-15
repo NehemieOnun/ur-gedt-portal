@@ -295,6 +295,9 @@ async function main() {
       const bg = db.budget;
       await prisma.budget.upsert({
         where: { year: bg.year || 2026 },
+        // Never overwrite an existing budget row on re-seed — unlike roles,
+        // budget figures are live operational data the user edits through the
+        // app, not fixed configuration that should always sync from code.
         update: {},
         create: {
           year: bg.year || 2026,
@@ -302,7 +305,9 @@ async function main() {
           allocatedResearch: Number(bg.allocatedResearch) || 0,
           allocatedLogistics: Number(bg.allocatedLogistics) || 0,
           allocatedEquipment: Number(bg.allocatedEquipment) || 0,
-          allocatedPersonnel: Number(bg.allocatedPersonnel) || 0
+          allocatedPersonnel: Number(bg.allocatedPersonnel) || 0,
+          allocatedMissions: Number(bg.allocatedMissions) || 0,
+          allocatedInvestments: Number(bg.allocatedInvestments) || 0
         }
       });
     }

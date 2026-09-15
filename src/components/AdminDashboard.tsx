@@ -619,10 +619,12 @@ export default function AdminDashboard({
     return b || {
       year: 2026,
       totalBudget: 120000,
-      allocatedResearch: 55000,
-      allocatedLogistics: 25000,
-      allocatedEquipment: 25000,
-      allocatedPersonnel: 15000
+      allocatedResearch: 45000,
+      allocatedLogistics: 20000,
+      allocatedEquipment: 20000,
+      allocatedPersonnel: 15000,
+      allocatedMissions: 10000,
+      allocatedInvestments: 10000
     };
   });
 
@@ -631,10 +633,12 @@ export default function AdminDashboard({
       setBudgetForm({
         year: Number(db.budget.year) || 2026,
         totalBudget: Number(db.budget.totalBudget) || 120000,
-        allocatedResearch: Number(db.budget.allocatedResearch) || 55000,
-        allocatedLogistics: Number(db.budget.allocatedLogistics) || 25000,
-        allocatedEquipment: Number(db.budget.allocatedEquipment) || 25000,
-        allocatedPersonnel: Number(db.budget.allocatedPersonnel) || 15000
+        allocatedResearch: Number(db.budget.allocatedResearch) || 45000,
+        allocatedLogistics: Number(db.budget.allocatedLogistics) || 20000,
+        allocatedEquipment: Number(db.budget.allocatedEquipment) || 20000,
+        allocatedPersonnel: Number(db.budget.allocatedPersonnel) || 15000,
+        allocatedMissions: Number(db.budget.allocatedMissions) || 0,
+        allocatedInvestments: Number(db.budget.allocatedInvestments) || 0
       });
     }
   }, [db.budget]);
@@ -743,18 +747,22 @@ export default function AdminDashboard({
     const b = db.budget || {
       year: new Date().getFullYear(),
       totalBudget: 120000,
-      allocatedResearch: 55000,
-      allocatedLogistics: 25000,
-      allocatedEquipment: 25000,
-      allocatedPersonnel: 15000
+      allocatedResearch: 45000,
+      allocatedLogistics: 20000,
+      allocatedEquipment: 20000,
+      allocatedPersonnel: 15000,
+      allocatedMissions: 10000,
+      allocatedInvestments: 10000
     };
     setBudgetForm({
       year: Number(b.year) || new Date().getFullYear(),
       totalBudget: Number(b.totalBudget) || 120000,
-      allocatedResearch: Number(b.allocatedResearch) || 55000,
-      allocatedLogistics: Number(b.allocatedLogistics) || 25000,
-      allocatedEquipment: Number(b.allocatedEquipment) || 25000,
-      allocatedPersonnel: Number(b.allocatedPersonnel) || 15000
+      allocatedResearch: Number(b.allocatedResearch) || 45000,
+      allocatedLogistics: Number(b.allocatedLogistics) || 20000,
+      allocatedEquipment: Number(b.allocatedEquipment) || 20000,
+      allocatedPersonnel: Number(b.allocatedPersonnel) || 15000,
+      allocatedMissions: Number(b.allocatedMissions) || 0,
+      allocatedInvestments: Number(b.allocatedInvestments) || 0
     });
     setIsBudgetModalOpen(true);
   };
@@ -765,8 +773,10 @@ export default function AdminDashboard({
     const logistics = Number(budgetForm.allocatedLogistics) || 0;
     const equipment = Number(budgetForm.allocatedEquipment) || 0;
     const personnel = Number(budgetForm.allocatedPersonnel) || 0;
+    const missions = Number(budgetForm.allocatedMissions) || 0;
+    const investments = Number(budgetForm.allocatedInvestments) || 0;
 
-    const sumAllocations = research + logistics + equipment + personnel;
+    const sumAllocations = research + logistics + equipment + personnel + missions + investments;
     const finalTotal = budgetForm.totalBudget > 0 ? Number(budgetForm.totalBudget) : sumAllocations;
 
     const updatedBudget: Budget = {
@@ -775,7 +785,9 @@ export default function AdminDashboard({
       allocatedResearch: research,
       allocatedLogistics: logistics,
       allocatedEquipment: equipment,
-      allocatedPersonnel: personnel
+      allocatedPersonnel: personnel,
+      allocatedMissions: missions,
+      allocatedInvestments: investments
     };
 
     if (onUpdateTable) {
@@ -793,7 +805,9 @@ export default function AdminDashboard({
       allocatedResearch: 0,
       allocatedLogistics: 0,
       allocatedEquipment: 0,
-      allocatedPersonnel: 0
+      allocatedPersonnel: 0,
+      allocatedMissions: 0,
+      allocatedInvestments: 0
     };
 
     if (onUpdateTable) {
@@ -1992,10 +2006,23 @@ export default function AdminDashboard({
   };
 
   return (
-    <div className={`min-h-screen flex flex-col md:flex-row font-sans transition-colors duration-200 ${
-      theme === "light" ? "theme-light bg-slate-100 text-slate-900" : "bg-gradient-to-br from-[#071A12] via-[#0F2A1C] to-[#0A2016] text-slate-100"
+    <div className={`relative min-h-screen flex flex-col md:flex-row font-sans transition-colors duration-200 ${
+      theme === "light" ? "theme-light bg-slate-100 text-slate-900" : "text-slate-100"
     }`}>
-      
+      {theme !== "light" && (
+        <>
+          {/* Subtle nature-photo backdrop, in the same spirit as the public site —
+              kept low-opacity with a strong dark overlay so tables, forms, and
+              financial figures stay fully legible on a data-dense screen. */}
+          <div
+            className="fixed inset-0 z-0 bg-cover bg-center"
+            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1506355683710-bd071c0a5828?auto=format&fit=crop&w=1920&q=80')" }}
+            aria-hidden="true"
+          ></div>
+          <div className="fixed inset-0 z-0 bg-gradient-to-br from-[#071A12]/97 via-[#0F2A1C]/98 to-[#0A2016]/99"></div>
+        </>
+      )}
+      <div className="relative z-10 flex flex-col md:flex-row w-full">
       {/* SIDEBAR */}
       <aside className="w-full md:w-64 bg-[#12261C] border-r border-white/5 flex flex-col justify-between shrink-0 no-print">
         <div>
@@ -2718,28 +2745,39 @@ export default function AdminDashboard({
                     </div>
                   </div>
                   
-                  {/* SVG Bar chart for allocation */}
+                  {/* SVG Bar chart for allocation — percentages computed dynamically
+                      from real amounts, never hardcoded, so the bars always match
+                      the actual budget figures even after they change. */}
                   <div className="space-y-4">
-                    {[
-                      { name: "Recherche & Enquêtes", percent: 40, amount: db.budget.allocatedResearch, color: "bg-[#D4AF37]" },
-                      { name: "Logistique Terrain", percent: 20, amount: db.budget.allocatedLogistics, color: "bg-blue-400" },
-                      { name: "Matériels Labo", percent: 23, amount: db.budget.allocatedEquipment, color: "bg-emerald-400" },
-                      { name: "Personnel & RH", percent: 17, amount: db.budget.allocatedPersonnel, color: "bg-purple-400" }
-                    ].map((alloc, i) => (
-                      <div key={i} className="space-y-1">
-                        <div className="flex justify-between text-xs">
-                          <span className="text-slate-300 font-semibold">{alloc.name}</span>
-                          <span className="text-slate-400 font-mono">{alloc.amount.toLocaleString()} USD ({alloc.percent}%)</span>
-                        </div>
-                        <div className="w-full bg-[#151515] rounded-full h-2 overflow-hidden border border-white/5">
-                          <div className={`h-full ${alloc.color}`} style={{ width: `${alloc.percent}%` }}></div>
-                        </div>
+                    {(() => {
+                      const categories = [
+                        { name: "Recherche & Enquêtes", amount: db.budget.allocatedResearch, color: "bg-[#D4AF37]" },
+                        { name: "Logistique Terrain", amount: db.budget.allocatedLogistics, color: "bg-blue-400" },
+                        { name: "Matériels Labo", amount: db.budget.allocatedEquipment, color: "bg-emerald-400" },
+                        { name: "Personnel & RH", amount: db.budget.allocatedPersonnel, color: "bg-purple-400" },
+                        { name: "Missions", amount: db.budget.allocatedMissions || 0, color: "bg-orange-400" },
+                        { name: "Investissements", amount: db.budget.allocatedInvestments || 0, color: "bg-rose-400" }
+                      ];
+                      const total = categories.reduce((sum, c) => sum + (Number(c.amount) || 0), 0) || 1;
+                      return categories.map((alloc, i) => {
+                        const percent = Math.round((Number(alloc.amount) / total) * 100);
+                        return (
+                    <div key={i} className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-slate-300 font-semibold">{alloc.name}</span>
+                        <span className="text-slate-400 font-mono">{Number(alloc.amount || 0).toLocaleString()} USD ({percent}%)</span>
                       </div>
-                    ))}
+                      <div className="w-full bg-[#151515] rounded-full h-2 overflow-hidden border border-white/5">
+                        <div className={`h-full ${alloc.color}`} style={{ width: `${percent}%` }}></div>
+                      </div>
+                    </div>
+                        );
+                      });
+                    })()}
                   </div>
 
                   <p className="text-[11px] text-slate-500 leading-relaxed mt-6 italic border-t border-white/5 pt-4">
-                    Ce graphique indique l'allocation programmatique du budget annuel de l'Unité de Recherche. L'allocation de recherche correspond à 40% pour privilégier la collecte primaire de données au Katanga.
+                    Ce graphique indique l'allocation programmatique du budget annuel de l'Unité de Recherche, réparti en six enveloppes distinctes (Recherche, Logistique, Matériels, Personnel, Missions, Investissements).
                   </p>
                 </div>
 
@@ -2945,7 +2983,7 @@ export default function AdminDashboard({
                       </span>
                     </div>
                     <p className="text-xs text-slate-300 mt-1 font-mono">
-                      Budget Global Alloué : <strong className="text-[#D4AF37] font-extrabold font-mono">{(db.budget?.totalBudget || 0).toLocaleString()} USD</strong> (Recherche: {(db.budget?.allocatedResearch || 0).toLocaleString()} USD | Logistique: {(db.budget?.allocatedLogistics || 0).toLocaleString()} USD | Matériel: {(db.budget?.allocatedEquipment || 0).toLocaleString()} USD | RH: {(db.budget?.allocatedPersonnel || 0).toLocaleString()} USD)
+                      Budget Global Alloué : <strong className="text-[#D4AF37] font-extrabold font-mono">{(db.budget?.totalBudget || 0).toLocaleString()} USD</strong> (Recherche: {(db.budget?.allocatedResearch || 0).toLocaleString()} USD | Logistique: {(db.budget?.allocatedLogistics || 0).toLocaleString()} USD | Matériel: {(db.budget?.allocatedEquipment || 0).toLocaleString()} USD | RH: {(db.budget?.allocatedPersonnel || 0).toLocaleString()} USD | Missions: {(db.budget?.allocatedMissions || 0).toLocaleString()} USD | Investissements: {(db.budget?.allocatedInvestments || 0).toLocaleString()} USD)
                     </p>
                   </div>
                 </div>
@@ -6733,12 +6771,14 @@ export default function AdminDashboard({
                           const sum = (Number(budgetForm.allocatedResearch) || 0) +
                                       (Number(budgetForm.allocatedLogistics) || 0) +
                                       (Number(budgetForm.allocatedEquipment) || 0) +
-                                      (Number(budgetForm.allocatedPersonnel) || 0);
+                                      (Number(budgetForm.allocatedPersonnel) || 0) +
+                                      (Number(budgetForm.allocatedMissions) || 0) +
+                                      (Number(budgetForm.allocatedInvestments) || 0);
                           setBudgetForm(prev => ({ ...prev, totalBudget: sum }));
                           addToast(`Budget total calculé automatiquement : ${sum.toLocaleString()} USD`, "info", "Calcul Auto");
                         }}
                         className="text-[11px] font-bold text-[#D4AF37] hover:underline flex items-center gap-1 cursor-pointer"
-                        title="Régler le total égal à la somme des 4 postes ci-dessous"
+                        title="Régler le total égal à la somme des 6 postes ci-dessous"
                       >
                         <PieChart className="h-3 w-3" />
                         <span>Calculer la somme</span>
@@ -6763,7 +6803,7 @@ export default function AdminDashboard({
                       Ventilation par Postes de Dépenses (USD)
                     </p>
                     <span className="text-xs font-mono text-slate-400">
-                      Somme des 4 postes : {((Number(budgetForm.allocatedResearch) || 0) + (Number(budgetForm.allocatedLogistics) || 0) + (Number(budgetForm.allocatedEquipment) || 0) + (Number(budgetForm.allocatedPersonnel) || 0)).toLocaleString()} USD
+                      Somme des 6 postes : {((Number(budgetForm.allocatedResearch) || 0) + (Number(budgetForm.allocatedLogistics) || 0) + (Number(budgetForm.allocatedEquipment) || 0) + (Number(budgetForm.allocatedPersonnel) || 0) + (Number(budgetForm.allocatedMissions) || 0) + (Number(budgetForm.allocatedInvestments) || 0)).toLocaleString()} USD
                     </span>
                   </div>
 
@@ -6827,6 +6867,36 @@ export default function AdminDashboard({
                         className="w-full bg-[#0d0d0d] border border-white/10 focus:border-purple-500 rounded-lg p-2.5 text-xs text-white font-mono focus:outline-none"
                       />
                     </div>
+
+                    {/* Missions */}
+                    <div className="p-3.5 bg-[#161616] border border-white/10 rounded-xl space-y-1.5">
+                      <label className="block text-xs font-bold text-orange-400 uppercase font-mono">
+                        Missions
+                      </label>
+                      <input
+                        type="number"
+                        min={0}
+                        step={100}
+                        value={budgetForm.allocatedMissions}
+                        onChange={(e) => setBudgetForm({ ...budgetForm, allocatedMissions: parseFloat(e.target.value) || 0 })}
+                        className="w-full bg-[#0d0d0d] border border-white/10 focus:border-orange-500 rounded-lg p-2.5 text-xs text-white font-mono focus:outline-none"
+                      />
+                    </div>
+
+                    {/* Investissements */}
+                    <div className="p-3.5 bg-[#161616] border border-white/10 rounded-xl space-y-1.5">
+                      <label className="block text-xs font-bold text-rose-400 uppercase font-mono">
+                        Investissements
+                      </label>
+                      <input
+                        type="number"
+                        min={0}
+                        step={100}
+                        value={budgetForm.allocatedInvestments}
+                        onChange={(e) => setBudgetForm({ ...budgetForm, allocatedInvestments: parseFloat(e.target.value) || 0 })}
+                        className="w-full bg-[#0d0d0d] border border-white/10 focus:border-rose-500 rounded-lg p-2.5 text-xs text-white font-mono focus:outline-none"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -6856,6 +6926,16 @@ export default function AdminDashboard({
                         style={{ width: `${Math.min(100, (budgetForm.allocatedPersonnel / budgetForm.totalBudget) * 100)}%` }}
                         className="bg-purple-500 h-full transition-all"
                         title={`RH: ${((budgetForm.allocatedPersonnel / budgetForm.totalBudget) * 100).toFixed(1)}%`}
+                      />
+                      <div
+                        style={{ width: `${Math.min(100, (budgetForm.allocatedMissions / budgetForm.totalBudget) * 100)}%` }}
+                        className="bg-orange-500 h-full transition-all"
+                        title={`Missions: ${((budgetForm.allocatedMissions / budgetForm.totalBudget) * 100).toFixed(1)}%`}
+                      />
+                      <div
+                        style={{ width: `${Math.min(100, (budgetForm.allocatedInvestments / budgetForm.totalBudget) * 100)}%` }}
+                        className="bg-rose-500 h-full transition-all"
+                        title={`Investissements: ${((budgetForm.allocatedInvestments / budgetForm.totalBudget) * 100).toFixed(1)}%`}
                       />
                     </div>
                   </div>
@@ -7330,6 +7410,7 @@ export default function AdminDashboard({
         </motion.div>
       </div>
 
+      </div>
     </div>
   );
 }

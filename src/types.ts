@@ -113,6 +113,8 @@ export interface Budget {
   allocatedLogistics: number;
   allocatedEquipment: number;
   allocatedPersonnel: number;
+  allocatedMissions: number;
+  allocatedInvestments: number;
 }
 
 export interface Log {

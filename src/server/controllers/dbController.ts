@@ -60,7 +60,9 @@ export class DbController {
       allocatedResearch: 0,
       allocatedLogistics: 0,
       allocatedEquipment: 0,
-      allocatedPersonnel: 0
+      allocatedPersonnel: 0,
+      allocatedMissions: 0,
+      allocatedInvestments: 0
     };
 
     const ONLINE_THRESHOLD_MS = 5 * 60 * 1000; // considered online if active in the last 5 minutes
@@ -721,7 +723,9 @@ export class DbController {
                 allocatedResearch: Number(budgetObj.allocatedResearch) || 0,
                 allocatedLogistics: Number(budgetObj.allocatedLogistics) || 0,
                 allocatedEquipment: Number(budgetObj.allocatedEquipment) || 0,
-                allocatedPersonnel: Number(budgetObj.allocatedPersonnel) || 0
+                allocatedPersonnel: Number(budgetObj.allocatedPersonnel) || 0,
+                allocatedMissions: Number(budgetObj.allocatedMissions) || 0,
+                allocatedInvestments: Number(budgetObj.allocatedInvestments) || 0
               },
               create: {
                 year: yearVal,
@@ -729,7 +733,9 @@ export class DbController {
                 allocatedResearch: Number(budgetObj.allocatedResearch) || 0,
                 allocatedLogistics: Number(budgetObj.allocatedLogistics) || 0,
                 allocatedEquipment: Number(budgetObj.allocatedEquipment) || 0,
-                allocatedPersonnel: Number(budgetObj.allocatedPersonnel) || 0
+                allocatedPersonnel: Number(budgetObj.allocatedPersonnel) || 0,
+                allocatedMissions: Number(budgetObj.allocatedMissions) || 0,
+                allocatedInvestments: Number(budgetObj.allocatedInvestments) || 0
               }
             });
           });
@@ -1011,7 +1017,7 @@ export class DbController {
    */
   public static async updateBudget(req: any, res: Response) {
     try {
-      const { year, totalBudget, allocatedResearch, allocatedLogistics, allocatedEquipment, allocatedPersonnel } = req.body;
+      const { year, totalBudget, allocatedResearch, allocatedLogistics, allocatedEquipment, allocatedPersonnel, allocatedMissions, allocatedInvestments } = req.body;
       const parsedYear = Number(year) || 2026;
 
       const updated = await prisma.budget.upsert({
@@ -1021,7 +1027,9 @@ export class DbController {
           allocatedResearch: Number(allocatedResearch) || 0,
           allocatedLogistics: Number(allocatedLogistics) || 0,
           allocatedEquipment: Number(allocatedEquipment) || 0,
-          allocatedPersonnel: Number(allocatedPersonnel) || 0
+          allocatedPersonnel: Number(allocatedPersonnel) || 0,
+          allocatedMissions: Number(allocatedMissions) || 0,
+          allocatedInvestments: Number(allocatedInvestments) || 0
         },
         create: {
           year: parsedYear,
@@ -1029,7 +1037,9 @@ export class DbController {
           allocatedResearch: Number(allocatedResearch) || 0,
           allocatedLogistics: Number(allocatedLogistics) || 0,
           allocatedEquipment: Number(allocatedEquipment) || 0,
-          allocatedPersonnel: Number(allocatedPersonnel) || 0
+          allocatedPersonnel: Number(allocatedPersonnel) || 0,
+          allocatedMissions: Number(allocatedMissions) || 0,
+          allocatedInvestments: Number(allocatedInvestments) || 0
         }
       });
 
