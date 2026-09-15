@@ -580,7 +580,7 @@ export default function App() {
     };
 
     sendHeartbeat(); // immediately on login/mount
-    const interval = setInterval(sendHeartbeat, 60_000);
+    const interval = setInterval(sendHeartbeat, 120_000);
     return () => clearInterval(interval);
   }, [currentUser]);
 
