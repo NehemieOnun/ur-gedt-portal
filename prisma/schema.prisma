@@ -1,19 +1,19 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
-generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-3.0.x"]
-}
-
 model Role {
-  id          String   @id @default(uuid())
-  name        String   @unique // Super Administrateur, Administrateur, Directeur, Comptable, Chercheur, Secrétaire, Visiteur
+  id          String  @id @default(uuid())
+  name        String  @unique
   description String?
-  permissions String   // JSON string of permissions or simple string
+  permissions String
   users       User[]
 }
 
@@ -21,9 +21,8 @@ model User {
   id         String    @id @default(uuid())
   name       String
   email      String    @unique
-  password   String    // bcrypt hashed
+  password   String
   roleId     String
-  role       Role      @relation(fields: [roleId], references: [id])
   active     Boolean   @default(true)
   avatarUrl  String?
   phone      String?
@@ -31,8 +30,8 @@ model User {
   function   String?
   bio        String?
   lastLogin  DateTime?
-  lastActiveAt DateTime?
   createdAt  DateTime  @default(now())
+  role       Role      @relation(fields: [roleId], references: [id])
 }
 
 model SiteSetting {
@@ -49,7 +48,7 @@ model SiteSetting {
   youtube   String   @default("https://youtube.com")
   github    String   @default("https://github.com")
   whatsapp  String   @default("https://wa.me/243990000000")
-  updatedAt DateTime @updatedAt @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model News {
@@ -69,9 +68,9 @@ model Activity {
   description String
   location    String
   date        String
-  status      String   // Réalisé, Planifié, En cours
+  status      String
   budget      Float
-  researchers String   // Semicolon-separated or JSON array string
+  researchers String
   createdAt   DateTime @default(now())
 }
 
@@ -84,8 +83,8 @@ model Project {
   duration              String
   principalInvestigator String
   description           String
-  objectives            String   // Semicolon-separated or JSON
-  partners              String   // Semicolon-separated or JSON
+  objectives            String
+  partners              String
   budgetAmount          Float
   spentAmount           Float
   lastUpdate            String
@@ -109,7 +108,7 @@ model Gallery {
   id          String   @id @default(uuid())
   title       String
   description String
-  type        String   // photo, video, audio, pdf
+  type        String
   url         String
   date        String
   createdAt   DateTime @default(now())
@@ -118,7 +117,7 @@ model Gallery {
 model Partner {
   id              String   @id @default(uuid())
   name            String
-  type            String   // Académique, Institutionnel, Technique, Financier
+  type            String
   logo            String
   website         String?
   cooperationType String
@@ -132,7 +131,7 @@ model ContactMessage {
   subject     String
   message     String
   date        String
-  status      String   // Lu, Non lu
+  status      String
   createdAt   DateTime @default(now())
 }
 
@@ -143,7 +142,7 @@ model Recipe {
   amount      Float
   date        String
   recordedBy  String
-  type        String   // Subvention, Donation, Prestation, Autre
+  type        String
   createdAt   DateTime @default(now())
 }
 
@@ -152,9 +151,9 @@ model Expense {
   description String
   beneficiary String
   amount      Float
-  category    String   // Matériel, Logistique, Recherche, RH, Autre
+  category    String
   date        String
-  status      String   // Approuvé, En attente, Rejeté
+  status      String
   recordedBy  String
   createdAt   DateTime @default(now())
 }
@@ -164,31 +163,31 @@ model Budget {
   year               Int    @unique
   totalBudget        Float
   allocatedResearch  Float
-  allocatedLogistics  Float
-  allocatedEquipment  Float
-  allocatedPersonnel  Float
+  allocatedLogistics Float
+  allocatedEquipment Float
+  allocatedPersonnel Float
 }
 
 model Log {
-  id          String   @id @default(uuid())
-  userId      String?
-  userName    String
-  userRole    String
-  action      String
-  details     String
-  timestamp   DateTime @default(now())
-  ip          String?
-  userAgent   String?
-  oldContent  String?  // JSON string
-  newContent  String?  // JSON string
+  id         String   @id @default(uuid())
+  userId     String?
+  userName   String
+  userRole   String
+  action     String
+  details    String
+  timestamp  DateTime @default(now())
+  ip         String?
+  userAgent  String?
+  oldContent String?
+  newContent String?
 }
 
 model Notification {
   id            String   @id @default(uuid())
   title         String
   message       String
-  type          String   // info, warning, success
+  type          String
   isRead        Boolean  @default(false)
-  recipientRole String?  // Role name or null for all
+  recipientRole String?
   createdAt     DateTime @default(now())
 }
