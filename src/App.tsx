@@ -566,6 +566,24 @@ export default function App() {
     }
   };
 
+  // Presence heartbeat: while logged in, periodically tell the server this
+  // session is still active, so Gestion du Personnel can show who else is
+  // actually online right now — not just the currently-viewing browser.
+  useEffect(() => {
+    if (!currentUser) return;
+
+    const sendHeartbeat = () => {
+      apiFetch("/api/heartbeat", { method: "POST" }).catch(() => {
+        // A missed heartbeat is not worth surfacing to the user — it just
+        // means their online status won't refresh for others this cycle.
+      });
+    };
+
+    sendHeartbeat(); // immediately on login/mount
+    const interval = setInterval(sendHeartbeat, 60_000);
+    return () => clearInterval(interval);
+  }, [currentUser]);
+
   useEffect(() => {
     const handleOnline = () => {
       setIsOnline(true);

@@ -5,6 +5,29 @@ import { loginSchema, forgotPasswordSchema, changePasswordSchema, resetPasswordS
 import { AuthenticatedRequest } from "../middlewares/authMiddleware.js";
 
 export class AuthController {
+  /**
+   * Lightweight presence heartbeat — called periodically by the frontend while a
+   * session is active, so Gestion du Personnel can show which staff are actually
+   * online right now (not just "the person currently viewing this page").
+   */
+  public static async heartbeat(req: any, res: Response) {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ success: false, error: "Non authentifié" });
+      }
+      await prisma.user.update({
+        where: { id: req.user.id },
+        data: { lastActiveAt: new Date() }
+      });
+      res.json({ success: true });
+    } catch (err: any) {
+      // A missed heartbeat is never worth surfacing as an error to the user —
+      // it just means their "online" status won't refresh this cycle.
+      console.warn("Heartbeat update failed:", err);
+      res.status(200).json({ success: false });
+    }
+  }
+
   public static async login(req: any, res: Response) {
     try {
       // 1. Zod schema validation

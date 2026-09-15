@@ -8,6 +8,7 @@ const router = Router();
 
 // --- AUTHENTICATION ---
 router.post("/login", AuthController.login);
+router.post("/heartbeat", requireAuth, AuthController.heartbeat);
 router.post("/forgot-password", AuthController.forgotPassword);
 router.post("/reset-password", AuthController.resetPassword);
 router.post("/refresh", AuthController.refresh);

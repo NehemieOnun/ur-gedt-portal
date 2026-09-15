@@ -3,7 +3,7 @@ export interface User {
   name: string;
   email: string;
   password?: string;
-  role: 'Super Administrateur' | 'Administrateur' | 'Directeur' | 'Comptable' | 'Secrétaire' | 'Chercheur' | 'Visiteur';
+  role: 'Super Administrateur' | 'Administrateur' | 'Directeur' | 'Comptable' | 'Secrétaire' | 'Chercheur' | 'Visiteur' | 'Coordonnateur Scientifique et Technique' | 'Coordonnateur Mobilisation Communautaire et Partenariats' | 'Coordonnatrice Administration, Finance et Genre';
   active: boolean;
   avatarUrl?: string;
   phone?: string;

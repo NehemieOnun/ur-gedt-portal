@@ -63,6 +63,7 @@ export class DbController {
       allocatedPersonnel: 0
     };
 
+    const ONLINE_THRESHOLD_MS = 3 * 60 * 1000; // considered online if active in the last 3 minutes
     const users = dbUsers.map((u) => ({
       id: u.id,
       name: u.name,
@@ -76,6 +77,7 @@ export class DbController {
       function: u.function || "",
       bio: u.bio || "",
       lastLogin: u.lastLogin ? u.lastLogin.toISOString() : undefined,
+      isOnline: u.lastActiveAt ? (Date.now() - new Date(u.lastActiveAt).getTime()) < ONLINE_THRESHOLD_MS : false,
       createdAt: u.createdAt ? u.createdAt.toISOString() : undefined
     }));
 

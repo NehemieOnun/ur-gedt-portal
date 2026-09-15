@@ -31,6 +31,7 @@ model User {
   function   String?
   bio        String?
   lastLogin  DateTime?
+  lastActiveAt DateTime?
   createdAt  DateTime  @default(now())
 }
 
