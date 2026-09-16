@@ -37,21 +37,6 @@ async function main() {
       permissions: JSON.stringify(["manage_research", "view_content"])
     },
     {
-      name: "Coordonnateur Scientifique et Technique",
-      description: "Supervision scientifique et technique des projets, publications et activités de terrain.",
-      permissions: JSON.stringify(["manage_research", "manage_content", "view_content", "view_finances"])
-    },
-    {
-      name: "Coordonnateur Mobilisation Communautaire et Partenariats",
-      description: "Coordination de la mobilisation communautaire, des partenariats et de la communication.",
-      permissions: JSON.stringify(["manage_content", "view_content"])
-    },
-    {
-      name: "Coordonnatrice Administration, Finance et Genre",
-      description: "Coordination administrative, financière et des questions de genre au sein du projet.",
-      permissions: JSON.stringify(["manage_finances", "view_finances", "manage_content", "view_users"])
-    },
-    {
       name: "Secrétaire",
       description: "Gestion administrative, publications d'actualités et messagerie.",
       permissions: JSON.stringify(["manage_content", "view_content"])
@@ -295,9 +280,6 @@ async function main() {
       const bg = db.budget;
       await prisma.budget.upsert({
         where: { year: bg.year || 2026 },
-        // Never overwrite an existing budget row on re-seed — unlike roles,
-        // budget figures are live operational data the user edits through the
-        // app, not fixed configuration that should always sync from code.
         update: {},
         create: {
           year: bg.year || 2026,
@@ -305,9 +287,7 @@ async function main() {
           allocatedResearch: Number(bg.allocatedResearch) || 0,
           allocatedLogistics: Number(bg.allocatedLogistics) || 0,
           allocatedEquipment: Number(bg.allocatedEquipment) || 0,
-          allocatedPersonnel: Number(bg.allocatedPersonnel) || 0,
-          allocatedMissions: Number(bg.allocatedMissions) || 0,
-          allocatedInvestments: Number(bg.allocatedInvestments) || 0
+          allocatedPersonnel: Number(bg.allocatedPersonnel) || 0
         }
       });
     }
@@ -329,6 +309,35 @@ async function main() {
         }).catch(() => {});
       }
     }
+  }
+
+  // 14. Seed du barème de référence "Montants applicables bourses" (ARES)
+  const montantsApplicablesBourses = [
+    { typeBourse: "ETUDES", poste: "Trajet aéroport en Belgique", valeur: "Frais réels, classe éco IATA, max 1 aller-retour/séjour", ordre: 1 },
+    { typeBourse: "ETUDES", poste: "Frais additionnels déplacement international", valeur: "Jusqu'à 200€ compris dans l'allocation ; sur frais réels au-delà, à justifier", ordre: 2 },
+    { typeBourse: "ETUDES", poste: "Allocation de subsistance (mensuelle)", valeur: "1400€/mois (pendant 12 mois)", ordre: 3 },
+    { typeBourse: "ETUDES", poste: "Allocation supplémentaire 13e mois", valeur: "750€", ordre: 4 },
+    { typeBourse: "ETUDES", poste: "Frais de gestion", valeur: "Max 10% des montants engagés et gérés par l'établissement FWB", ordre: 5 },
+    { typeBourse: "DOCTORAT_POSTDOCTORAT", poste: "Allocation de subsistance (doctorat)", valeur: "1 900€/mois complet + 63,33€/jour", ordre: 1 },
+    { typeBourse: "DOCTORAT_POSTDOCTORAT", poste: "Allocation de subsistance (postdoctorat)", valeur: "2 000€/mois complet + 63,33€/jour", ordre: 2 },
+    { typeBourse: "DOCTORAT_POSTDOCTORAT", poste: "Frais d'encadrement par mois", valeur: "300€/mois complet + 10€/jour", ordre: 3 },
+    { typeBourse: "DOCTORAT_POSTDOCTORAT", poste: "Frais de recherche", valeur: "Max 1 000€/mois de séjour en Belgique, plafond 24 000€ sur l'ensemble du doctorat", ordre: 4 },
+    { typeBourse: "RENFORCEMENT_CAPACITES_UNIVERSITE", poste: "Frais additionnels déplacement international", valeur: "Forfait de 200€, ou frais réels si > 200€, à justifier", ordre: 1 },
+    { typeBourse: "RENFORCEMENT_CAPACITES_UNIVERSITE", poste: "Frais de gestion (nationale)", valeur: "350€/mois complet + 11,67€/jour", ordre: 2 },
+    { typeBourse: "RENFORCEMENT_CAPACITES_UNIVERSITE", poste: "Frais de gestion (internationale)", valeur: "437,56€/mois complet + 14,58€/jour", ordre: 3 },
+    { typeBourse: "RENFORCEMENT_CAPACITES_UNIVERSITE", poste: "Subsistance séjour 8-14 jours", valeur: "100€/jour", ordre: 4 },
+    { typeBourse: "RENFORCEMENT_CAPACITES_UNIVERSITE", poste: "Subsistance séjour 15 jours à 3 mois", valeur: "1 500€ (montant fixe)", ordre: 5 },
+    { typeBourse: "RENFORCEMENT_CAPACITES_UNIVERSITE", poste: "Subsistance séjour 1 à 3 mois", valeur: "1 500€/mois complet + 50€/jour (mois incomplet)", ordre: 6 },
+    { typeBourse: "RENFORCEMENT_HE_ESA", poste: "Allocation de subsistance", valeur: "1 900€/mois complet + 63,33€/jour", ordre: 1 },
+    { typeBourse: "RENFORCEMENT_HE_ESA", poste: "Frais d'encadrement par mois", valeur: "300€/mois complet + 10€/jour", ordre: 2 },
+    { typeBourse: "RENFORCEMENT_HE_ESA", poste: "Frais de recherche/opérationnels", valeur: "Max 1 000€/mois de séjour", ordre: 3 },
+    { typeBourse: "ETUDES", poste: "Université - frais d'encadrement cat A", valeur: "19,85€/jour", ordre: 6 },
+    { typeBourse: "ETUDES", poste: "Université - frais d'encadrement cat B", valeur: "39,29€/jour", ordre: 7 },
+    { typeBourse: "ETUDES", poste: "Université - frais d'encadrement cat C", valeur: "59,14€/jour", ordre: 8 }
+  ];
+  console.log(`Seeding ${montantsApplicablesBourses.length} lignes de barème "Montants applicables bourses"...`);
+  for (const mb of montantsApplicablesBourses) {
+    await prisma.montantApplicableBourse.create({ data: mb as any }).catch(() => {});
   }
 
   console.log("Database seed completed successfully.");

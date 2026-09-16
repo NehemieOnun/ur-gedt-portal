@@ -31,7 +31,6 @@ model User {
   function   String?
   bio        String?
   lastLogin  DateTime?
-  lastActiveAt DateTime?
   createdAt  DateTime  @default(now())
 }
 
@@ -160,15 +159,13 @@ model Expense {
 }
 
 model Budget {
-  id                  String @id @default(uuid())
-  year                Int    @unique
-  totalBudget         Float
-  allocatedResearch   Float
+  id                 String @id @default(uuid())
+  year               Int    @unique
+  totalBudget        Float
+  allocatedResearch  Float
   allocatedLogistics  Float
   allocatedEquipment  Float
   allocatedPersonnel  Float
-  allocatedMissions   Float @default(0)
-  allocatedInvestments Float @default(0)
 }
 
 model Log {
@@ -193,4 +190,192 @@ model Notification {
   isRead        Boolean  @default(false)
   recipientRole String?  // Role name or null for all
   createdAt     DateTime @default(now())
+}
+// ------------------------------------------------------------
+// ENUMS
+// ------------------------------------------------------------
+
+enum BudgetCategory {
+  INVESTISSEMENT // Onglet B.
+  FONCTIONNEMENT // Onglet C.
+  PERSONNEL      // Onglet D.
+  EXPEDITION     // Onglet H.
+  FRAIS_ADMIN    // Onglet J.
+}
+
+enum TypeDeplacement {
+  NORD_SUD
+  SUD_SUD
+}
+
+enum SousRubriqueBourse {
+  D1_FORMATION_COURTE_DUREE
+  D2_DOCTORAT_POSTDOCTORAT
+  D3_FRAIS_GESTION_BOURSES
+  D4_ALLOCATION_SUBSISTANCE
+}
+
+enum TypeBourse {
+  ETUDES
+  DOCTORAT_POSTDOCTORAT
+  RENFORCEMENT_CAPACITES_UNIVERSITE
+  RENFORCEMENT_HE_ESA
+}
+
+enum TypeMission {
+  F1_DEPLACEMENT_INTERNE   // planification/premier terrain, coordination
+  F2_DEPLACEMENT_LOCAL     // recherche de terrain
+}
+
+enum SousRubriqueFraisAdmin {
+  J1_EN_BELGIQUE
+  J2_DANS_LE_PAYS_PARTENAIRE
+}
+
+// ------------------------------------------------------------
+// PROJET (onglet "Fiche du projet")
+// ------------------------------------------------------------
+
+model FundingApplication {
+  id                  String   @id @default(cuid())
+  type                String   // liste déroulante, ex: "Amorce" — String plutôt qu'enum tant que la liste complète des valeurs n'est pas confirmée
+  titre               String
+  pays                String
+  coordonnateurNord   String
+  eesCoordonnateurNord String
+  coordonnateurSud    String
+  eesCoordonnateurSud String
+  dureeMois           Int      // ex: 24 — sert à générer dynamiquement "Année I", "Année II", ...
+
+  budgetLines         BudgetLine[]
+  bourseLines         BourseBudgetLine[]
+  missionLines        MissionBudgetLine[]
+
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+// ------------------------------------------------------------
+// LIGNES BUDGÉTAIRES GÉNÉRIQUES
+// (Investissement, Fonctionnement, Personnel, Expédition, Frais admin)
+// ------------------------------------------------------------
+
+model BudgetLine {
+  id              String         @id @default(cuid())
+  fundingApplication FundingApplication @relation(fields: [fundingApplicationId], references: [id], onDelete: Cascade)
+  fundingApplicationId String
+
+  category        BudgetCategory
+  sousRubrique    String         // ex: "C2 Consommables", "A1 Matériels", "J1 En Belgique"
+  description     String?
+  anneeIndex      Int            // 1 = Année I, 2 = Année II, ... (calculé depuis dureeMois du projet)
+
+  // Champs spécifiques à Personnel (D.) — laissés nullables pour les autres catégories
+  etp             Decimal?       @db.Decimal(5, 2)
+  unite           String?        // ex: "jour", "mois"
+
+  montantUnitaire Decimal        @db.Decimal(12, 2)
+  quantite        Decimal        @default(1) @db.Decimal(10, 2)
+  total           Decimal        @db.Decimal(12, 2) // calculé côté application = montantUnitaire * quantite
+
+  // Champs spécifiques à Frais administratifs (J.) uniquement
+  sousRubriqueFraisAdmin SousRubriqueFraisAdmin?
+  montantDisponible      Decimal?  @db.Decimal(12, 2) // pour le calcul de "Vérification"
+
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([fundingApplicationId, category, anneeIndex])
+}
+
+// ------------------------------------------------------------
+// BOURSES (onglet E.)
+// ------------------------------------------------------------
+
+model BourseBudgetLine {
+  id                String             @id @default(cuid())
+  fundingApplication FundingApplication @relation(fields: [fundingApplicationId], references: [id], onDelete: Cascade)
+  fundingApplicationId String
+
+  sousRubrique      SousRubriqueBourse
+  typeBourse        TypeBourse
+  description       String?            // thématique
+  lieuSejour        String
+  anneeIndex        Int
+
+  // Bloc "Allocation de subsistance"
+  dureeMois              Decimal @db.Decimal(5, 2)
+  montantUnitaireMensuel Decimal @db.Decimal(12, 2)
+  treizemeMois           Decimal @default(0) @db.Decimal(12, 2)
+  fraisInscription       Decimal @default(0) @db.Decimal(12, 2)
+  totalSubsistance       Decimal @db.Decimal(12, 2) // calculé = somme des 4 champs ci-dessus
+
+  // Bloc "Déplacements des boursiers"
+  billetAvion            Decimal @default(0) @db.Decimal(12, 2)
+  trajetAeroportBelgique Decimal @default(0) @db.Decimal(12, 2)
+  fraisVisaExceptionnel  Decimal @default(0) @db.Decimal(12, 2)
+  fraisMissionIndirects  Decimal @default(0) @db.Decimal(12, 2)
+  totalDeplacements      Decimal @db.Decimal(12, 2) // calculé = somme des 4 champs ci-dessus
+
+  createdAt         DateTime           @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  @@index([fundingApplicationId, anneeIndex])
+}
+
+// ------------------------------------------------------------
+// MISSIONS (onglet F.-G.)
+// ------------------------------------------------------------
+
+model MissionBudgetLine {
+  id                String          @id @default(cuid())
+  fundingApplication FundingApplication @relation(fields: [fundingApplicationId], references: [id], onDelete: Cascade)
+  fundingApplicationId String
+
+  typeMission       TypeMission
+  typeDeplacement   TypeDeplacement
+  description       String?         // qui, nature: coordination, encadrement, défense de thèse...
+  anneeIndex        Int
+  dureeJours         Int
+
+  // Bloc "Déplacements"
+  billetAvion        Decimal @default(0) @db.Decimal(12, 2)
+  deplacementLocal   Decimal @default(0) @db.Decimal(12, 2)
+  totalDeplacement   Decimal @db.Decimal(12, 2) // calculé
+
+  // Bloc "Q1 Per diem"
+  montantUnitairePerDiem Decimal @default(0) @db.Decimal(12, 2)
+  totalPerDiem           Decimal @db.Decimal(12, 2) // calculé = montantUnitairePerDiem * dureeJours
+
+  // Bloc "Q2 Frais d'hôtel"
+  montantUnitaireHotel   Decimal @default(0) @db.Decimal(12, 2)
+  totalHotel             Decimal @db.Decimal(12, 2) // calculé
+
+  // Bloc "Frais de gestion (accueil)"
+  fraisGestionMission      Decimal @default(0) @db.Decimal(12, 2)
+  fraisDeplacementIntl     Decimal @default(0) @db.Decimal(12, 2)
+
+  // Bloc "Total"
+  totalFraisSejour   Decimal @db.Decimal(12, 2) // calculé
+  totalMontantMission Decimal @db.Decimal(12, 2) // calculé = somme de tous les blocs
+
+  createdAt          DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([fundingApplicationId, anneeIndex])
+}
+
+// ------------------------------------------------------------
+// TABLE DE RÉFÉRENCE — barème "Montants applicables bourses"
+// (lecture seule, seedée via prisma/seed.ts, non modifiable par l'UI)
+// ------------------------------------------------------------
+
+model MontantApplicableBourse {
+  id                String     @id @default(cuid())
+  typeBourse        TypeBourse
+  poste             String     // ex: "Allocation de subsistance (mensuelle)", "Frais d'encadrement par mois"
+  valeur            String     // texte libre car les règles combinent souvent forfait + montant/jour
+  ordre             Int        @default(0) // pour préserver l'ordre d'affichage du barème
+
+  @@index([typeBourse])
 }

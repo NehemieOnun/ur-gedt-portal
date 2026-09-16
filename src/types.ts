@@ -3,7 +3,7 @@ export interface User {
   name: string;
   email: string;
   password?: string;
-  role: 'Super Administrateur' | 'Administrateur' | 'Directeur' | 'Comptable' | 'Secrétaire' | 'Chercheur' | 'Visiteur' | 'Coordonnateur Scientifique et Technique' | 'Coordonnateur Mobilisation Communautaire et Partenariats' | 'Coordonnatrice Administration, Finance et Genre';
+  role: 'Super Administrateur' | 'Administrateur' | 'Directeur' | 'Comptable' | 'Secrétaire' | 'Chercheur' | 'Visiteur';
   active: boolean;
   avatarUrl?: string;
   phone?: string;
@@ -113,8 +113,6 @@ export interface Budget {
   allocatedLogistics: number;
   allocatedEquipment: number;
   allocatedPersonnel: number;
-  allocatedMissions: number;
-  allocatedInvestments: number;
 }
 
 export interface Log {
@@ -143,6 +141,96 @@ export interface SiteSettings {
   whatsapp: string;
 }
 
+// ============================================================
+// STRUCTURE BUDGÉTAIRE ARES (demandes de financement)
+// ============================================================
+
+export type BudgetCategory = 'INVESTISSEMENT' | 'FONCTIONNEMENT' | 'PERSONNEL' | 'EXPEDITION' | 'FRAIS_ADMIN';
+export type TypeDeplacement = 'NORD_SUD' | 'SUD_SUD';
+export type SousRubriqueBourse = 'D1_FORMATION_COURTE_DUREE' | 'D2_DOCTORAT_POSTDOCTORAT' | 'D3_FRAIS_GESTION_BOURSES' | 'D4_ALLOCATION_SUBSISTANCE';
+export type TypeBourse = 'ETUDES' | 'DOCTORAT_POSTDOCTORAT' | 'RENFORCEMENT_CAPACITES_UNIVERSITE' | 'RENFORCEMENT_HE_ESA';
+export type TypeMission = 'F1_DEPLACEMENT_INTERNE' | 'F2_DEPLACEMENT_LOCAL';
+export type SousRubriqueFraisAdmin = 'J1_EN_BELGIQUE' | 'J2_DANS_LE_PAYS_PARTENAIRE';
+
+export interface FundingApplication {
+  id: string;
+  type: string; // ex: "Amorce"
+  titre: string;
+  pays: string;
+  coordonnateurNord: string;
+  eesCoordonnateurNord: string;
+  coordonnateurSud: string;
+  eesCoordonnateurSud: string;
+  dureeMois: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface BudgetLine {
+  id: string;
+  fundingApplicationId: string;
+  category: BudgetCategory;
+  sousRubrique: string;
+  description?: string;
+  anneeIndex: number;
+  etp?: number;
+  unite?: string;
+  montantUnitaire: number;
+  quantite: number;
+  total: number;
+  sousRubriqueFraisAdmin?: SousRubriqueFraisAdmin;
+  montantDisponible?: number;
+}
+
+export interface BourseBudgetLine {
+  id: string;
+  fundingApplicationId: string;
+  sousRubrique: SousRubriqueBourse;
+  typeBourse: TypeBourse;
+  description?: string;
+  lieuSejour: string;
+  anneeIndex: number;
+  dureeMois: number;
+  montantUnitaireMensuel: number;
+  treizemeMois: number;
+  fraisInscription: number;
+  totalSubsistance: number;
+  billetAvion: number;
+  trajetAeroportBelgique: number;
+  fraisVisaExceptionnel: number;
+  fraisMissionIndirects: number;
+  totalDeplacements: number;
+}
+
+export interface MissionBudgetLine {
+  id: string;
+  fundingApplicationId: string;
+  typeMission: TypeMission;
+  typeDeplacement: TypeDeplacement;
+  description?: string;
+  anneeIndex: number;
+  dureeJours: number;
+  billetAvion: number;
+  deplacementLocal: number;
+  totalDeplacement: number;
+  montantUnitairePerDiem: number;
+  totalPerDiem: number;
+  montantUnitaireHotel: number;
+  totalHotel: number;
+  fraisGestionMission: number;
+  fraisDeplacementIntl: number;
+  totalFraisSejour: number;
+  totalMontantMission: number;
+}
+
+export interface MontantApplicableBourse {
+  id: string;
+  typeBourse: TypeBourse;
+  poste: string;
+  valeur: string;
+  ordre: number;
+}
+
 export interface Database {
   users: User[];
   news: News[];
@@ -157,4 +245,9 @@ export interface Database {
   budget: Budget;
   logs: Log[];
   settings?: SiteSettings;
+  fundingApplications: FundingApplication[];
+  budgetLines: BudgetLine[];
+  bourseBudgetLines: BourseBudgetLine[];
+  missionBudgetLines: MissionBudgetLine[];
+  montantsApplicablesBourses: MontantApplicableBourse[];
 }

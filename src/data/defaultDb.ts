@@ -233,12 +233,10 @@ export const DEFAULT_DATABASE: Database = {
   budget: {
     year: 2026,
     totalBudget: 120000,
-    allocatedResearch: 45000,
-    allocatedLogistics: 20000,
-    allocatedEquipment: 20000,
-    allocatedPersonnel: 15000,
-    allocatedMissions: 10000,
-    allocatedInvestments: 10000
+    allocatedResearch: 55000,
+    allocatedLogistics: 25000,
+    allocatedEquipment: 25000,
+    allocatedPersonnel: 15000
   },
   logs: [
     {
@@ -264,5 +262,10 @@ export const DEFAULT_DATABASE: Database = {
     youtube: "https://youtube.com/@urgedt_unilu",
     github: "https://github.com/urgedt-unilu",
     whatsapp: "https://wa.me/243990000000"
-  }
+  },
+  fundingApplications: [],
+  budgetLines: [],
+  bourseBudgetLines: [],
+  missionBudgetLines: [],
+  montantsApplicablesBourses: []
 };
