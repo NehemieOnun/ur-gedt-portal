@@ -1,9 +1,9 @@
 import { Response } from "express";
-import { prisma } from "../config/prisma";
-import { AuthenticatedRequest } from "../middlewares/authMiddleware";
-import { recipeSchema, expenseSchema, newsSchema, projectSchema, contactMessageSchema } from "../validators/zodSchemas";
-import { DEFAULT_DATABASE } from "../../data/defaultDb";
-import { AuthService } from "../services/authService";
+import { prisma } from "../config/prisma.js";
+import { AuthenticatedRequest } from "../middlewares/authMiddleware.js";
+import { recipeSchema, expenseSchema, newsSchema, projectSchema, contactMessageSchema } from "../validators/zodSchemas.js";
+import { DEFAULT_DATABASE } from "../../data/defaultDb.js";
+import { AuthService } from "../services/authService.js";
 
 /**
  * A simple asynchronous mutex lock to serialize database writes.
@@ -38,11 +38,6 @@ export class DbController {
       const dbExpenses = await prisma.expense.findMany({ orderBy: { date: "desc" } });
       const dbBudget = await prisma.budget.findFirst();
       const dbLogs = await prisma.log.findMany({ orderBy: { timestamp: "desc" }, take: 100 });
-      const dbFundingApplications = await prisma.fundingApplication.findMany({ orderBy: { createdAt: "desc" } });
-      const dbBudgetLines = await prisma.budgetLine.findMany();
-      const dbBourseBudgetLines = await prisma.bourseBudgetLine.findMany();
-      const dbMissionBudgetLines = await prisma.missionBudgetLine.findMany();
-      const dbMontantsApplicablesBourses = await prisma.montantApplicableBourse.findMany({ orderBy: { ordre: "asc" } });
       let dbSettings: any = null;
       try {
         dbSettings = await prisma.siteSetting.findFirst();
@@ -65,9 +60,12 @@ export class DbController {
       allocatedResearch: 0,
       allocatedLogistics: 0,
       allocatedEquipment: 0,
-      allocatedPersonnel: 0
+      allocatedPersonnel: 0,
+      allocatedMissions: 0,
+      allocatedInvestments: 0
     };
 
+    const ONLINE_THRESHOLD_MS = 5 * 60 * 1000; // considered online if active in the last 5 minutes
     const users = dbUsers.map((u) => ({
       id: u.id,
       name: u.name,
@@ -81,6 +79,7 @@ export class DbController {
       function: u.function || "",
       bio: u.bio || "",
       lastLogin: u.lastLogin ? u.lastLogin.toISOString() : undefined,
+      isOnline: u.lastActiveAt ? (Date.now() - new Date(u.lastActiveAt).getTime()) < ONLINE_THRESHOLD_MS : false,
       createdAt: u.createdAt ? u.createdAt.toISOString() : undefined
     }));
 
@@ -223,85 +222,6 @@ export class DbController {
       whatsapp: dbSettings.whatsapp || ""
     } : DEFAULT_DATABASE.settings;
 
-    const fundingApplications = dbFundingApplications.map((fa) => ({
-      id: fa.id,
-      type: fa.type,
-      titre: fa.titre,
-      pays: fa.pays,
-      coordonnateurNord: fa.coordonnateurNord,
-      eesCoordonnateurNord: fa.eesCoordonnateurNord,
-      coordonnateurSud: fa.coordonnateurSud,
-      eesCoordonnateurSud: fa.eesCoordonnateurSud,
-      dureeMois: fa.dureeMois,
-      createdAt: fa.createdAt ? fa.createdAt.toISOString() : undefined,
-      updatedAt: fa.updatedAt ? fa.updatedAt.toISOString() : undefined
-    }));
-
-    const budgetLines = dbBudgetLines.map((bl) => ({
-      id: bl.id,
-      fundingApplicationId: bl.fundingApplicationId,
-      category: bl.category,
-      sousRubrique: bl.sousRubrique,
-      description: bl.description || undefined,
-      anneeIndex: bl.anneeIndex,
-      etp: bl.etp !== null ? Number(bl.etp) : undefined,
-      unite: bl.unite || undefined,
-      montantUnitaire: Number(bl.montantUnitaire),
-      quantite: Number(bl.quantite),
-      total: Number(bl.total),
-      sousRubriqueFraisAdmin: bl.sousRubriqueFraisAdmin || undefined,
-      montantDisponible: bl.montantDisponible !== null ? Number(bl.montantDisponible) : undefined
-    }));
-
-    const bourseBudgetLines = dbBourseBudgetLines.map((b) => ({
-      id: b.id,
-      fundingApplicationId: b.fundingApplicationId,
-      sousRubrique: b.sousRubrique,
-      typeBourse: b.typeBourse,
-      description: b.description || undefined,
-      lieuSejour: b.lieuSejour,
-      anneeIndex: b.anneeIndex,
-      dureeMois: Number(b.dureeMois),
-      montantUnitaireMensuel: Number(b.montantUnitaireMensuel),
-      treizemeMois: Number(b.treizemeMois),
-      fraisInscription: Number(b.fraisInscription),
-      totalSubsistance: Number(b.totalSubsistance),
-      billetAvion: Number(b.billetAvion),
-      trajetAeroportBelgique: Number(b.trajetAeroportBelgique),
-      fraisVisaExceptionnel: Number(b.fraisVisaExceptionnel),
-      fraisMissionIndirects: Number(b.fraisMissionIndirects),
-      totalDeplacements: Number(b.totalDeplacements)
-    }));
-
-    const missionBudgetLines = dbMissionBudgetLines.map((m) => ({
-      id: m.id,
-      fundingApplicationId: m.fundingApplicationId,
-      typeMission: m.typeMission,
-      typeDeplacement: m.typeDeplacement,
-      description: m.description || undefined,
-      anneeIndex: m.anneeIndex,
-      dureeJours: m.dureeJours,
-      billetAvion: Number(m.billetAvion),
-      deplacementLocal: Number(m.deplacementLocal),
-      totalDeplacement: Number(m.totalDeplacement),
-      montantUnitairePerDiem: Number(m.montantUnitairePerDiem),
-      totalPerDiem: Number(m.totalPerDiem),
-      montantUnitaireHotel: Number(m.montantUnitaireHotel),
-      totalHotel: Number(m.totalHotel),
-      fraisGestionMission: Number(m.fraisGestionMission),
-      fraisDeplacementIntl: Number(m.fraisDeplacementIntl),
-      totalFraisSejour: Number(m.totalFraisSejour),
-      totalMontantMission: Number(m.totalMontantMission)
-    }));
-
-    const montantsApplicablesBourses = dbMontantsApplicablesBourses.map((mb) => ({
-      id: mb.id,
-      typeBourse: mb.typeBourse,
-      poste: mb.poste,
-      valeur: mb.valeur,
-      ordre: mb.ordre
-    }));
-
     return {
       users,
       news,
@@ -315,12 +235,7 @@ export class DbController {
       expenses,
       budget,
       logs,
-      settings,
-      fundingApplications,
-      budgetLines,
-      bourseBudgetLines,
-      missionBudgetLines,
-      montantsApplicablesBourses
+      settings
     };
     } catch (err) {
       console.error("Prisma error in fetchFullDbData:", err);
@@ -356,11 +271,96 @@ export class DbController {
     try {
       const fullDb = await DbController.fetchFullDbData();
       const { news, activities, projects, publications, gallery, partners, settings } = fullDb;
-      res.json({ news, activities, projects, publications, gallery, partners, settings });
+      // "Notre Équipe" on the public site needs the staff directory, but only the
+      // fields meant to be publicly visible — never phone/department/bio/active
+      // status, and password is already masked upstream in fetchFullDbData.
+      const publicUsers = (fullDb.users || []).map((u: any) => ({
+        id: u.id,
+        name: u.name,
+        email: u.email,
+        role: u.role,
+        avatarUrl: u.avatarUrl
+      }));
+      res.json({ news, activities, projects, publications, gallery, partners, settings, users: publicUsers });
     } catch (err: any) {
       console.warn("getPublicDb error, serving DEFAULT_DATABASE as read-only fallback:", err);
-      const { news, activities, projects, publications, gallery, partners, settings } = DEFAULT_DATABASE;
-      res.json({ news, activities, projects, publications, gallery, partners, settings });
+      const { news, activities, projects, publications, gallery, partners, settings, users } = DEFAULT_DATABASE;
+      const publicUsers = (users || []).map((u: any) => ({
+        id: u.id,
+        name: u.name,
+        email: u.email,
+        role: u.role,
+        avatarUrl: u.avatarUrl
+      }));
+      res.json({ news, activities, projects, publications, gallery, partners, settings, users: publicUsers });
+    }
+  }
+
+  /**
+   * Public, unauthenticated single-document verification lookup — used by the QR
+   * code printed on official documents (expenses, recipes, projects, activities,
+   * publications). Deliberately returns ONLY the one matching record, never a full
+   * table — someone scanning a receipt's QR code shouldn't be able to see every
+   * other financial record in the system just because they're both unauthenticated
+   * lookups against the same underlying data.
+   */
+  public static async verifyDocument(req: any, res: Response) {
+    try {
+      const id = String(req.query.id || "").trim().toLowerCase();
+      const type = String(req.query.type || "").trim().toLowerCase();
+
+      if (!id) {
+        return res.status(400).json({ success: false, error: "Identifiant de document manquant." });
+      }
+
+      const fullDb = await DbController.fetchFullDbData();
+
+      const lookups: Record<string, () => any> = {
+        recette: () => (fullDb.recipes || []).find((r: any) => String(r.id).toLowerCase() === id),
+        depense: () => (fullDb.expenses || []).find((e: any) => String(e.id).toLowerCase() === id),
+        projet: () => (fullDb.projects || []).find((p: any) => String(p.id || "").toLowerCase() === id),
+        activite: () => (fullDb.activities || []).find((a: any) => String(a.id || "").toLowerCase() === id),
+        publication: () => (fullDb.publications || []).find((p: any) => String(p.id || "").toLowerCase() === id)
+      };
+
+      let foundType: string | null = null;
+      let record: any = null;
+
+      if (type && lookups[type]) {
+        record = lookups[type]();
+        if (record) foundType = type;
+      } else {
+        // No type hint (or unknown) — try every table until one matches.
+        for (const [key, lookup] of Object.entries(lookups)) {
+          const match = lookup();
+          if (match) {
+            record = match;
+            foundType = key;
+            break;
+          }
+        }
+      }
+
+      if (!record || !foundType) {
+        return res.status(404).json({ success: false, error: "Document introuvable ou identifiant invalide." });
+      }
+
+      // Return only the fields relevant to verifying a document's authenticity —
+      // never anything else from the record's table.
+      const safeRecord: Record<string, any> = {
+        id: record.id,
+        date: record.date,
+        description: record.description || record.title || null
+      };
+      if ("amount" in record) safeRecord.amount = record.amount;
+      if ("budget" in record) safeRecord.budget = record.budget;
+      if ("category" in record) safeRecord.category = record.category;
+      if ("source" in record) safeRecord.source = record.source;
+
+      res.json({ success: true, type: foundType, record: safeRecord });
+    } catch (err: any) {
+      console.error("verifyDocument error:", err);
+      res.status(503).json({ success: false, error: "Vérification indisponible pour le moment. Réessayez." });
     }
   }
 
@@ -376,12 +376,7 @@ export class DbController {
     recipes: "manage_finances",
     expenses: "manage_finances",
     budget: "approve_budget",
-    users: "manage_users",
-    fundingApplications: "manage_finances",
-    budgetLines: "manage_finances",
-    bourseBudgetLines: "manage_finances",
-    missionBudgetLines: "manage_finances",
-    montantsApplicablesBourses: "approve_budget"
+    users: "manage_users"
   };
 
   /**
@@ -409,11 +404,6 @@ export class DbController {
       if (canonicalTable === "contactmessage" || canonicalTable === "message" || canonicalTable === "contactmessages") canonicalTable = "contactMessages";
       if (canonicalTable === "recipe") canonicalTable = "recipes";
       if (canonicalTable === "expense") canonicalTable = "expenses";
-      if (canonicalTable === "fundingapplication") canonicalTable = "fundingApplications";
-      if (canonicalTable === "budgetline") canonicalTable = "budgetLines";
-      if (canonicalTable === "boursebudgetline") canonicalTable = "bourseBudgetLines";
-      if (canonicalTable === "missionbudgetline") canonicalTable = "missionBudgetLines";
-      if (canonicalTable === "montantapplicablebourse") canonicalTable = "montantsApplicablesBourses";
 
       const requiredPermission = DbController.TABLE_PERMISSIONS[canonicalTable];
       if (!requiredPermission) {
@@ -530,17 +520,31 @@ export class DbController {
           });
         } else if (canonicalTable === "gallery") {
           await prisma.$transaction(async (tx) => {
-            await tx.gallery.deleteMany();
-            if (data.length > 0) {
-              const itemsToCreate = data.map((gal: any) => ({
-                id: String(gal.id || `gal-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`),
-                title: String(gal.title || "Titre de média"),
-                description: String(gal.description || ""),
-                type: String(gal.type || "photo"),
-                url: String(gal.url || ""),
-                date: String(gal.date || new Date().toISOString().split("T")[0])
-              }));
-              await tx.gallery.createMany({ data: itemsToCreate });
+            const itemsToUpsert = data.map((gal: any) => ({
+              id: String(gal.id || `gal-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`),
+              title: String(gal.title || "Titre de média"),
+              description: String(gal.description || ""),
+              type: String(gal.type || "photo"),
+              url: String(gal.url || ""),
+              date: String(gal.date || new Date().toISOString().split("T")[0])
+            }));
+
+            // Diff-based update instead of wipe-and-recreate: only touches rows that
+            // actually changed, instead of deleting and reinserting the whole table on
+            // every save. Much faster (fewer round-trips) and never leaves the table
+            // transiently empty if the save is interrupted partway through.
+            const keepIds = itemsToUpsert.map((g: any) => g.id);
+            if (keepIds.length > 0) {
+              await tx.gallery.deleteMany({ where: { id: { notIn: keepIds } } });
+            } else {
+              await tx.gallery.deleteMany();
+            }
+            for (const item of itemsToUpsert) {
+              await tx.gallery.upsert({
+                where: { id: item.id },
+                update: item,
+                create: item
+              });
             }
           });
         } else if (canonicalTable === "partners") {
@@ -719,7 +723,9 @@ export class DbController {
                 allocatedResearch: Number(budgetObj.allocatedResearch) || 0,
                 allocatedLogistics: Number(budgetObj.allocatedLogistics) || 0,
                 allocatedEquipment: Number(budgetObj.allocatedEquipment) || 0,
-                allocatedPersonnel: Number(budgetObj.allocatedPersonnel) || 0
+                allocatedPersonnel: Number(budgetObj.allocatedPersonnel) || 0,
+                allocatedMissions: Number(budgetObj.allocatedMissions) || 0,
+                allocatedInvestments: Number(budgetObj.allocatedInvestments) || 0
               },
               create: {
                 year: yearVal,
@@ -727,154 +733,11 @@ export class DbController {
                 allocatedResearch: Number(budgetObj.allocatedResearch) || 0,
                 allocatedLogistics: Number(budgetObj.allocatedLogistics) || 0,
                 allocatedEquipment: Number(budgetObj.allocatedEquipment) || 0,
-                allocatedPersonnel: Number(budgetObj.allocatedPersonnel) || 0
+                allocatedPersonnel: Number(budgetObj.allocatedPersonnel) || 0,
+                allocatedMissions: Number(budgetObj.allocatedMissions) || 0,
+                allocatedInvestments: Number(budgetObj.allocatedInvestments) || 0
               }
             });
-          });
-        } else if (canonicalTable === "fundingApplications") {
-          await prisma.$transaction(async (tx) => {
-            await tx.fundingApplication.deleteMany();
-            if (data.length > 0) {
-              const itemsToCreate = data.map((fa: any) => ({
-                id: String(fa.id || `fa-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`),
-                type: String(fa.type || "Amorce"),
-                titre: String(fa.titre || "Titre non renseigné"),
-                pays: String(fa.pays || ""),
-                coordonnateurNord: String(fa.coordonnateurNord || ""),
-                eesCoordonnateurNord: String(fa.eesCoordonnateurNord || ""),
-                coordonnateurSud: String(fa.coordonnateurSud || ""),
-                eesCoordonnateurSud: String(fa.eesCoordonnateurSud || ""),
-                dureeMois: Math.round(Number(fa.dureeMois)) || 24
-              }));
-              await tx.fundingApplication.createMany({ data: itemsToCreate });
-            }
-          });
-        } else if (canonicalTable === "budgetLines") {
-          await prisma.$transaction(async (tx) => {
-            await tx.budgetLine.deleteMany();
-            if (data.length > 0) {
-              const itemsToCreate = data.map((bl: any) => {
-                const montantUnitaire = Number(bl.montantUnitaire) || 0;
-                const quantite = Number(bl.quantite) || 1;
-                return {
-                  id: String(bl.id || `bl-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`),
-                  fundingApplicationId: String(bl.fundingApplicationId),
-                  category: String(bl.category),
-                  sousRubrique: String(bl.sousRubrique || ""),
-                  description: bl.description ? String(bl.description) : null,
-                  anneeIndex: Math.round(Number(bl.anneeIndex)) || 1,
-                  etp: bl.etp !== undefined && bl.etp !== null ? Number(bl.etp) : null,
-                  unite: bl.unite ? String(bl.unite) : null,
-                  montantUnitaire,
-                  quantite,
-                  total: montantUnitaire * quantite,
-                  sousRubriqueFraisAdmin: bl.sousRubriqueFraisAdmin ? String(bl.sousRubriqueFraisAdmin) : null,
-                  montantDisponible: bl.montantDisponible !== undefined && bl.montantDisponible !== null ? Number(bl.montantDisponible) : null
-                };
-              });
-              await tx.budgetLine.createMany({ data: itemsToCreate });
-            }
-          });
-        } else if (canonicalTable === "bourseBudgetLines") {
-          await prisma.$transaction(async (tx) => {
-            await tx.bourseBudgetLine.deleteMany();
-            if (data.length > 0) {
-              const itemsToCreate = data.map((b: any) => {
-                const montantUnitaireMensuel = Number(b.montantUnitaireMensuel) || 0;
-                const dureeMois = Number(b.dureeMois) || 0;
-                const treizemeMois = Number(b.treizemeMois) || 0;
-                const fraisInscription = Number(b.fraisInscription) || 0;
-                const totalSubsistance = (montantUnitaireMensuel * dureeMois) + treizemeMois + fraisInscription;
-
-                const billetAvion = Number(b.billetAvion) || 0;
-                const trajetAeroportBelgique = Number(b.trajetAeroportBelgique) || 0;
-                const fraisVisaExceptionnel = Number(b.fraisVisaExceptionnel) || 0;
-                const fraisMissionIndirects = Number(b.fraisMissionIndirects) || 0;
-                const totalDeplacements = billetAvion + trajetAeroportBelgique + fraisVisaExceptionnel + fraisMissionIndirects;
-
-                return {
-                  id: String(b.id || `bb-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`),
-                  fundingApplicationId: String(b.fundingApplicationId),
-                  sousRubrique: String(b.sousRubrique),
-                  typeBourse: String(b.typeBourse),
-                  description: b.description ? String(b.description) : null,
-                  lieuSejour: String(b.lieuSejour || ""),
-                  anneeIndex: Math.round(Number(b.anneeIndex)) || 1,
-                  dureeMois,
-                  montantUnitaireMensuel,
-                  treizemeMois,
-                  fraisInscription,
-                  totalSubsistance,
-                  billetAvion,
-                  trajetAeroportBelgique,
-                  fraisVisaExceptionnel,
-                  fraisMissionIndirects,
-                  totalDeplacements
-                };
-              });
-              await tx.bourseBudgetLine.createMany({ data: itemsToCreate });
-            }
-          });
-        } else if (canonicalTable === "missionBudgetLines") {
-          await prisma.$transaction(async (tx) => {
-            await tx.missionBudgetLine.deleteMany();
-            if (data.length > 0) {
-              const itemsToCreate = data.map((m: any) => {
-                const dureeJours = Math.round(Number(m.dureeJours)) || 0;
-                const billetAvion = Number(m.billetAvion) || 0;
-                const deplacementLocal = Number(m.deplacementLocal) || 0;
-                const totalDeplacement = billetAvion + deplacementLocal;
-
-                const montantUnitairePerDiem = Number(m.montantUnitairePerDiem) || 0;
-                const totalPerDiem = montantUnitairePerDiem * dureeJours;
-
-                const montantUnitaireHotel = Number(m.montantUnitaireHotel) || 0;
-                const totalHotel = montantUnitaireHotel * dureeJours;
-
-                const fraisGestionMission = Number(m.fraisGestionMission) || 0;
-                const fraisDeplacementIntl = Number(m.fraisDeplacementIntl) || 0;
-
-                const totalFraisSejour = totalPerDiem + totalHotel;
-                const totalMontantMission = totalDeplacement + totalFraisSejour + fraisGestionMission + fraisDeplacementIntl;
-
-                return {
-                  id: String(m.id || `mb-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`),
-                  fundingApplicationId: String(m.fundingApplicationId),
-                  typeMission: String(m.typeMission),
-                  typeDeplacement: String(m.typeDeplacement),
-                  description: m.description ? String(m.description) : null,
-                  anneeIndex: Math.round(Number(m.anneeIndex)) || 1,
-                  dureeJours,
-                  billetAvion,
-                  deplacementLocal,
-                  totalDeplacement,
-                  montantUnitairePerDiem,
-                  totalPerDiem,
-                  montantUnitaireHotel,
-                  totalHotel,
-                  fraisGestionMission,
-                  fraisDeplacementIntl,
-                  totalFraisSejour,
-                  totalMontantMission
-                };
-              });
-              await tx.missionBudgetLine.createMany({ data: itemsToCreate });
-            }
-          });
-        } else if (canonicalTable === "montantsApplicablesBourses") {
-          // Table de référence (barème) — modifiable uniquement avec la permission "approve_budget"
-          await prisma.$transaction(async (tx) => {
-            await tx.montantApplicableBourse.deleteMany();
-            if (data.length > 0) {
-              const itemsToCreate = data.map((mb: any, idx: number) => ({
-                id: String(mb.id || `mab-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`),
-                typeBourse: String(mb.typeBourse),
-                poste: String(mb.poste || ""),
-                valeur: String(mb.valeur || ""),
-                ordre: mb.ordre !== undefined ? Math.round(Number(mb.ordre)) : idx
-              }));
-              await tx.montantApplicableBourse.createMany({ data: itemsToCreate });
-            }
           });
         } else {
           return res.status(400).json({ success: false, error: `Table '${tableName}' inconnue` });
@@ -1154,7 +1017,7 @@ export class DbController {
    */
   public static async updateBudget(req: any, res: Response) {
     try {
-      const { year, totalBudget, allocatedResearch, allocatedLogistics, allocatedEquipment, allocatedPersonnel } = req.body;
+      const { year, totalBudget, allocatedResearch, allocatedLogistics, allocatedEquipment, allocatedPersonnel, allocatedMissions, allocatedInvestments } = req.body;
       const parsedYear = Number(year) || 2026;
 
       const updated = await prisma.budget.upsert({
@@ -1164,7 +1027,9 @@ export class DbController {
           allocatedResearch: Number(allocatedResearch) || 0,
           allocatedLogistics: Number(allocatedLogistics) || 0,
           allocatedEquipment: Number(allocatedEquipment) || 0,
-          allocatedPersonnel: Number(allocatedPersonnel) || 0
+          allocatedPersonnel: Number(allocatedPersonnel) || 0,
+          allocatedMissions: Number(allocatedMissions) || 0,
+          allocatedInvestments: Number(allocatedInvestments) || 0
         },
         create: {
           year: parsedYear,
@@ -1172,7 +1037,9 @@ export class DbController {
           allocatedResearch: Number(allocatedResearch) || 0,
           allocatedLogistics: Number(allocatedLogistics) || 0,
           allocatedEquipment: Number(allocatedEquipment) || 0,
-          allocatedPersonnel: Number(allocatedPersonnel) || 0
+          allocatedPersonnel: Number(allocatedPersonnel) || 0,
+          allocatedMissions: Number(allocatedMissions) || 0,
+          allocatedInvestments: Number(allocatedInvestments) || 0
         }
       });
 
