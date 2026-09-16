@@ -2751,10 +2751,10 @@ export default function AdminDashboard({
                   <div className="space-y-4">
                     {(() => {
                       const categories = [
-                        { name: "Recherche & Enquêtes", amount: db.budget.allocatedResearch, color: "bg-[#D4AF37]" },
-                        { name: "Logistique Terrain", amount: db.budget.allocatedLogistics, color: "bg-blue-400" },
-                        { name: "Matériels Labo", amount: db.budget.allocatedEquipment, color: "bg-emerald-400" },
-                        { name: "Personnel & RH", amount: db.budget.allocatedPersonnel, color: "bg-purple-400" },
+                        { name: "Fonctionnement", amount: db.budget.allocatedResearch, color: "bg-[#D4AF37]" },
+                        { name: "Bourses", amount: db.budget.allocatedLogistics, color: "bg-blue-400" },
+                        { name: "Frais Administratifs", amount: db.budget.allocatedEquipment, color: "bg-emerald-400" },
+                        { name: "Personnel", amount: db.budget.allocatedPersonnel, color: "bg-purple-400" },
                         { name: "Missions", amount: db.budget.allocatedMissions || 0, color: "bg-orange-400" },
                         { name: "Investissements", amount: db.budget.allocatedInvestments || 0, color: "bg-rose-400" }
                       ];
@@ -3196,26 +3196,36 @@ export default function AdminDashboard({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-1 h-full bg-emerald-500/50" />
-                    <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Recherche & Études</p>
+                    <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Fonctionnement</p>
                     <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedResearch || 0).toLocaleString()} USD</p>
                   </div>
                   <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-1 h-full bg-blue-500/50" />
-                    <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Logistique Terrain</p>
+                    <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Bourses</p>
                     <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedLogistics || 0).toLocaleString()} USD</p>
                   </div>
                   <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-1 h-full bg-[#D4AF37]/50" />
-                    <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Matériels Scientifiques</p>
+                    <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Frais Administratifs</p>
                     <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedEquipment || 0).toLocaleString()} USD</p>
                   </div>
                   <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-1 h-full bg-purple-500/50" />
-                    <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Ressources Humaines</p>
+                    <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Personnel</p>
                     <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedPersonnel || 0).toLocaleString()} USD</p>
+                  </div>
+                  <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-1 h-full bg-orange-500/50" />
+                    <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Missions</p>
+                    <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedMissions || 0).toLocaleString()} USD</p>
+                  </div>
+                  <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-1 h-full bg-rose-500/50" />
+                    <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Investissements</p>
+                    <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedInvestments || 0).toLocaleString()} USD</p>
                   </div>
                 </div>
               </div>
@@ -6811,7 +6821,7 @@ export default function AdminDashboard({
                     {/* Recherche & Etudes */}
                     <div className="p-3.5 bg-[#161616] border border-white/10 rounded-xl space-y-1.5">
                       <label className="block text-xs font-bold text-emerald-400 uppercase font-mono">
-                        Recherche & Études
+                        Fonctionnement
                       </label>
                       <input
                         type="number"
@@ -6826,7 +6836,7 @@ export default function AdminDashboard({
                     {/* Logistique Terrain */}
                     <div className="p-3.5 bg-[#161616] border border-white/10 rounded-xl space-y-1.5">
                       <label className="block text-xs font-bold text-blue-400 uppercase font-mono">
-                        Logistique Terrain
+                        Bourses
                       </label>
                       <input
                         type="number"
@@ -6841,7 +6851,7 @@ export default function AdminDashboard({
                     {/* Matériels Scientifiques */}
                     <div className="p-3.5 bg-[#161616] border border-white/10 rounded-xl space-y-1.5">
                       <label className="block text-xs font-bold text-[#D4AF37] uppercase font-mono">
-                        Matériels Scientifiques
+                        Frais Administratifs
                       </label>
                       <input
                         type="number"
@@ -6856,7 +6866,7 @@ export default function AdminDashboard({
                     {/* Ressources Humaines */}
                     <div className="p-3.5 bg-[#161616] border border-white/10 rounded-xl space-y-1.5">
                       <label className="block text-xs font-bold text-purple-400 uppercase font-mono">
-                        Ressources Humaines
+                        Personnel
                       </label>
                       <input
                         type="number"
