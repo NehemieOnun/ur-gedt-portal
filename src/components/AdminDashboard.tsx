@@ -23,14 +23,16 @@ import {
   Upload, FolderOpen, Sparkles, Eye, EyeOff, Key, UserPlus, Music, File, FileUp,
   AlertTriangle, Loader2, Download, Sun, Moon,
   WifiOff, Save, HardDrive, CheckCircle2, Maximize2, Minimize2, Keyboard, Command,
-  ShieldCheck, ShieldOff, Grid, List, AlertCircle, QrCode, Settings, Phone, RotateCcw, Sliders, PieChart
+  ShieldCheck, ShieldOff, Grid, List, AlertCircle, QrCode, Settings, Phone, RotateCcw, Sliders, PieChart, Layers, Plane, GraduationCap, Building2
 } from "lucide-react";
-import { Database, User, News, Project, FieldActivity, Publication, GalleryItem, Partner, ContactMessage, Recipe, Expense, SiteSettings, Budget } from "../types";
+import { Database, User, News, Project, FieldActivity, Publication, GalleryItem, Partner, ContactMessage, Recipe, Expense, SiteSettings, Budget, FundingApplication, AresBudgetLine, BourseBudgetLine, MissionBudgetLine, MontantApplicableBourse, BudgetSynthese, BudgetLineCategory, FundingApplicationType } from "../types";
 import CalendarPanel from "./CalendarPanel";
 import ConfirmationModal from "./ConfirmationModal";
 import ToastContainer, { ToastMessage } from "./ToastContainer";
 import QrScannerModal from "./QrScannerModal";
 import { PersonnelManager } from "./PersonnelManager";
+import AresBudgetManager from "./AresBudgetManager";
+import AresBudgetPanel from "./AresBudgetPanel";
 
 interface AdminDashboardProps {
   db: Database;
@@ -1207,6 +1209,8 @@ export default function AdminDashboard({
   const sidebarItems = [
     { id: "dashboard", label: "Tableau de Bord", icon: <LayoutDashboard className="h-5 w-5" />, visible: true },
     { id: "finances", label: "Finances & Budget", icon: <DollarSign className="h-5 w-5" />, visible: canViewFinances() },
+    { id: "ares", label: "Budget ARES", icon: <Sliders className="h-5 w-5" />, visible: hasPerm("manage_finances") },
+    { id: "ares", label: "Budget ARES", icon: <Layers className="h-5 w-5" />, visible: hasPerm("manage_finances") },
     { id: "actualites", label: "Actualités", icon: <FileText className="h-5 w-5" />, visible: true },
     { id: "projets", label: "Projets Académiques", icon: <Briefcase className="h-5 w-5" />, visible: true },
     { id: "activites", label: "Activités Terrain", icon: <Activity className="h-5 w-5" />, visible: true },
@@ -2963,6 +2967,11 @@ export default function AdminDashboard({
             </div>
           )}
 
+          {/* PANEL: ARES BUDGET MODULE */}
+          {activePanel === "ares" && (
+            <AresBudgetPanel addToast={addToast} />
+          )}
+
           {/* PANEL: FINANCES MODULE */}
           {activePanel === "finances" && (
             <div className="space-y-8">
@@ -3478,6 +3487,11 @@ export default function AdminDashboard({
               </div>
 
             </div>
+          )}
+
+          {/* PANEL: BUDGET ARES */}
+          {activePanel === "ares" && hasPerm("manage_finances") && (
+            <AresBudgetManager addToast={addToast} />
           )}
 
           {/* PANEL: ACTUALITES (NEWS) */}
