@@ -83,3 +83,65 @@ export const projectSchema = z.object({
   spentAmount: z.coerce.number().nonnegative(),
   lastUpdate: z.string()
 });
+
+// ============================================================================
+// ARES FUNDING BUDGET MODULE
+// ============================================================================
+
+export const fundingApplicationSchema = z.object({
+  id: z.string().optional(),
+  type: z.enum(["AMORCE", "PROJET_PILOTE", "PROJET_STANDARD"]).default("AMORCE"),
+  titre: z.string().min(3, "Le titre du projet est requis (3 caractères min)."),
+  pays: z.string().min(2, "Le pays est requis."),
+  coordonnateurNord: z.string().min(2, "Le coordonnateur nord est requis."),
+  eesCoordonnateurNord: z.string().min(2, "L'EES du coordonnateur nord est requise."),
+  coordonnateurSud: z.string().min(2, "Le coordonnateur sud est requis."),
+  eesCoordonnateurSud: z.string().min(2, "L'EES du coordonnateur sud est requise."),
+  dureeMois: z.coerce.number().int().positive("La durée doit être un nombre de mois positif.")
+});
+
+export const budgetLineSchema = z.object({
+  id: z.string().optional(),
+  fundingApplicationId: z.string().min(1, "Fiche de financement manquante."),
+  category: z.enum(["INVESTISSEMENT", "FONCTIONNEMENT", "PERSONNEL", "EXPEDITION", "FRAIS_ADMIN"]),
+  sousRubrique: z.string().min(1, "La sous-rubrique est requise."),
+  description: z.string().min(1, "La description est requise."),
+  anneeIndex: z.coerce.number().int().positive(),
+  montantUnitaire: z.coerce.number().nonnegative(),
+  quantite: z.coerce.number().positive().default(1),
+  etp: z.coerce.number().nonnegative().optional(),
+  unite: z.string().optional()
+});
+
+export const bourseBudgetLineSchema = z.object({
+  id: z.string().optional(),
+  fundingApplicationId: z.string().min(1, "Fiche de financement manquante."),
+  sousRubrique: z.string().min(1, "La sous-rubrique (type de bourse) est requise."),
+  description: z.string().min(1, "La description est requise."),
+  lieuSejour: z.string().min(1, "Le lieu de séjour est requis."),
+  anneeIndex: z.coerce.number().int().positive(),
+  dureeBourseMois: z.coerce.number().nonnegative().default(0),
+  montantUnitaireAlloc: z.coerce.number().nonnegative().default(0),
+  treizemeMois: z.coerce.number().nonnegative().default(0),
+  fraisInscription: z.coerce.number().nonnegative().default(0),
+  billetAvion: z.coerce.number().nonnegative().default(0),
+  trajetAeroportBelgique: z.coerce.number().nonnegative().default(0),
+  fraisVisa: z.coerce.number().nonnegative().default(0),
+  fraisMissionIndirects: z.coerce.number().nonnegative().default(0)
+});
+
+export const missionBudgetLineSchema = z.object({
+  id: z.string().optional(),
+  fundingApplicationId: z.string().min(1, "Fiche de financement manquante."),
+  typeMission: z.string().min(1, "Le type de mission est requis."),
+  typeDeplacement: z.enum(["Nord-Sud", "Sud-Sud"]),
+  description: z.string().min(1, "La description est requise."),
+  anneeIndex: z.coerce.number().int().positive(),
+  dureeJours: z.coerce.number().int().nonnegative().default(0),
+  billetAvion: z.coerce.number().nonnegative().default(0),
+  deplacementLocal: z.coerce.number().nonnegative().default(0),
+  perDiemUnitaire: z.coerce.number().nonnegative().default(0),
+  hotelUnitaire: z.coerce.number().nonnegative().default(0),
+  fraisGestionAccueil: z.coerce.number().nonnegative().default(0),
+  fraisDeplacementsIntl: z.coerce.number().nonnegative().default(0)
+});

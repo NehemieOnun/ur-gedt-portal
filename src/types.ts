@@ -156,5 +156,104 @@ export interface Database {
   expenses: Expense[];
   budget: Budget;
   logs: Log[];
-  settings?: SiteSettings;
+  settings: SiteSettings;
+}
+
+// ── ARES Funding Budget Module ──────────────────────────────────────────
+
+export type FundingApplicationType = "AMORCE" | "PROJET_PILOTE" | "PROJET_STANDARD";
+
+export type BudgetLineCategory = "INVESTISSEMENT" | "FONCTIONNEMENT" | "PERSONNEL" | "EXPEDITION" | "FRAIS_ADMIN";
+
+export interface FundingApplication {
+  id: string;
+  type: FundingApplicationType;
+  titre: string;
+  pays: string;
+  coordonnateurNord: string;
+  eesCoordonnateurNord: string;
+  coordonnateurSud: string;
+  eesCoordonnateurSud: string;
+  dureeMois: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface AresBudgetLine {
+  id: string;
+  fundingApplicationId: string;
+  category: BudgetLineCategory;
+  sousRubrique: string;
+  description: string;
+  anneeIndex: number;
+  montantUnitaire: number;
+  quantite: number;
+  total: number;
+  etp?: number | null;
+  unite?: string | null;
+}
+
+export interface BourseBudgetLine {
+  id: string;
+  fundingApplicationId: string;
+  sousRubrique: string;
+  description: string;
+  lieuSejour: string;
+  anneeIndex: number;
+  dureeBourseMois: number;
+  montantUnitaireAlloc: number;
+  treizemeMois: number;
+  fraisInscription: number;
+  totalAllocation: number;
+  billetAvion: number;
+  trajetAeroportBelgique: number;
+  fraisVisa: number;
+  fraisMissionIndirects: number;
+  totalDeplacements: number;
+}
+
+export interface MissionBudgetLine {
+  id: string;
+  fundingApplicationId: string;
+  typeMission: string;
+  typeDeplacement: string;
+  description: string;
+  anneeIndex: number;
+  dureeJours: number;
+  billetAvion: number;
+  deplacementLocal: number;
+  totalDeplacement: number;
+  perDiemUnitaire: number;
+  totalPerDiem: number;
+  hotelUnitaire: number;
+  totalHotel: number;
+  fraisGestionAccueil: number;
+  fraisDeplacementsIntl: number;
+  totalFraisSejour: number;
+  totalMontantMission: number;
+}
+
+export interface MontantApplicableBourse {
+  id: string;
+  typeBourse: string;
+  trajetAeroport: string;
+  fraisAdditionnels: string;
+  allocationMensuelle: string;
+  allocation13eMois: string;
+  fraisEncadrement: string;
+  fraisRecherche: string;
+  fraisAssurance: string;
+  fraisGestion: string;
+  subsistance8_14j: string;
+  subsistance15j3m: string;
+  subsistance1_3m: string;
+}
+
+export interface BudgetSynthese {
+  categories: {
+    category: BudgetLineCategory | "BOURSE" | "MISSION";
+    label: string;
+    total: number;
+  }[];
+  totalGeneral: number;
 }

@@ -3,6 +3,7 @@ import { AuthController } from "../controllers/authController.js";
 import { DbController } from "../controllers/dbController.js";
 import { requirePermission, requireAuth } from "../middlewares/authMiddleware.js";
 import { GeminiService } from "../services/geminiService.js";
+import { AresBudgetController } from "../controllers/aresBudgetController.js";
 
 const router = Router();
 
@@ -94,5 +95,25 @@ router.post("/gemini/scan-financial-pdf", requirePermission("manage_finances"), 
     res.status(500).json({ success: false, error: msg });
   }
 });
+
+// --- ARES FUNDING BUDGET MODULE ---
+
+router.get("/ares/applications", requirePermission("manage_finances"), AresBudgetController.listFundingApplications);
+router.get("/ares/applications/:id", requirePermission("manage_finances"), AresBudgetController.getFundingApplication);
+router.post("/ares/applications", requirePermission("manage_finances"), AresBudgetController.createFundingApplication);
+router.put("/ares/applications/:id", requirePermission("manage_finances"), AresBudgetController.updateFundingApplication);
+router.delete("/ares/applications/:id", requirePermission("manage_finances"), AresBudgetController.deleteFundingApplication);
+
+router.post("/ares/budget-lines", requirePermission("manage_finances"), AresBudgetController.upsertBudgetLine);
+router.delete("/ares/budget-lines/:id", requirePermission("manage_finances"), AresBudgetController.deleteBudgetLine);
+
+router.post("/ares/bourse-lines", requirePermission("manage_finances"), AresBudgetController.upsertBourseLine);
+router.delete("/ares/bourse-lines/:id", requirePermission("manage_finances"), AresBudgetController.deleteBourseLine);
+
+router.post("/ares/mission-lines", requirePermission("manage_finances"), AresBudgetController.upsertMissionLine);
+router.delete("/ares/mission-lines/:id", requirePermission("manage_finances"), AresBudgetController.deleteMissionLine);
+
+router.get("/ares/applications/:id/synthese", requirePermission("manage_finances"), AresBudgetController.getBudgetSynthese);
+router.get("/ares/baremes-bourse", requirePermission("manage_finances"), AresBudgetController.getMontantsApplicablesBourse);
 
 export default router;

@@ -312,6 +312,76 @@ async function main() {
       });
     }
 
+    // 12b. Seed the read-only ARES scholarship reference table (barème),
+    // exactly as specified in the ARES budget integration document. This is
+    // never editable from the UI — only re-synced here on seed.
+    console.log("Seeding MontantApplicableBourse (barème ARES)...");
+    const baremes = [
+      {
+        typeBourse: "Études",
+        trajetAeroport: "Frais réels, classe éco IATA, max 1 aller-retour/séjour",
+        fraisAdditionnels: "Jusqu'à 200€ compris ; forfait 200€ si >200€ réels justifiés",
+        allocationMensuelle: "1400€/mois (12 mois)",
+        allocation13eMois: "750€",
+        fraisEncadrement: "300€/mois + 10€/jour",
+        fraisRecherche: "—",
+        fraisAssurance: "Payés directement par l'ARES",
+        fraisGestion: "Max 10% des montants gérés par la FWB",
+        subsistance8_14j: "100€/jour",
+        subsistance15j3m: "1 500€ forfait",
+        subsistance1_3m: "1 500€/mois + 50€/jour (mois incomplet)"
+      },
+      {
+        typeBourse: "Doctorat & Postdoctorat",
+        trajetAeroport: "idem",
+        fraisAdditionnels: "idem",
+        allocationMensuelle: "Doctorat 1 900€/mois + 63,33€/j ; Postdoc 2 000€/mois + ...",
+        allocation13eMois: "—",
+        fraisEncadrement: "voir lignes doctorat",
+        fraisRecherche: "Max 1 000€/mois, plafond 24 000€ sur le doctorat",
+        fraisAssurance: "idem",
+        fraisGestion: "—",
+        subsistance8_14j: "idem",
+        subsistance15j3m: "idem",
+        subsistance1_3m: "idem"
+      },
+      {
+        typeBourse: "Renforcement capacités université",
+        trajetAeroport: "idem",
+        fraisAdditionnels: "idem",
+        allocationMensuelle: "Forfait 200€ / réel si >200€",
+        allocation13eMois: "—",
+        fraisEncadrement: "—",
+        fraisRecherche: "—",
+        fraisAssurance: "idem",
+        fraisGestion: "Nationale 350€/mois + 11,67€/j ; Intl 437,56€/mois + 14,58€/j",
+        subsistance8_14j: "idem",
+        subsistance15j3m: "idem",
+        subsistance1_3m: "idem"
+      },
+      {
+        typeBourse: "Renforcement HE-ESA",
+        trajetAeroport: "idem",
+        fraisAdditionnels: "idem",
+        allocationMensuelle: "1 900€/mois + 63,33€/j",
+        allocation13eMois: "—",
+        fraisEncadrement: "300€/mois + 10€/jour",
+        fraisRecherche: "Max 1 000€/mois",
+        fraisAssurance: "idem",
+        fraisGestion: "—",
+        subsistance8_14j: "idem",
+        subsistance15j3m: "idem",
+        subsistance1_3m: "idem"
+      }
+    ];
+    for (const b of baremes) {
+      await prisma.montantApplicableBourse.upsert({
+        where: { typeBourse: b.typeBourse },
+        update: b,
+        create: b
+      });
+    }
+
     // 13. Seed Logs
     if (db.logs && Array.isArray(db.logs)) {
       console.log(`Seeding ${db.logs.length} logs...`);
@@ -332,6 +402,77 @@ async function main() {
   }
 
   console.log("Database seed completed successfully.");
+
+  // 14. Seed the ARES bourse reference table (barème) — read-only for the UI,
+  // updated in place on every seed run since this is fixed reference data,
+  // not user-editable operational data (unlike budget/personnel).
+  console.log("Seeding ARES bourse reference table (barème)...");
+  const baremes = [
+    {
+      typeBourse: "Études",
+      trajetAeroport: "Frais réels, classe éco IATA, max 1 aller-retour/séjour",
+      fraisAdditionnels: "Jusqu'à 200€ compris ; forfait 200€ si >200€ réels justifiés",
+      allocationMensuelle: "1400€/mois (12 mois)",
+      allocation13eMois: "750€",
+      fraisEncadrement: "300€/mois + 10€/jour",
+      fraisRecherche: "—",
+      fraisAssurance: "Payés directement par l'ARES",
+      fraisGestion: "Max 10% des montants gérés par la FWB",
+      subsistance8_14j: "100€/jour",
+      subsistance15j3m: "1 500€ forfait",
+      subsistance1_3m: "1 500€/mois + 50€/jour (mois incomplet)"
+    },
+    {
+      typeBourse: "Doctorat & Postdoctorat",
+      trajetAeroport: "idem",
+      fraisAdditionnels: "idem",
+      allocationMensuelle: "Doctorat 1 900€/mois + 63,33€/j ; Postdoc 2 000€/mois + ...",
+      allocation13eMois: "—",
+      fraisEncadrement: "voir lignes doctorat",
+      fraisRecherche: "Max 1 000€/mois, plafond 24 000€ sur le doctorat",
+      fraisAssurance: "idem",
+      fraisGestion: "—",
+      subsistance8_14j: "idem",
+      subsistance15j3m: "idem",
+      subsistance1_3m: "idem"
+    },
+    {
+      typeBourse: "Renforcement capacités université",
+      trajetAeroport: "idem",
+      fraisAdditionnels: "idem",
+      allocationMensuelle: "Forfait 200€ / réel si >200€",
+      allocation13eMois: "—",
+      fraisEncadrement: "—",
+      fraisRecherche: "—",
+      fraisAssurance: "idem",
+      fraisGestion: "Nationale 350€/mois + 11,67€/j ; Intl 437,56€/mois + 14,58€/j",
+      subsistance8_14j: "idem",
+      subsistance15j3m: "idem",
+      subsistance1_3m: "idem"
+    },
+    {
+      typeBourse: "Renforcement HE-ESA",
+      trajetAeroport: "idem",
+      fraisAdditionnels: "idem",
+      allocationMensuelle: "1 900€/mois + 63,33€/j",
+      allocation13eMois: "—",
+      fraisEncadrement: "300€/mois + 10€/jour",
+      fraisRecherche: "Max 1 000€/mois",
+      fraisAssurance: "idem",
+      fraisGestion: "—",
+      subsistance8_14j: "idem",
+      subsistance15j3m: "idem",
+      subsistance1_3m: "idem"
+    }
+  ];
+  for (const b of baremes) {
+    await prisma.montantApplicableBourse.upsert({
+      where: { typeBourse: b.typeBourse },
+      update: b,
+      create: b
+    });
+  }
+  console.log("Barème ARES seeded successfully.");
 }
 
 main()

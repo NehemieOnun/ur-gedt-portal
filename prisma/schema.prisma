@@ -194,3 +194,155 @@ model Notification {
   recipientRole String?  // Role name or null for all
   createdAt     DateTime @default(now())
 }
+
+// ============================================================================
+// ARES FUNDING BUDGET MODULE
+// Detailed, category-based budget structure for ARES-style funding
+// applications (grant proposals with year-by-year, sub-category-level
+// budgeting), separate from the general accounting tables above
+// (Recipe/Expense/Budget), which remain unchanged and continue to serve
+// day-to-day institutional accounting.
+// ============================================================================
+
+enum BudgetLineCategory {
+  INVESTISSEMENT
+  FONCTIONNEMENT
+  PERSONNEL
+  EXPEDITION
+  FRAIS_ADMIN
+}
+
+enum FundingApplicationType {
+  AMORCE
+  PROJET_PILOTE
+  PROJET_STANDARD
+}
+
+model FundingApplication {
+  id                  String   @id @default(uuid())
+  type                FundingApplicationType @default(AMORCE)
+  titre               String
+  pays                String
+  coordonnateurNord   String
+  eesCoordonnateurNord String
+  coordonnateurSud    String
+  eesCoordonnateurSud String
+  dureeMois           Int      @default(24)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  budgetLines         BudgetLine[]
+  bourseLines         BourseBudgetLine[]
+  missionLines        MissionBudgetLine[]
+}
+
+/// Generic budget line covering Investissement (A), Fonctionnement (B),
+/// Personnel (C), Expédition (H), and Frais administratifs (J) — these five
+/// tabs share the same core column shape (sous-rubrique, description, year,
+/// unit amount, quantity, total), with a couple of category-specific optional
+/// fields (etp/unite for Personnel).
+model BudgetLine {
+  id                  String             @id @default(uuid())
+  fundingApplicationId String
+  fundingApplication  FundingApplication @relation(fields: [fundingApplicationId], references: [id], onDelete: Cascade)
+  category            BudgetLineCategory
+  sousRubrique        String             // e.g. "A1", "B3", "C1", "J1"...
+  description         String
+  anneeIndex          Int                // 1, 2, 3... computed from dureeMois, not a static enum
+  montantUnitaire     Decimal            @db.Decimal(12, 2)
+  quantite            Decimal            @default(1) @db.Decimal(12, 2)
+  total               Decimal            @db.Decimal(12, 2) // computed server-side = montantUnitaire * quantite
+  // Personnel-specific (Onglet D) — optional, unused by other categories
+  etp                 Decimal?           @db.Decimal(5, 2)
+  unite               String?            // "jour", "mois"...
+  createdAt           DateTime           @default(now())
+
+  @@index([fundingApplicationId, category, anneeIndex])
+}
+
+/// Onglet E. Bourses — genuinely different column structure (two calculated
+/// sub-blocks: "Allocation de subsistance" and "Déplacements des boursiers"),
+/// so it gets its own model rather than being force-fit into BudgetLine.
+model BourseBudgetLine {
+  id                    String             @id @default(uuid())
+  fundingApplicationId  String
+  fundingApplication    FundingApplication @relation(fields: [fundingApplicationId], references: [id], onDelete: Cascade)
+  sousRubrique          String             // D1, D2, D3, D4
+  description           String
+  lieuSejour            String
+  anneeIndex            Int
+
+  // Bloc "Allocation de subsistance"
+  dureeBourseMois       Decimal  @default(0) @db.Decimal(6, 2)
+  montantUnitaireAlloc  Decimal  @default(0) @db.Decimal(12, 2)
+  treizemeMois          Decimal  @default(0) @db.Decimal(12, 2)
+  fraisInscription      Decimal  @default(0) @db.Decimal(12, 2)
+  totalAllocation       Decimal  @db.Decimal(12, 2) // computed = sum of the 4 fields above
+
+  // Bloc "Déplacements des boursiers"
+  billetAvion           Decimal  @default(0) @db.Decimal(12, 2)
+  trajetAeroportBelgique Decimal @default(0) @db.Decimal(12, 2)
+  fraisVisa             Decimal  @default(0) @db.Decimal(12, 2)
+  fraisMissionIndirects Decimal  @default(0) @db.Decimal(12, 2)
+  totalDeplacements     Decimal  @db.Decimal(12, 2) // computed = sum of the 4 fields above
+
+  createdAt             DateTime @default(now())
+
+  @@index([fundingApplicationId, anneeIndex])
+}
+
+/// Onglet F-G. Mission — four calculated sub-blocks (déplacements, per diem,
+/// hôtel, frais de gestion), summed into one grand total.
+model MissionBudgetLine {
+  id                     String             @id @default(uuid())
+  fundingApplicationId   String
+  fundingApplication     FundingApplication @relation(fields: [fundingApplicationId], references: [id], onDelete: Cascade)
+  typeMission            String             // F1, F2...
+  typeDeplacement        String             // "Nord-Sud", "Sud-Sud"
+  description            String
+  anneeIndex             Int
+  dureeJours             Int      @default(0)
+
+  // Bloc "Déplacements"
+  billetAvion            Decimal  @default(0) @db.Decimal(12, 2)
+  deplacementLocal       Decimal  @default(0) @db.Decimal(12, 2)
+  totalDeplacement       Decimal  @db.Decimal(12, 2) // computed = billetAvion + deplacementLocal
+
+  // Bloc "Q1 Per diem"
+  perDiemUnitaire        Decimal  @default(0) @db.Decimal(12, 2)
+  totalPerDiem           Decimal  @db.Decimal(12, 2) // computed = perDiemUnitaire * dureeJours
+
+  // Bloc "Q2 Frais d'hôtel"
+  hotelUnitaire          Decimal  @default(0) @db.Decimal(12, 2)
+  totalHotel             Decimal  @db.Decimal(12, 2) // computed = hotelUnitaire * dureeJours
+
+  // Bloc "Frais de gestion (accueil)"
+  fraisGestionAccueil    Decimal  @default(0) @db.Decimal(12, 2)
+  fraisDeplacementsIntl  Decimal  @default(0) @db.Decimal(12, 2)
+
+  // Bloc "Total"
+  totalFraisSejour       Decimal  @db.Decimal(12, 2) // computed = totalPerDiem + totalHotel
+  totalMontantMission    Decimal  @db.Decimal(12, 2) // computed = sum of all blocks above
+
+  createdAt              DateTime @default(now())
+
+  @@index([fundingApplicationId, anneeIndex])
+}
+
+/// Read-only reference table (barème ARES) used to pre-fill/validate Bourse
+/// entries. Seeded via prisma/seed.ts; never editable from the UI.
+model MontantApplicableBourse {
+  id                String  @id @default(uuid())
+  typeBourse        String  @unique // "Études", "Doctorat & Postdoctorat", "Renforcement capacités université", "Renforcement HE-ESA"
+  trajetAeroport    String
+  fraisAdditionnels String
+  allocationMensuelle String
+  allocation13eMois String
+  fraisEncadrement  String
+  fraisRecherche    String
+  fraisAssurance    String
+  fraisGestion      String
+  subsistance8_14j  String
+  subsistance15j3m  String
+  subsistance1_3m   String
+}
