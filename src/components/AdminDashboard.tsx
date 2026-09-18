@@ -826,6 +826,26 @@ export default function AdminDashboard({
     return (saved === "light" || saved === "dark") ? saved : "dark";
   });
 
+  const [financeSubTab, setFinanceSubTab] = useState<"apercu" | "analyse" | "registres">("apercu");
+  const [sessionElapsedLabel, setSessionElapsedLabel] = useState<string>("");
+  useEffect(() => {
+    const computeElapsed = () => {
+      if (!currentUser?.lastLogin) { setSessionElapsedLabel(""); return; }
+      const start = new Date(currentUser.lastLogin).getTime();
+      const diffMs = Date.now() - start;
+      if (isNaN(start) || diffMs < 0) { setSessionElapsedLabel(""); return; }
+      const totalMin = Math.floor(diffMs / 60000);
+      const h = Math.floor(totalMin / 60);
+      const m = totalMin % 60;
+      if (h > 0) setSessionElapsedLabel(`${h} h ${m} min`);
+      else if (m > 0) setSessionElapsedLabel(`${m} min`);
+      else setSessionElapsedLabel("à l'instant");
+    };
+    computeElapsed();
+    const interval = setInterval(computeElapsed, 30000);
+    return () => clearInterval(interval);
+  }, [currentUser?.lastLogin]);
+
   const toggleTheme = () => {
     const nextTheme = theme === "dark" ? "light" : "dark";
     setTheme(nextTheme);
@@ -2109,6 +2129,17 @@ export default function AdminDashboard({
               {sidebarItems.find(i => i.id === activePanel)?.label}
             </h1>
             <span className="hidden md:inline text-xs text-slate-500 font-mono">UR-GEDT</span>
+            <div className="hidden lg:flex items-center gap-2 pl-3 ml-1 border-l border-white/10">
+              <span className="text-xs sm:text-sm font-semibold text-white">
+                Bonjour, {(currentUser.name || "").split(" ")[0] || currentUser.name}
+              </span>
+              {sessionElapsedLabel && (
+                <span className="text-[11px] text-slate-400 font-mono flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  en ligne depuis {sessionElapsedLabel}
+                </span>
+              )}
+            </div>
           </div>
 
           {/* REAL-TIME GLOBAL SEARCH BAR */}
@@ -2970,6 +3001,31 @@ export default function AdminDashboard({
           {activePanel === "finances" && (
             <div className="space-y-8">
 
+              {/* Finance Sub-Tabs Navigation */}
+              <div className="flex flex-wrap gap-2 bg-[#151515] p-1.5 rounded-xl border border-white/5 w-fit">
+                {[
+                  { id: "apercu", label: "Aperçu", icon: <PieChart className="h-4 w-4" /> },
+                  { id: "analyse", label: "Analyse", icon: <BarChart2 className="h-4 w-4" /> },
+                  { id: "registres", label: "Registres", icon: <FileText className="h-4 w-4" /> },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setFinanceSubTab(tab.id as "apercu" | "analyse" | "registres")}
+                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      financeSubTab === tab.id
+                        ? "bg-[#D4AF37] text-black shadow-md"
+                        : "text-slate-400 hover:text-white hover:bg-white/5"
+                    }}
+                  >
+                    {tab.icon}
+                    <span>{tab.label}</span>
+                  </button>
+                ))}
+              </div>
+
+              {financeSubTab === "apercu" && (
+              <>
               {/* PROMINENT BUDGET CONTROL BANNER */}
               <div className="bg-gradient-to-r from-[#181818] via-[#151515] to-[#121212] border border-[#D4AF37]/40 rounded-2xl p-5 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div className="flex items-center space-x-3.5">
@@ -3233,6 +3289,11 @@ export default function AdminDashboard({
                 </div>
               </div>
 
+              </>
+              )}
+
+              {financeSubTab === "analyse" && (
+              <>
               {/* RECHARTS MONTHLY FINANCIAL TRENDS (FINANCES PANEL) */}
               <div className="bg-[#12261C] p-6 rounded-2xl border border-white/5 shadow-xl space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
@@ -3304,6 +3365,11 @@ export default function AdminDashboard({
                 </div>
               </div>
 
+              </>
+              )}
+
+              {financeSubTab === "registres" && (
+              <>
               {/* DOUBLE LISTINGS: RECIPES & EXPENSES */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* RECIPES TABLE */}
@@ -3479,6 +3545,8 @@ export default function AdminDashboard({
                   </div>
                 </div>
               </div>
+              </>
+              )}
 
             </div>
           )}
