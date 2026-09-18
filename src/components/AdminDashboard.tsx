@@ -32,7 +32,6 @@ import ToastContainer, { ToastMessage } from "./ToastContainer";
 import QrScannerModal from "./QrScannerModal";
 import { PersonnelManager } from "./PersonnelManager";
 import AresBudgetManager from "./AresBudgetManager";
-import AresBudgetPanel from "./AresBudgetPanel";
 
 interface AdminDashboardProps {
   db: Database;
@@ -53,9 +52,9 @@ interface AdminDashboardProps {
 }
 
 const formatSyncTimestamp = (val?: Date | string | null) => {
-  if (!val) return "Non synchronisé";
+  if (!val) return "Non synchronisÃ©";
   const date = typeof val === "string" ? new Date(val) : val;
-  if (isNaN(date.getTime())) return "Non synchronisé";
+  if (isNaN(date.getTime())) return "Non synchronisÃ©";
 
   const now = new Date();
   const isToday =
@@ -68,14 +67,14 @@ const formatSyncTimestamp = (val?: Date | string | null) => {
   const seconds = String(date.getSeconds()).padStart(2, "0");
 
   if (isToday) {
-    return `Aujourd'hui à ${hours}:${minutes}:${seconds}`;
+    return `Aujourd'hui Ã  ${hours}:${minutes}:${seconds}`;
   }
 
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
 
-  return `${day}/${month}/${year} à ${hours}:${minutes}:${seconds}`;
+  return `${day}/${month}/${year} Ã  ${hours}:${minutes}:${seconds}`;
 };
 
 const CustomChartTooltip = ({ active, payload, label }: any) => {
@@ -305,8 +304,8 @@ const FinancialMaskedInput: React.FC<FinancialMaskedInputProps> = ({
 
   const equivalentText = isValid
     ? selectedCurrency === "USD"
-      ? `≈ ${(numericVal * EXCHANGE_RATE_CDF).toLocaleString("fr-FR")} CDF`
-      : `≈ ${(numericVal / EXCHANGE_RATE_CDF).toLocaleString("fr-FR", { maximumFractionDigits: 2 })} USD`
+      ? `â‰ˆ ${(numericVal * EXCHANGE_RATE_CDF).toLocaleString("fr-FR")} CDF`
+      : `â‰ˆ ${(numericVal / EXCHANGE_RATE_CDF).toLocaleString("fr-FR", { maximumFractionDigits: 2 })} USD`
     : null;
 
   return (
@@ -384,8 +383,8 @@ const FinancialMaskedInput: React.FC<FinancialMaskedInputProps> = ({
         <div className="flex items-center justify-between text-[11px] font-mono mt-1">
           <p className={isValid ? "text-emerald-400/90 font-medium" : "text-red-400 font-semibold"}>
             {isValid
-              ? `✓ Montant masqué : ${displayVal} ${selectedCurrency}`
-              : "✗ Saisissez un montant valide supérieur à 0."}
+              ? `âœ“ Montant masquÃ© : ${displayVal} ${selectedCurrency}`
+              : "âœ— Saisissez un montant valide supÃ©rieur Ã  0."}
           </p>
           {equivalentText && (
             <span className="text-[#D4AF37] font-semibold bg-[#D4AF37]/10 px-1.5 py-0.5 rounded border border-[#D4AF37]/20">
@@ -418,11 +417,11 @@ const computeUserPasswordStrength = (pwd: string) => {
 
   const isFullyValid = hasMinLen && hasUpper && hasNumber && hasSpecial;
 
-  if (score <= 1) return { level: 1, label: "Très faible", color: "bg-red-500", textColor: "text-red-400", bars: 1, hasMinLen, hasUpper, hasNumber, hasSpecial, isFullyValid };
+  if (score <= 1) return { level: 1, label: "TrÃ¨s faible", color: "bg-red-500", textColor: "text-red-400", bars: 1, hasMinLen, hasUpper, hasNumber, hasSpecial, isFullyValid };
   if (score === 2) return { level: 2, label: "Faible", color: "bg-amber-500", textColor: "text-amber-400", bars: 2, hasMinLen, hasUpper, hasNumber, hasSpecial, isFullyValid };
   if (score === 3) return { level: 3, label: "Moyen", color: "bg-yellow-500", textColor: "text-yellow-400", bars: 3, hasMinLen, hasUpper, hasNumber, hasSpecial, isFullyValid };
   if (score === 4) return { level: 4, label: "Fort", color: "bg-emerald-500", textColor: "text-emerald-400", bars: 4, hasMinLen, hasUpper, hasNumber, hasSpecial, isFullyValid };
-  return { level: 5, label: "Très fort", color: "bg-emerald-400", textColor: "text-emerald-300", bars: 5, hasMinLen, hasUpper, hasNumber, hasSpecial, isFullyValid };
+  return { level: 5, label: "TrÃ¨s fort", color: "bg-emerald-400", textColor: "text-emerald-300", bars: 5, hasMinLen, hasUpper, hasNumber, hasSpecial, isFullyValid };
 };
 
 export default function AdminDashboard({
@@ -459,7 +458,7 @@ export default function AdminDashboard({
         document.documentElement.requestFullscreen().then(() => {
           setIsFullscreen(true);
         }).catch((err) => {
-          console.warn("Erreur lors du passage en plein écran :", err);
+          console.warn("Erreur lors du passage en plein Ã©cran :", err);
           setIsFullscreen(prev => !prev);
         });
       } else {
@@ -594,16 +593,16 @@ export default function AdminDashboard({
       const res = await onUpdateTable(
         "settings",
         [settingsForm],
-        "Mise à jour de la configuration du site",
-        "Modification des paramètres institutionnels du site (logo, favicon, coordonnées, réseaux sociaux)"
+        "Mise Ã  jour de la configuration du site",
+        "Modification des paramÃ¨tres institutionnels du site (logo, favicon, coordonnÃ©es, rÃ©seaux sociaux)"
       );
       if (res) {
-        setSuccessMsg("Configuration du site mise à jour avec succès !");
-        addToast("Paramètres généraux du site enregistrés avec succès.", "success", "Configuration du Site");
+        setSuccessMsg("Configuration du site mise Ã  jour avec succÃ¨s !");
+        addToast("ParamÃ¨tres gÃ©nÃ©raux du site enregistrÃ©s avec succÃ¨s.", "success", "Configuration du Site");
         setTimeout(() => setSuccessMsg(""), 4000);
       } else {
-        setErrorMsg("Erreur lors de la sauvegarde des paramètres.");
-        addToast("Erreur lors de la sauvegarde des paramètres du site.", "error", "Configuration du Site");
+        setErrorMsg("Erreur lors de la sauvegarde des paramÃ¨tres.");
+        addToast("Erreur lors de la sauvegarde des paramÃ¨tres du site.", "error", "Configuration du Site");
       }
     } catch (err) {
       console.error("Save settings error:", err);
@@ -655,24 +654,24 @@ export default function AdminDashboard({
     const act = (log.action || "").toLowerCase();
     const det = (log.details || "").toLowerCase();
     if (
-      act.includes("budget") || act.includes("recette") || act.includes("dépense") || 
+      act.includes("budget") || act.includes("recette") || act.includes("dÃ©pense") || 
       act.includes("validation") || act.includes("financ") || det.includes("budget") || 
-      det.includes("usd") || det.includes("recette") || det.includes("dépense") || 
+      det.includes("usd") || det.includes("recette") || det.includes("dÃ©pense") || 
       det.includes("financ")
     ) {
       return "budget";
     }
     if (
-      act.includes("personnel") || act.includes("utilisateur") || act.includes("accès") || 
-      act.includes("révocation") || act.includes("réactivation") || act.includes("création personnel") ||
-      det.includes("personnel") || det.includes("accès") || det.includes("compte") || 
-      det.includes("rôle") || det.includes("membre")
+      act.includes("personnel") || act.includes("utilisateur") || act.includes("accÃ¨s") || 
+      act.includes("rÃ©vocation") || act.includes("rÃ©activation") || act.includes("crÃ©ation personnel") ||
+      det.includes("personnel") || det.includes("accÃ¨s") || det.includes("compte") || 
+      det.includes("rÃ´le") || det.includes("membre")
     ) {
       return "personnel";
     }
     if (
-      act.includes("projet") || act.includes("activité") || act.includes("publication") || 
-      det.includes("projet") || det.includes("activité") || det.includes("publication")
+      act.includes("projet") || act.includes("activitÃ©") || act.includes("publication") || 
+      det.includes("projet") || det.includes("activitÃ©") || det.includes("publication")
     ) {
       return "projets";
     }
@@ -682,7 +681,7 @@ export default function AdminDashboard({
   const getActionBadge = useCallback((action: string) => {
     const actLower = (action || "").toLowerCase();
     
-    if (actLower.includes("suppression") || actLower.includes("supprimé") || actLower.includes("retrait")) {
+    if (actLower.includes("suppression") || actLower.includes("supprimÃ©") || actLower.includes("retrait")) {
       return (
         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-500/15 text-rose-400 border border-rose-500/30 shadow-xs tracking-wide">
           <Trash2 className="h-3 w-3 mr-1 shrink-0" />
@@ -690,7 +689,7 @@ export default function AdminDashboard({
         </span>
       );
     }
-    if (actLower.includes("création") || actLower.includes("ajout") || actLower.includes("créé") || actLower.includes("nouveau") || actLower.includes("réactivation")) {
+    if (actLower.includes("crÃ©ation") || actLower.includes("ajout") || actLower.includes("crÃ©Ã©") || actLower.includes("nouveau") || actLower.includes("rÃ©activation")) {
       return (
         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shadow-xs tracking-wide">
           <Plus className="h-3 w-3 mr-1 shrink-0" />
@@ -698,7 +697,7 @@ export default function AdminDashboard({
         </span>
       );
     }
-    if (actLower.includes("modification") || actLower.includes("mise à jour") || actLower.includes("édité") || actLower.includes("modifié")) {
+    if (actLower.includes("modification") || actLower.includes("mise Ã  jour") || actLower.includes("Ã©ditÃ©") || actLower.includes("modifiÃ©")) {
       return (
         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-sky-500/15 text-sky-300 border border-sky-500/30 shadow-xs tracking-wide">
           <Edit className="h-3 w-3 mr-1 shrink-0" />
@@ -706,7 +705,7 @@ export default function AdminDashboard({
         </span>
       );
     }
-    if (actLower.includes("réinitialisation") || actLower.includes("reset") || actLower.includes("révocation")) {
+    if (actLower.includes("rÃ©initialisation") || actLower.includes("reset") || actLower.includes("rÃ©vocation")) {
       return (
         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30 shadow-xs tracking-wide">
           <RotateCcw className="h-3 w-3 mr-1 shrink-0" />
@@ -714,7 +713,7 @@ export default function AdminDashboard({
         </span>
       );
     }
-    if (actLower.includes("validation") || actLower.includes("validé") || actLower.includes("approbation")) {
+    if (actLower.includes("validation") || actLower.includes("validÃ©") || actLower.includes("approbation")) {
       return (
         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30 shadow-xs tracking-wide">
           <ShieldCheck className="h-3 w-3 mr-1 shrink-0" />
@@ -738,9 +737,9 @@ export default function AdminDashboard({
         { key: "id", label: "ID Log" },
         { key: "timestamp", label: "Horodatage" },
         { key: "userName", label: "Nom Agent" },
-        { key: "userRole", label: "Rôle Agent" },
+        { key: "userRole", label: "RÃ´le Agent" },
         { key: "action", label: "Type d'Action" },
-        { key: "details", label: "Détail Opérationnel & Traçabilité" }
+        { key: "details", label: "DÃ©tail OpÃ©rationnel & TraÃ§abilitÃ©" }
       ]
     );
   }, []);
@@ -793,10 +792,10 @@ export default function AdminDashboard({
     };
 
     if (onUpdateTable) {
-      await onUpdateTable("budget", updatedBudget, "Modification Budget", `Mise à jour des enveloppes budgétaires pour l'exercice ${updatedBudget.year} (${finalTotal.toLocaleString()} USD)`);
+      await onUpdateTable("budget", updatedBudget, "Modification Budget", `Mise Ã  jour des enveloppes budgÃ©taires pour l'exercice ${updatedBudget.year} (${finalTotal.toLocaleString()} USD)`);
     }
 
-    addToast(`Enveloppe budgétaire ${updatedBudget.year} enregistrée avec succès (${finalTotal.toLocaleString()} USD) !`, "success", "Budget enregistré");
+    addToast(`Enveloppe budgÃ©taire ${updatedBudget.year} enregistrÃ©e avec succÃ¨s (${finalTotal.toLocaleString()} USD) !`, "success", "Budget enregistrÃ©");
     setIsBudgetModalOpen(false);
   };
 
@@ -813,10 +812,10 @@ export default function AdminDashboard({
     };
 
     if (onUpdateTable) {
-      await onUpdateTable("budget", zeroBudget, "Réinitialisation Budget", "Réinitialisation de toutes les enveloppes budgétaires à zéro (0 USD) dans la base de données.");
+      await onUpdateTable("budget", zeroBudget, "RÃ©initialisation Budget", "RÃ©initialisation de toutes les enveloppes budgÃ©taires Ã  zÃ©ro (0 USD) dans la base de donnÃ©es.");
     }
 
-    addToast("Les enveloppes budgétaires ont été réinitialisées à zéro (0 USD) dans la base de données !", "success", "Budget Réinitialisé à zéro");
+    addToast("Les enveloppes budgÃ©taires ont Ã©tÃ© rÃ©initialisÃ©es Ã  zÃ©ro (0 USD) dans la base de donnÃ©es !", "success", "Budget RÃ©initialisÃ© Ã  zÃ©ro");
     setIsResetBudgetConfirmOpen(false);
     setIsBudgetModalOpen(false);
   };
@@ -832,7 +831,7 @@ export default function AdminDashboard({
     setTheme(nextTheme);
     localStorage.setItem("admin_theme", nextTheme);
     addToast(
-      nextTheme === "light" ? "Mode clair activé." : "Mode sombre activé.",
+      nextTheme === "light" ? "Mode clair activÃ©." : "Mode sombre activÃ©.",
       "info",
       "Apparence"
     );
@@ -908,7 +907,7 @@ export default function AdminDashboard({
   // User / Personnel Management & Password States
   const [userSearchQuery, setUserSearchQuery] = useState("");
   const [userRoleFilter, setUserRoleFilter] = useState("Tous");
-  const [userStatusFilter, setUserStatusFilter] = useState("Tous"); // 'Tous', 'Actifs', 'Révoqués'
+  const [userStatusFilter, setUserStatusFilter] = useState("Tous"); // 'Tous', 'Actifs', 'RÃ©voquÃ©s'
   const [userViewMode, setUserViewMode] = useState<"cards" | "table">("cards");
 
   // Dedicated Password Change Modal States
@@ -936,7 +935,7 @@ export default function AdminDashboard({
       setFormData((prev: any) => ({ ...prev, password: generated }));
       setShowPasswordInUserForm(true);
     }
-    addToast("Mot de passe fort généré automatiquement.", "info", "Générateur de Mot de Passe");
+    addToast("Mot de passe fort gÃ©nÃ©rÃ© automatiquement.", "info", "GÃ©nÃ©rateur de Mot de Passe");
   };
 
   const handleSaveUserPassword = async (e: React.FormEvent) => {
@@ -944,8 +943,8 @@ export default function AdminDashboard({
     if (!passwordModalUser || !newPasswordInput.trim()) return;
 
     if (newPasswordInput.trim().length < 6) {
-      setErrorMsg("Le mot de passe doit contenir au moins 6 caractères.");
-      addToast("Le mot de passe doit contenir au moins 6 caractères.", "error", "Erreur Validation");
+      setErrorMsg("Le mot de passe doit contenir au moins 6 caractÃ¨res.");
+      addToast("Le mot de passe doit contenir au moins 6 caractÃ¨res.", "error", "Erreur Validation");
       return;
     }
 
@@ -958,13 +957,13 @@ export default function AdminDashboard({
         "users",
         updatedUsers,
         "Modification Mot de Passe",
-        `Mise à jour du mot de passe de l'agent du personnel : ${passwordModalUser.name} (${passwordModalUser.email})`
+        `Mise Ã  jour du mot de passe de l'agent du personnel : ${passwordModalUser.name} (${passwordModalUser.email})`
       );
 
       if (success) {
-        setSuccessMsg(`Mot de passe mis à jour avec succès pour ${passwordModalUser.name}.`);
+        setSuccessMsg(`Mot de passe mis Ã  jour avec succÃ¨s pour ${passwordModalUser.name}.`);
         addToast(
-          `Mot de passe mis à jour avec succès pour ${passwordModalUser.name}.`,
+          `Mot de passe mis Ã  jour avec succÃ¨s pour ${passwordModalUser.name}.`,
           "success",
           "Gestion des Mots de Passe"
         );
@@ -973,8 +972,8 @@ export default function AdminDashboard({
         setNewPasswordInput("");
         setTimeout(() => setSuccessMsg(""), 3500);
       } else {
-        setErrorMsg("Erreur lors de la mise à jour du mot de passe.");
-        addToast("Erreur lors de la mise à jour du mot de passe.", "error", "Erreur Système");
+        setErrorMsg("Erreur lors de la mise Ã  jour du mot de passe.");
+        addToast("Erreur lors de la mise Ã  jour du mot de passe.", "error", "Erreur SystÃ¨me");
       }
     } catch (err: any) {
       setErrorMsg(`Erreur : ${err.message}`);
@@ -1030,11 +1029,11 @@ export default function AdminDashboard({
     setGenericConfirmModal({
       isOpen: true,
       title: "Suppression de document local",
-      message: "Êtes-vous sûr de vouloir supprimer définitivement ce document du gestionnaire de fichiers ?",
+      message: "ÃŠtes-vous sÃ»r de vouloir supprimer dÃ©finitivement ce document du gestionnaire de fichiers ?",
       itemType: "custom_file",
       itemId: id,
-      itemLabel: fileItem ? fileItem.name : "Document importé",
-      warningText: "Ce document sera supprimé du stockage local de votre navigateur.",
+      itemLabel: fileItem ? fileItem.name : "Document importÃ©",
+      warningText: "Ce document sera supprimÃ© du stockage local de votre navigateur.",
       confirmText: "Supprimer le fichier",
       variant: "danger",
       onConfirm: () => {
@@ -1045,8 +1044,8 @@ export default function AdminDashboard({
         } catch (err) {
           console.warn("Storage quota exceeded on deletion:", err);
         }
-        setSuccessMsg("Fichier supprimé du gestionnaire avec succès.");
-        addToast("Fichier supprimé du gestionnaire avec succès.", "info", "Gestionnaire de Fichiers");
+        setSuccessMsg("Fichier supprimÃ© du gestionnaire avec succÃ¨s.");
+        addToast("Fichier supprimÃ© du gestionnaire avec succÃ¨s.", "info", "Gestionnaire de Fichiers");
         setTimeout(() => setSuccessMsg(""), 3000);
         setGenericConfirmModal(null);
       }
@@ -1059,16 +1058,16 @@ export default function AdminDashboard({
       title: g.title,
       url: g.url,
       type: g.type === "photo" ? "image" : "video",
-      size: "Système (Galerie)",
+      size: "SystÃ¨me (Galerie)",
       date: g.date
     }));
 
     const newsFiles = db.news.map(n => ({
       id: `news-${n.id}`,
-      title: `Actualité: ${n.title}`,
+      title: `ActualitÃ©: ${n.title}`,
       url: n.image,
       type: (n.image?.startsWith("data:application/pdf") || n.image?.endsWith(".pdf") || n.image?.includes("pdf")) ? "pdf" : "image",
-      size: "Système (Actualités)",
+      size: "SystÃ¨me (ActualitÃ©s)",
       date: n.date
     }));
 
@@ -1086,7 +1085,7 @@ export default function AdminDashboard({
   const perms = currentUser.permissions || [];
   const hasPerm = (p: string) => perms.includes("all") || perms.includes(p);
 
-  // Role Protection helpers — based on real backend permissions (prisma/seed.ts),
+  // Role Protection helpers â€” based on real backend permissions (prisma/seed.ts),
   // not hardcoded role-name strings. A role-name check drifts out of sync with the
   // permission model (e.g. it never recognized "Super Administrateur", and granted
   // finance UI to roles the backend then rejects on save).
@@ -1185,7 +1184,7 @@ export default function AdminDashboard({
         if (canManageFinances()) {
           setActivePanel("finances");
           handleOpenForm("expense");
-          addToast("Formulaire Dépense ouvert [Alt+E]", "info", "Raccourci Clavier");
+          addToast("Formulaire DÃ©pense ouvert [Alt+E]", "info", "Raccourci Clavier");
         }
         return;
       }
@@ -1210,13 +1209,12 @@ export default function AdminDashboard({
     { id: "dashboard", label: "Tableau de Bord", icon: <LayoutDashboard className="h-5 w-5" />, visible: true },
     { id: "finances", label: "Finances & Budget", icon: <DollarSign className="h-5 w-5" />, visible: canViewFinances() },
     { id: "ares", label: "Budget ARES", icon: <Sliders className="h-5 w-5" />, visible: hasPerm("manage_finances") },
-    { id: "ares", label: "Budget ARES", icon: <Layers className="h-5 w-5" />, visible: hasPerm("manage_finances") },
-    { id: "actualites", label: "Actualités", icon: <FileText className="h-5 w-5" />, visible: true },
-    { id: "projets", label: "Projets Académiques", icon: <Briefcase className="h-5 w-5" />, visible: true },
-    { id: "activites", label: "Activités Terrain", icon: <Activity className="h-5 w-5" />, visible: true },
+    { id: "actualites", label: "ActualitÃ©s", icon: <FileText className="h-5 w-5" />, visible: true },
+    { id: "projets", label: "Projets AcadÃ©miques", icon: <Briefcase className="h-5 w-5" />, visible: true },
+    { id: "activites", label: "ActivitÃ©s Terrain", icon: <Activity className="h-5 w-5" />, visible: true },
     { id: "calendrier", label: "Calendrier Interactif", icon: <Calendar className="h-5 w-5" />, visible: true },
     { id: "publications", label: "Publications Sci.", icon: <BookOpen className="h-5 w-5" />, visible: true },
-    { id: "galerie", label: "Médiathèque (Galerie)", icon: <Image className="h-5 w-5" />, visible: true },
+    { id: "galerie", label: "MÃ©diathÃ¨que (Galerie)", icon: <Image className="h-5 w-5" />, visible: true },
     { id: "messages", label: "Messages Publics", icon: <Mail className="h-5 w-5" />, visible: canManageNews() },
     { id: "utilisateurs", label: "Gestion du Personnel", icon: <Users className="h-5 w-5" />, visible: canManageUsers() || hasPerm("view_users") },
     { id: "logs", label: "Historique des Actions", icon: <Clock className="h-5 w-5" />, visible: true },
@@ -1245,14 +1243,14 @@ export default function AdminDashboard({
 
   const monthlyFinancialTrends = useMemo(() => {
     const monthsFr = [
-      "Janv", "Févr", "Mars", "Avril", "Mai", "Juin", 
-      "Juil", "Août", "Sept", "Oct", "Nov", "Déc"
+      "Janv", "FÃ©vr", "Mars", "Avril", "Mai", "Juin", 
+      "Juil", "AoÃ»t", "Sept", "Oct", "Nov", "DÃ©c"
     ];
     
     const data = monthsFr.map((m) => ({
       monthLabel: m,
       Recettes: 0,
-      Dépenses: 0,
+      DÃ©penses: 0,
       Solde: 0
     }));
 
@@ -1276,14 +1274,14 @@ export default function AdminDashboard({
         if (!isNaN(d.getTime())) {
           const mIdx = d.getMonth();
           if (mIdx >= 0 && mIdx < 12) {
-            data[mIdx].Dépenses += Number(e.amount) || 0;
+            data[mIdx].DÃ©penses += Number(e.amount) || 0;
           }
         }
       });
     }
 
     data.forEach(item => {
-      item.Solde = item.Recettes - item.Dépenses;
+      item.Solde = item.Recettes - item.DÃ©penses;
     });
 
     return data;
@@ -1292,7 +1290,7 @@ export default function AdminDashboard({
   // Utility function to export data array to CSV file with UTF-8 encoding
   const exportToCSV = (filename: string, rows: Record<string, any>[], headers: { key: string; label: string }[]) => {
     if (!rows || !rows.length) {
-      setErrorMsg("Aucune donnée disponible à exporter dans la vue actuelle.");
+      setErrorMsg("Aucune donnÃ©e disponible Ã  exporter dans la vue actuelle.");
       return;
     }
 
@@ -1322,8 +1320,8 @@ export default function AdminDashboard({
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
 
-    setSuccessMsg(`Fichier CSV (${filename}) téléchargé avec succès !`);
-    addToast(`Fichier CSV (${filename}) généré et téléchargé avec succès.`, "success", "Exportation CSV");
+    setSuccessMsg(`Fichier CSV (${filename}) tÃ©lÃ©chargÃ© avec succÃ¨s !`);
+    addToast(`Fichier CSV (${filename}) gÃ©nÃ©rÃ© et tÃ©lÃ©chargÃ© avec succÃ¨s.`, "success", "Exportation CSV");
     setTimeout(() => setSuccessMsg(""), 4000);
   };
 
@@ -1338,12 +1336,12 @@ export default function AdminDashboard({
       "ur_gedt_recettes",
       filteredRecipes,
       [
-        { key: "id", label: "ID Référence" },
-        { key: "date", label: "Date Opération" },
+        { key: "id", label: "ID RÃ©fÃ©rence" },
+        { key: "date", label: "Date OpÃ©ration" },
         { key: "source", label: "Source Provenance" },
         { key: "type", label: "Type Subvention/Financement" },
-        { key: "description", label: "Libellé Description" },
-        { key: "amount", label: "Montant Crédit (USD)" },
+        { key: "description", label: "LibellÃ© Description" },
+        { key: "amount", label: "Montant CrÃ©dit (USD)" },
         { key: "recordedBy", label: "Agent Comptable Enregistreur" }
       ]
     );
@@ -1360,12 +1358,12 @@ export default function AdminDashboard({
       "ur_gedt_depenses",
       filteredExpenses,
       [
-        { key: "id", label: "ID Référence" },
-        { key: "date", label: "Date Opération" },
-        { key: "beneficiary", label: "Bénéficiaire / Fournisseur" },
-        { key: "category", label: "Catégorie Budgétaire" },
-        { key: "description", label: "Libellé Description" },
-        { key: "amount", label: "Montant Débit (USD)" },
+        { key: "id", label: "ID RÃ©fÃ©rence" },
+        { key: "date", label: "Date OpÃ©ration" },
+        { key: "beneficiary", label: "BÃ©nÃ©ficiaire / Fournisseur" },
+        { key: "category", label: "CatÃ©gorie BudgÃ©taire" },
+        { key: "description", label: "LibellÃ© Description" },
+        { key: "amount", label: "Montant DÃ©bit (USD)" },
         { key: "recordedBy", label: "Agent Comptable Enregistreur" }
       ]
     );
@@ -1378,7 +1376,7 @@ export default function AdminDashboard({
       .filter(r => (r.description || "").toLowerCase().includes(query) || (r.source || "").toLowerCase().includes(query))
       .map(r => ({
         date: r.date,
-        type_flux: "RECETTE (Crédit)",
+        type_flux: "RECETTE (CrÃ©dit)",
         id: r.id,
         tiers: r.source,
         category: r.type,
@@ -1393,7 +1391,7 @@ export default function AdminDashboard({
       .filter(e => (e.description || "").toLowerCase().includes(query) || (e.beneficiary || "").toLowerCase().includes(query))
       .map(e => ({
         date: e.date,
-        type_flux: "DÉPENSE (Débit)",
+        type_flux: "DÃ‰PENSE (DÃ©bit)",
         id: e.id,
         tiers: e.beneficiary,
         category: e.category,
@@ -1407,8 +1405,8 @@ export default function AdminDashboard({
     const combined = [...recipesFormatted, ...expensesFormatted].sort((a, b) => a.timestamp - b.timestamp);
 
     if (!combined.length) {
-      setErrorMsg("Aucune opération financière à exporter selon les critères de recherche actuels.");
-      addToast("Aucune opération financière à exporter selon les critères actuels.", "warning", "Exportation CSV");
+      setErrorMsg("Aucune opÃ©ration financiÃ¨re Ã  exporter selon les critÃ¨res de recherche actuels.");
+      addToast("Aucune opÃ©ration financiÃ¨re Ã  exporter selon les critÃ¨res actuels.", "warning", "Exportation CSV");
       return;
     }
 
@@ -1435,14 +1433,14 @@ export default function AdminDashboard({
       [
         { key: "date", label: "Date" },
         { key: "type_flux", label: "Flux" },
-        { key: "id", label: "ID Référence" },
-        { key: "tiers", label: "Tiers (Source / Bénéficiaire)" },
-        { key: "category", label: "Catégorie / Nature" },
-        { key: "description", label: "Libellé Opération" },
-        { key: "credit", label: "Crédit Recette (USD)" },
-        { key: "debit", label: "Débit Dépense (USD)" },
-        { key: "balance", label: "Solde Solde Cumulé (USD)" },
-        { key: "recordedBy", label: "Enregistré Par" }
+        { key: "id", label: "ID RÃ©fÃ©rence" },
+        { key: "tiers", label: "Tiers (Source / BÃ©nÃ©ficiaire)" },
+        { key: "category", label: "CatÃ©gorie / Nature" },
+        { key: "description", label: "LibellÃ© OpÃ©ration" },
+        { key: "credit", label: "CrÃ©dit Recette (USD)" },
+        { key: "debit", label: "DÃ©bit DÃ©pense (USD)" },
+        { key: "balance", label: "Solde Solde CumulÃ© (USD)" },
+        { key: "recordedBy", label: "EnregistrÃ© Par" }
       ]
     );
   };
@@ -1473,42 +1471,42 @@ export default function AdminDashboard({
   // User Access Revocation / Activation Handler
   const handleToggleUserAccess = (userToToggle: User) => {
     const isRevoking = userToToggle.active;
-    const actionVerb = isRevoking ? "révoquer" : "réactiver";
+    const actionVerb = isRevoking ? "rÃ©voquer" : "rÃ©activer";
 
     setGenericConfirmModal({
       isOpen: true,
-      title: isRevoking ? "Confirmation de Révocation d'Accès" : "Confirmation de Réactivation d'Accès",
-      message: `Êtes-vous sûr de vouloir ${actionVerb} l'accès au compte institutionnel de ${userToToggle.name} (${userToToggle.email}) ?`,
+      title: isRevoking ? "Confirmation de RÃ©vocation d'AccÃ¨s" : "Confirmation de RÃ©activation d'AccÃ¨s",
+      message: `ÃŠtes-vous sÃ»r de vouloir ${actionVerb} l'accÃ¨s au compte institutionnel de ${userToToggle.name} (${userToToggle.email}) ?`,
       itemType: "user_access",
       itemId: userToToggle.id,
       itemLabel: userToToggle.name,
       warningText: isRevoking
-        ? "Cet utilisateur ne pourra plus se connecter au portail UR-GEDT ni effectuer d'opérations d'écriture."
-        : "Cet utilisateur pourra de nouveau se connecter au système avec ses identifiants habituels.",
-      confirmText: isRevoking ? "Révoquer l'accès" : "Réactiver l'accès",
+        ? "Cet utilisateur ne pourra plus se connecter au portail UR-GEDT ni effectuer d'opÃ©rations d'Ã©criture."
+        : "Cet utilisateur pourra de nouveau se connecter au systÃ¨me avec ses identifiants habituels.",
+      confirmText: isRevoking ? "RÃ©voquer l'accÃ¨s" : "RÃ©activer l'accÃ¨s",
       variant: isRevoking ? "danger" : "warning",
       onConfirm: async () => {
         const newActiveState = !userToToggle.active;
         const updatedUsers = db.users.map((u) =>
           u.id === userToToggle.id ? { ...u, active: newActiveState } : u
         );
-        const logAction = newActiveState ? "Réactivation Accès Utilisateur" : "Révocation Accès Utilisateur";
+        const logAction = newActiveState ? "RÃ©activation AccÃ¨s Utilisateur" : "RÃ©vocation AccÃ¨s Utilisateur";
         const logDetails = newActiveState
-          ? `Réactivation de l'accès institutionnel pour ${userToToggle.name} (${userToToggle.role})`
-          : `Révocation de l'accès institutionnel pour ${userToToggle.name} (${userToToggle.role})`;
+          ? `RÃ©activation de l'accÃ¨s institutionnel pour ${userToToggle.name} (${userToToggle.role})`
+          : `RÃ©vocation de l'accÃ¨s institutionnel pour ${userToToggle.name} (${userToToggle.role})`;
 
         const success = await onUpdateTable("users", updatedUsers, logAction, logDetails);
         if (success) {
           if (newActiveState) {
-            setSuccessMsg(`Accès de ${userToToggle.name} réactivé avec succès.`);
-            addToast(`Accès réactivé pour ${userToToggle.name}`, "success", "Gestion des Utilisateurs");
+            setSuccessMsg(`AccÃ¨s de ${userToToggle.name} rÃ©activÃ© avec succÃ¨s.`);
+            addToast(`AccÃ¨s rÃ©activÃ© pour ${userToToggle.name}`, "success", "Gestion des Utilisateurs");
           } else {
-            setSuccessMsg(`Accès de ${userToToggle.name} révoqué avec succès.`);
-            addToast(`Accès révoqué pour ${userToToggle.name}`, "warning", "Révocation d'Accès");
+            setSuccessMsg(`AccÃ¨s de ${userToToggle.name} rÃ©voquÃ© avec succÃ¨s.`);
+            addToast(`AccÃ¨s rÃ©voquÃ© pour ${userToToggle.name}`, "warning", "RÃ©vocation d'AccÃ¨s");
           }
         } else {
-          setErrorMsg("Erreur lors de la mise à jour des accès de l'utilisateur.");
-          addToast("Échec de la modification des accès.", "error", "Erreur Système");
+          setErrorMsg("Erreur lors de la mise Ã  jour des accÃ¨s de l'utilisateur.");
+          addToast("Ã‰chec de la modification des accÃ¨s.", "error", "Erreur SystÃ¨me");
         }
         setGenericConfirmModal(null);
       }
@@ -1527,7 +1525,7 @@ export default function AdminDashboard({
       const matchesStatus =
         userStatusFilter === "Tous" ||
         (userStatusFilter === "Actifs" && u.active) ||
-        (userStatusFilter === "Révoqués" && !u.active);
+        (userStatusFilter === "RÃ©voquÃ©s" && !u.active);
       return matchesSearch && matchesRole && matchesStatus;
     });
 
@@ -1535,14 +1533,14 @@ export default function AdminDashboard({
       "ur_gedt_repertoire_utilisateurs",
       filteredUsers.map((u) => ({
         ...u,
-        statusText: u.active ? "Actif / Autorisé" : "Révoqué / Suspendu"
+        statusText: u.active ? "Actif / AutorisÃ©" : "RÃ©voquÃ© / Suspendu"
       })),
       [
         { key: "id", label: "ID Compte" },
-        { key: "name", label: "Nom & Prénom" },
+        { key: "name", label: "Nom & PrÃ©nom" },
         { key: "email", label: "E-mail Institutionnel" },
-        { key: "role", label: "Rôle / Fonction" },
-        { key: "statusText", label: "Statut d'Accès" }
+        { key: "role", label: "RÃ´le / Fonction" },
+        { key: "statusText", label: "Statut d'AccÃ¨s" }
       ]
     );
   };
@@ -1559,7 +1557,7 @@ export default function AdminDashboard({
       const matchesStatus =
         userStatusFilter === "Tous" ||
         (userStatusFilter === "Actifs" && u.active) ||
-        (userStatusFilter === "Révoqués" && !u.active);
+        (userStatusFilter === "RÃ©voquÃ©s" && !u.active);
       return matchesSearch && matchesRole && matchesStatus;
     });
   }, [db.users, userSearchQuery, userRoleFilter, userStatusFilter]);
@@ -1581,7 +1579,7 @@ export default function AdminDashboard({
       setFormData({ description: "", source: "", amount: "", type: "Subvention" });
     } else if (modalType === "expense") {
       localStorage.removeItem("urgedt_draft_expense");
-      setFormData({ description: "", beneficiary: "", amount: "", category: "Matériel", receiptUrl: "" });
+      setFormData({ description: "", beneficiary: "", amount: "", category: "MatÃ©riel", receiptUrl: "" });
     }
     setHasDraftRestored(false);
   };
@@ -1598,22 +1596,22 @@ export default function AdminDashboard({
       if (type === "activity") {
         let actType = "Recherche";
         let cleanTitle = item.title;
-        if (item.title.startsWith("[Réunion]")) {
-          actType = "Réunion";
-          cleanTitle = item.title.replace("[Réunion]", "").trim();
-        } else if (item.title.startsWith("[Séminaire]")) {
-          actType = "Séminaire";
-          cleanTitle = item.title.replace("[Séminaire]", "").trim();
+        if (item.title.startsWith("[RÃ©union]")) {
+          actType = "RÃ©union";
+          cleanTitle = item.title.replace("[RÃ©union]", "").trim();
+        } else if (item.title.startsWith("[SÃ©minaire]")) {
+          actType = "SÃ©minaire";
+          cleanTitle = item.title.replace("[SÃ©minaire]", "").trim();
         } else if (item.title.startsWith("[Recherche]")) {
           actType = "Recherche";
           cleanTitle = item.title.replace("[Recherche]", "").trim();
         } else {
           const t = item.title.toLowerCase();
           const d = item.description.toLowerCase();
-          if (t.includes("réunion") || d.includes("réunion") || t.includes("reunion") || d.includes("reunion")) {
-            actType = "Réunion";
-          } else if (t.includes("séminaire") || d.includes("séminaire") || t.includes("seminaire") || d.includes("seminaire")) {
-            actType = "Séminaire";
+          if (t.includes("rÃ©union") || d.includes("rÃ©union") || t.includes("reunion") || d.includes("reunion")) {
+            actType = "RÃ©union";
+          } else if (t.includes("sÃ©minaire") || d.includes("sÃ©minaire") || t.includes("seminaire") || d.includes("seminaire")) {
+            actType = "SÃ©minaire";
           }
         }
         setFormData({ ...item, title: cleanTitle, type: actType });
@@ -1645,11 +1643,11 @@ export default function AdminDashboard({
             setFormData(parsed);
             setHasDraftRestored(true);
           } catch {
-            setFormData({ description: "", beneficiary: "", amount: "", category: "Matériel", receiptUrl: "" });
+            setFormData({ description: "", beneficiary: "", amount: "", category: "MatÃ©riel", receiptUrl: "" });
             setHasDraftRestored(false);
           }
         } else {
-          setFormData({ description: "", beneficiary: "", amount: "", category: "Matériel", receiptUrl: "" });
+          setFormData({ description: "", beneficiary: "", amount: "", category: "MatÃ©riel", receiptUrl: "" });
           setHasDraftRestored(false);
         }
         setScanError(undefined);
@@ -1669,7 +1667,7 @@ export default function AdminDashboard({
           description: item?.description || "",
           location: item?.location || "",
           date: item?.date || new Date().toISOString().split("T")[0],
-          status: item?.status || "Planifié",
+          status: item?.status || "PlanifiÃ©",
           budget: item?.budget || "",
           researchers: item?.researchers || [],
           type: item?.type || "Recherche"
@@ -1682,7 +1680,7 @@ export default function AdminDashboard({
         setFormData({ title: "", description: "", type: "photo", url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80", date: new Date().toISOString().split("T")[0] });
         setHasDraftRestored(false);
       } else if (type === "partner") {
-        setFormData({ name: "", logo: "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?auto=format&fit=crop&w=200&q=80", website: "", type: "Académique" });
+        setFormData({ name: "", logo: "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?auto=format&fit=crop&w=200&q=80", website: "", type: "AcadÃ©mique" });
         setHasDraftRestored(false);
       }
     }
@@ -1717,16 +1715,16 @@ export default function AdminDashboard({
           } catch {}
 
           if (isOffline) {
-            setSuccessMsg("Sauvegardé localement (Mode Hors-Ligne) ! La recette sera synchronisée dès le retour du réseau.");
-            addToast("Recette enregistrée localement (Mode Hors-Ligne)", "warning", "Stockage Local");
+            setSuccessMsg("SauvegardÃ© localement (Mode Hors-Ligne) ! La recette sera synchronisÃ©e dÃ¨s le retour du rÃ©seau.");
+            addToast("Recette enregistrÃ©e localement (Mode Hors-Ligne)", "warning", "Stockage Local");
           } else {
-            setSuccessMsg("Recette enregistrée avec succès !");
-            addToast("Recette enregistrée avec succès !", "success", "Gestion Financière");
+            setSuccessMsg("Recette enregistrÃ©e avec succÃ¨s !");
+            addToast("Recette enregistrÃ©e avec succÃ¨s !", "success", "Gestion FinanciÃ¨re");
           }
           setIsModalOpen(false);
         } else {
           setErrorMsg("Erreur lors de l'enregistrement");
-          addToast("Erreur lors de l'enregistrement de la recette.", "error", "Échec Enregistrement");
+          addToast("Erreur lors de l'enregistrement de la recette.", "error", "Ã‰chec Enregistrement");
         }
         return;
       }
@@ -1751,16 +1749,16 @@ export default function AdminDashboard({
           } catch {}
 
           if (isOffline) {
-            setSuccessMsg("Sauvegardé localement (Mode Hors-Ligne) ! La dépense sera synchronisée dès le retour du réseau.");
-            addToast("Dépense enregistrée localement (Mode Hors-Ligne)", "warning", "Stockage Local");
+            setSuccessMsg("SauvegardÃ© localement (Mode Hors-Ligne) ! La dÃ©pense sera synchronisÃ©e dÃ¨s le retour du rÃ©seau.");
+            addToast("DÃ©pense enregistrÃ©e localement (Mode Hors-Ligne)", "warning", "Stockage Local");
           } else {
-            setSuccessMsg("Dépense enregistrée avec succès !");
-            addToast("Dépense budgétaire enregistrée avec succès !", "success", "Gestion Financière");
+            setSuccessMsg("DÃ©pense enregistrÃ©e avec succÃ¨s !");
+            addToast("DÃ©pense budgÃ©taire enregistrÃ©e avec succÃ¨s !", "success", "Gestion FinanciÃ¨re");
           }
           setIsModalOpen(false);
         } else {
           setErrorMsg("Erreur lors de l'enregistrement");
-          addToast("Erreur lors de l'enregistrement de la dépense.", "error", "Échec Enregistrement");
+          addToast("Erreur lors de l'enregistrement de la dÃ©pense.", "error", "Ã‰chec Enregistrement");
         }
         return;
       }
@@ -1785,21 +1783,21 @@ export default function AdminDashboard({
         } else {
           const newUser = { ...formData, id: `u-${Date.now()}`, active: formData.active ?? true };
           updatedList = [newUser, ...currentList];
-          logAction = "Création Personnel";
-          logDetails = `Création d'un membre du personnel ${formData.name} (${formData.role}).`;
+          logAction = "CrÃ©ation Personnel";
+          logDetails = `CrÃ©ation d'un membre du personnel ${formData.name} (${formData.role}).`;
         }
       } else if (modalType === "news") {
         tableName = "news";
         const currentList = [...db.news];
         if (editingItem) {
           updatedList = currentList.map(n => n.id === editingItem.id ? { ...n, ...formData } : n);
-          logAction = "Modification Actualité";
-          logDetails = `Modification de l'actualité : ${formData.title}`;
+          logAction = "Modification ActualitÃ©";
+          logDetails = `Modification de l'actualitÃ© : ${formData.title}`;
         } else {
           const newItem = { ...formData, id: `n-${Date.now()}` };
           updatedList = [newItem, ...currentList];
-          logAction = "Création Actualité";
-          logDetails = `Création de l'actualité : ${formData.title}`;
+          logAction = "CrÃ©ation ActualitÃ©";
+          logDetails = `CrÃ©ation de l'actualitÃ© : ${formData.title}`;
         }
       } else if (modalType === "project") {
         tableName = "projects";
@@ -1811,7 +1809,7 @@ export default function AdminDashboard({
         } else {
           const newItem = { ...formData, id: `proj-${Date.now()}`, budget: parseFloat(formData.budget) };
           updatedList = [newItem, ...currentList];
-          logAction = "Création Projet";
+          logAction = "CrÃ©ation Projet";
           logDetails = `Lancement du projet de recherche : ${formData.title}`;
         }
       } else if (modalType === "activity") {
@@ -1834,13 +1832,13 @@ export default function AdminDashboard({
 
         if (editingItem) {
           updatedList = currentList.map(a => a.id === editingItem.id ? { ...a, ...formData, title: finalTitle, budget: parseFloat(formData.budget), researchers: researchersArray } : a);
-          logAction = "Modification Activité";
-          logDetails = `Modification de l'activité : ${rawTitle}`;
+          logAction = "Modification ActivitÃ©";
+          logDetails = `Modification de l'activitÃ© : ${rawTitle}`;
         } else {
           const newItem = { ...formData, id: `act-${Date.now()}`, title: finalTitle, budget: parseFloat(formData.budget), researchers: researchersArray };
           updatedList = [newItem, ...currentList];
-          logAction = "Création Activité";
-          logDetails = `Création de l'activité : ${rawTitle}`;
+          logAction = "CrÃ©ation ActivitÃ©";
+          logDetails = `CrÃ©ation de l'activitÃ© : ${rawTitle}`;
         }
       } else if (modalType === "publication") {
         tableName = "publications";
@@ -1852,7 +1850,7 @@ export default function AdminDashboard({
         } else {
           const newItem = { ...formData, id: `pub-${Date.now()}`, year: parseInt(formData.year, 10) };
           updatedList = [newItem, ...currentList];
-          logAction = "Création Publication";
+          logAction = "CrÃ©ation Publication";
           logDetails = `Ajout de la publication scientifique : ${formData.title}`;
         }
       } else if (modalType === "gallery") {
@@ -1861,12 +1859,12 @@ export default function AdminDashboard({
         if (editingItem) {
           updatedList = currentList.map(g => g.id === editingItem.id ? { ...g, ...formData } : g);
           logAction = "Modification Galerie";
-          logDetails = `Modification de l'élément média : ${formData.title}`;
+          logDetails = `Modification de l'Ã©lÃ©ment mÃ©dia : ${formData.title}`;
         } else {
           const newItem = { ...formData, id: `gal-${Date.now()}` };
           updatedList = [newItem, ...currentList];
-          logAction = "Création Galerie";
-          logDetails = `Ajout d'un média à la galerie : ${formData.title}`;
+          logAction = "CrÃ©ation Galerie";
+          logDetails = `Ajout d'un mÃ©dia Ã  la galerie : ${formData.title}`;
         }
       } else if (modalType === "partner") {
         tableName = "partners";
@@ -1878,48 +1876,48 @@ export default function AdminDashboard({
         } else {
           const newItem = { ...formData, id: `part-${Date.now()}` };
           updatedList = [newItem, ...currentList];
-          logAction = "Création Partenaire";
+          logAction = "CrÃ©ation Partenaire";
           logDetails = `Ajout du partenaire officiel : ${formData.name}`;
         }
       }
 
       const success = await onUpdateTable(tableName, updatedList, logAction, logDetails);
       if (success) {
-        setSuccessMsg("Enregistrement réussi !");
+        setSuccessMsg("Enregistrement rÃ©ussi !");
         if (modalType === "user") {
           addToast(
-            `Compte utilisateur ${editingItem ? "modifié" : "créé"} avec succès : ${formData.name} (${formData.role})`,
+            `Compte utilisateur ${editingItem ? "modifiÃ©" : "crÃ©Ã©"} avec succÃ¨s : ${formData.name} (${formData.role})`,
             "success",
-            "Mise à Jour des Accès"
+            "Mise Ã  Jour des AccÃ¨s"
           );
         } else if (modalType === "project") {
           addToast(
-            `Projet de recherche ${editingItem ? "modifié" : "enregistré"} : ${formData.title}`,
+            `Projet de recherche ${editingItem ? "modifiÃ©" : "enregistrÃ©"} : ${formData.title}`,
             "success",
-            "Projets Académiques"
+            "Projets AcadÃ©miques"
           );
         } else if (modalType === "activity") {
           addToast(
-            `Activité terrain ${editingItem ? "mise à jour" : "créée"} : ${formData.title}`,
+            `ActivitÃ© terrain ${editingItem ? "mise Ã  jour" : "crÃ©Ã©e"} : ${formData.title}`,
             "success",
-            "Activités UR-GEDT"
+            "ActivitÃ©s UR-GEDT"
           );
         } else if (modalType === "news") {
           addToast(
-            `Actualité ${editingItem ? "mise à jour" : "publiée"} : ${formData.title}`,
+            `ActualitÃ© ${editingItem ? "mise Ã  jour" : "publiÃ©e"} : ${formData.title}`,
             "success",
-            "Actualités Institutionnelles"
+            "ActualitÃ©s Institutionnelles"
           );
         } else {
-          addToast("Données sauvegardées avec succès dans le système.", "success", "Enregistrement Réussi");
+          addToast("DonnÃ©es sauvegardÃ©es avec succÃ¨s dans le systÃ¨me.", "success", "Enregistrement RÃ©ussi");
         }
         setIsModalOpen(false);
       } else {
         setErrorMsg("Erreur lors de la communication serveur");
-        addToast("Erreur lors de la communication serveur.", "error", "Échec Enregistrement");
+        addToast("Erreur lors de la communication serveur.", "error", "Ã‰chec Enregistrement");
       }
     } catch (e: any) {
-      setErrorMsg(`Erreur système : ${e.message}`);
+      setErrorMsg(`Erreur systÃ¨me : ${e.message}`);
     }
   };
 
@@ -1947,8 +1945,8 @@ export default function AdminDashboard({
     } else if (type === "news") {
       tableName = "news";
       updatedList = db.news.filter(n => n.id !== id);
-      logAction = "Suppression Actualité";
-      logDetails = `Suppression de l'actualité : ${label}`;
+      logAction = "Suppression ActualitÃ©";
+      logDetails = `Suppression de l'actualitÃ© : ${label}`;
     } else if (type === "project") {
       tableName = "projects";
       updatedList = db.projects.filter(p => p.id !== id);
@@ -1957,8 +1955,8 @@ export default function AdminDashboard({
     } else if (type === "activity") {
       tableName = "activities";
       updatedList = db.activities.filter(a => a.id !== id);
-      logAction = "Suppression Activité";
-      logDetails = `Suppression de l'activité terrain : ${label}`;
+      logAction = "Suppression ActivitÃ©";
+      logDetails = `Suppression de l'activitÃ© terrain : ${label}`;
     } else if (type === "publication") {
       tableName = "publications";
       updatedList = db.publications.filter(p => p.id !== id);
@@ -1968,7 +1966,7 @@ export default function AdminDashboard({
       tableName = "gallery";
       updatedList = db.gallery.filter(g => g.id !== id);
       logAction = "Suppression Galerie";
-      logDetails = `Suppression du média de la galerie : ${label}`;
+      logDetails = `Suppression du mÃ©dia de la galerie : ${label}`;
     } else if (type === "partner") {
       tableName = "partners";
       updatedList = db.partners.filter(p => p.id !== id);
@@ -1978,25 +1976,25 @@ export default function AdminDashboard({
       tableName = "contactMessages";
       updatedList = db.contactMessages.filter(m => m.id !== id);
       logAction = "Suppression Message";
-      logDetails = `Suppression du message envoyé par : ${label}`;
+      logDetails = `Suppression du message envoyÃ© par : ${label}`;
     } else if (type === "recipe") {
       tableName = "recipes";
       updatedList = db.recipes.filter(r => r.id !== id);
       logAction = "Suppression Recette";
-      logDetails = `Suppression de la recette enregistrée : ${id} (${label})`;
+      logDetails = `Suppression de la recette enregistrÃ©e : ${id} (${label})`;
     } else if (type === "expense") {
       tableName = "expenses";
       updatedList = db.expenses.filter(e => e.id !== id);
-      logAction = "Suppression Dépense";
-      logDetails = `Suppression de la dépense enregistrée : ${id} (${label})`;
+      logAction = "Suppression DÃ©pense";
+      logDetails = `Suppression de la dÃ©pense enregistrÃ©e : ${id} (${label})`;
     }
 
     try {
       await onUpdateTable(tableName, updatedList, logAction, logDetails);
-      addToast(`L'élément "${label}" a été supprimé définitivement.`, "warning", "Suppression Effectuée");
+      addToast(`L'Ã©lÃ©ment "${label}" a Ã©tÃ© supprimÃ© dÃ©finitivement.`, "warning", "Suppression EffectuÃ©e");
     } catch (err) {
       console.error("Delete operation failed:", err);
-      addToast("Erreur lors de la suppression de l'élément.", "error", "Échec Suppression");
+      addToast("Erreur lors de la suppression de l'Ã©lÃ©ment.", "error", "Ã‰chec Suppression");
     } finally {
       setIsDeleting(false);
       setDeleteConfirmItem(null);
@@ -2006,7 +2004,7 @@ export default function AdminDashboard({
   // Toggle message read state
   const handleToggleMessageRead = async (msg: ContactMessage) => {
     const updated = db.contactMessages.map(m => m.id === msg.id ? { ...m, readStatus: !m.readStatus } : m);
-    await onUpdateTable("contactMessages", updated, "Modification Message", `Marqué le message de ${msg.senderName} comme ${!msg.readStatus ? 'lu' : 'non lu'}.`);
+    await onUpdateTable("contactMessages", updated, "Modification Message", `MarquÃ© le message de ${msg.senderName} comme ${!msg.readStatus ? 'lu' : 'non lu'}.`);
   };
 
   return (
@@ -2015,7 +2013,7 @@ export default function AdminDashboard({
     }`}>
       {theme !== "light" && (
         <>
-          {/* Subtle nature-photo backdrop, in the same spirit as the public site —
+          {/* Subtle nature-photo backdrop, in the same spirit as the public site â€”
               kept low-opacity with a strong dark overlay so tables, forms, and
               financial figures stay fully legible on a data-dense screen. */}
           <div
@@ -2080,11 +2078,11 @@ export default function AdminDashboard({
           <button
             onClick={toggleTheme}
             className="w-full flex items-center justify-between px-3 py-2 bg-[#151515] hover:bg-[#1E1E1E] border border-white/5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white transition-all cursor-pointer"
-            title="Changer le thème d'affichage"
+            title="Changer le thÃ¨me d'affichage"
           >
             <span className="flex items-center space-x-2">
               {theme === "dark" ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-indigo-400" />}
-              <span>{theme === "dark" ? "Thème Clair" : "Thème Sombre"}</span>
+              <span>{theme === "dark" ? "ThÃ¨me Clair" : "ThÃ¨me Sombre"}</span>
             </span>
             <span className="text-[11px] font-mono uppercase bg-[#D4AF37]/10 text-[#D4AF37] px-2 py-0.5 rounded border border-[#D4AF37]/20 font-bold">
               {theme === "dark" ? "SOMBRE" : "CLAIR"}
@@ -2096,7 +2094,7 @@ export default function AdminDashboard({
             className="w-full flex items-center justify-center space-x-2 bg-[#151515] hover:bg-red-950/40 text-slate-300 hover:text-red-400 border border-white/5 hover:border-red-900 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer"
           >
             <LogOut className="h-4 w-4" />
-            <span>Déconnexion</span>
+            <span>DÃ©connexion</span>
           </button>
         </div>
       </aside>
@@ -2164,15 +2162,15 @@ export default function AdminDashboard({
                     <div className="px-3 py-2 flex items-center justify-between text-xs text-slate-400 font-mono">
                       <span>Recherche : <strong className="text-white">"{globalSearch}"</strong></span>
                       <span className="bg-[#D4AF37]/10 text-[#D4AF37] px-2 py-0.5 rounded font-bold border border-[#D4AF37]/20">
-                        {globalSearchResults.totalCount} résultat(s)
+                        {globalSearchResults.totalCount} rÃ©sultat(s)
                       </span>
                     </div>
 
                     {globalSearchResults.totalCount === 0 ? (
                       <div className="p-6 text-center text-slate-400 space-y-1">
                         <Search className="h-8 w-8 text-slate-600 mx-auto mb-2" />
-                        <p className="font-semibold text-slate-300">Aucun résultat trouvé</p>
-                        <p className="text-xs text-slate-500">Essayez avec un nom, une catégorie, un montant ou un statut.</p>
+                        <p className="font-semibold text-slate-300">Aucun rÃ©sultat trouvÃ©</p>
+                        <p className="text-xs text-slate-500">Essayez avec un nom, une catÃ©gorie, un montant ou un statut.</p>
                       </div>
                     ) : (
                       <div className="py-2 space-y-4">
@@ -2245,10 +2243,10 @@ export default function AdminDashboard({
                               >
                                 <div className="space-y-0.5 min-w-0 pr-2">
                                   <div className="flex items-center space-x-2">
-                                    <span className="text-[10px] font-bold uppercase bg-red-500/10 text-red-400 px-1.5 py-0.5 rounded border border-red-500/20 shrink-0">Dépense</span>
+                                    <span className="text-[10px] font-bold uppercase bg-red-500/10 text-red-400 px-1.5 py-0.5 rounded border border-red-500/20 shrink-0">DÃ©pense</span>
                                     <span className="text-white font-medium group-hover:text-[#D4AF37] transition-colors truncate">{e.description || e.beneficiary}</span>
                                   </div>
-                                  <p className="text-[11px] text-slate-400 font-mono truncate">Bénéficiaire : {e.beneficiary} &bull; {e.category} &bull; {e.date}</p>
+                                  <p className="text-[11px] text-slate-400 font-mono truncate">BÃ©nÃ©ficiaire : {e.beneficiary} &bull; {e.category} &bull; {e.date}</p>
                                 </div>
                                 <div className="flex items-center space-x-2 shrink-0">
                                   <span className="font-bold text-red-400 font-mono text-xs">- {(e.amount || 0).toLocaleString()} USD</span>
@@ -2384,17 +2382,17 @@ export default function AdminDashboard({
             <button
               onClick={toggleTheme}
               className="flex items-center space-x-2 bg-[#151515] hover:bg-[#1E1E1E] border border-white/10 hover:border-[#D4AF37]/50 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-sm group"
-              title={theme === "dark" ? "Passer au thème clair" : "Passer au thème sombre"}
+              title={theme === "dark" ? "Passer au thÃ¨me clair" : "Passer au thÃ¨me sombre"}
             >
               {theme === "dark" ? (
                 <>
                   <Sun className="h-4 w-4 text-amber-400 group-hover:rotate-45 transition-transform shrink-0" />
-                  <span className="hidden sm:inline text-slate-300 group-hover:text-white">Thème Clair</span>
+                  <span className="hidden sm:inline text-slate-300 group-hover:text-white">ThÃ¨me Clair</span>
                 </>
               ) : (
                 <>
                   <Moon className="h-4 w-4 text-indigo-500 group-hover:-rotate-12 transition-transform shrink-0" />
-                  <span className="hidden sm:inline text-slate-700 group-hover:text-black">Thème Sombre</span>
+                  <span className="hidden sm:inline text-slate-700 group-hover:text-black">ThÃ¨me Sombre</span>
                 </>
               )}
             </button>
@@ -2407,17 +2405,17 @@ export default function AdminDashboard({
                   ? "bg-[#D4AF37]/20 border-[#D4AF37] text-[#D4AF37]"
                   : "bg-[#151515] hover:bg-[#1E1E1E] border-white/10 hover:border-[#D4AF37]/50 text-slate-300 hover:text-white"
               }`}
-              title={isFullscreen ? "Quitter le mode plein écran" : "Basculer le tableau de bord en plein écran"}
+              title={isFullscreen ? "Quitter le mode plein Ã©cran" : "Basculer le tableau de bord en plein Ã©cran"}
             >
               {isFullscreen ? (
                 <>
                   <Minimize2 className="h-4 w-4 text-[#D4AF37] shrink-0" />
-                  <span className="hidden sm:inline">Quitter Plein Écran</span>
+                  <span className="hidden sm:inline">Quitter Plein Ã‰cran</span>
                 </>
               ) : (
                 <>
                   <Maximize2 className="h-4 w-4 text-[#D4AF37] shrink-0" />
-                  <span className="hidden sm:inline">Plein Écran</span>
+                  <span className="hidden sm:inline">Plein Ã‰cran</span>
                 </>
               )}
             </button>
@@ -2426,7 +2424,7 @@ export default function AdminDashboard({
             <div 
               onClick={() => onSyncOfflineQueue?.(true)}
               className="hidden lg:flex items-center space-x-2 bg-[#151515] hover:bg-[#1E1E1E] border border-white/10 hover:border-[#D4AF37]/50 px-3 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer shadow-sm group"
-              title="Dernière synchronisation réussie avec le serveur. Cliquer pour rafraîchir."
+              title="DerniÃ¨re synchronisation rÃ©ussie avec le serveur. Cliquer pour rafraÃ®chir."
             >
               <span className="relative flex h-2 w-2 shrink-0">
                 {isOnline ? (
@@ -2461,9 +2459,9 @@ export default function AdminDashboard({
                       <WifiOff className="h-5 w-5 animate-pulse" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-xs uppercase tracking-wide text-amber-300">Mode Hors-Ligne Activé</h4>
+                      <h4 className="font-bold text-xs uppercase tracking-wide text-amber-300">Mode Hors-Ligne ActivÃ©</h4>
                       <p className="text-xs text-slate-300">
-                        Connexion réseau indisponible. Les formulaires de recettes et dépenses saisis seront sauvegardés localement via <code className="font-mono bg-black/40 px-1 py-0.5 rounded text-amber-300">localStorage</code> et synchronisés automatiquement avec le serveur dès le rétablissement d'Internet.
+                        Connexion rÃ©seau indisponible. Les formulaires de recettes et dÃ©penses saisis seront sauvegardÃ©s localement via <code className="font-mono bg-black/40 px-1 py-0.5 rounded text-amber-300">localStorage</code> et synchronisÃ©s automatiquement avec le serveur dÃ¨s le rÃ©tablissement d'Internet.
                       </p>
                     </div>
                   </div>
@@ -2484,7 +2482,7 @@ export default function AdminDashboard({
                     <div>
                       <h4 className="font-bold text-xs uppercase tracking-wide text-blue-300">Formulaires Hors-Ligne en Attente</h4>
                       <p className="text-xs text-slate-300">
-                        {pendingOfflineCount} formulaire(s) financier(s) enregistré(s) hors-ligne en attente d'envoi au serveur.
+                        {pendingOfflineCount} formulaire(s) financier(s) enregistrÃ©(s) hors-ligne en attente d'envoi au serveur.
                       </p>
                     </div>
                   </div>
@@ -2547,22 +2545,22 @@ export default function AdminDashboard({
                     </div>
                   </div>
                   
-                  {/* Total Dépenses Card */}
+                  {/* Total DÃ©penses Card */}
                   <div className="bg-[#12261C] p-5 rounded-xl border border-white/5 shadow-md flex flex-col justify-between">
                     <div className="flex justify-between items-center mb-3 text-slate-500">
-                      <span className="text-xs font-semibold uppercase tracking-wider font-mono">Total Dépenses</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider font-mono">Total DÃ©penses</span>
                       <TrendingDown className="h-5 w-5 text-red-400" />
                     </div>
                     <div>
                       <p className="font-display text-2xl font-black text-white">{(totalExpenses || 0).toLocaleString()} USD</p>
-                      <p className="text-[11px] text-slate-500 mt-1 font-mono">Équipements & logistique</p>
+                      <p className="text-[11px] text-slate-500 mt-1 font-mono">Ã‰quipements & logistique</p>
                     </div>
                   </div>
 
-                  {/* Solde Trésorerie Card */}
+                  {/* Solde TrÃ©sorerie Card */}
                   <div className="bg-[#12261C] p-5 rounded-xl border border-white/5 shadow-md flex flex-col justify-between">
                     <div className="flex justify-between items-center mb-3 text-slate-500">
-                      <span className="text-xs font-semibold uppercase tracking-wider font-mono">Solde Trésorerie</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider font-mono">Solde TrÃ©sorerie</span>
                       <DollarSign className="h-5 w-5 text-[#D4AF37]" />
                     </div>
                     <div>
@@ -2571,7 +2569,7 @@ export default function AdminDashboard({
                     </div>
                   </div>
 
-                  {/* Validations Financières en Attente Card (Accountant / Manager exclusive) */}
+                  {/* Validations FinanciÃ¨res en Attente Card (Accountant / Manager exclusive) */}
                   <div className="bg-[#12261C] p-5 rounded-xl border border-amber-500/20 bg-amber-500/[0.02] shadow-md flex flex-col justify-between relative overflow-hidden group">
                     <div className="flex justify-between items-center mb-3 text-amber-400">
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono flex items-center gap-1 text-amber-300">
@@ -2586,16 +2584,16 @@ export default function AdminDashboard({
                       </div>
                       <p className="text-[11px] text-slate-400 mt-1 font-mono">
                         {pendingValidationsCount > 0 
-                          ? "Pièces ou envois hors-ligne à viser" 
-                          : "Toutes les pièces sont visées"}
+                          ? "PiÃ¨ces ou envois hors-ligne Ã  viser" 
+                          : "Toutes les piÃ¨ces sont visÃ©es"}
                       </p>
                     </div>
                     <button
                       onClick={() => setActivePanel("finances")}
                       className="mt-2.5 text-[11px] font-bold text-amber-400 hover:text-amber-300 underline text-left cursor-pointer flex items-center gap-1"
-                      title="Aller au panneau comptable pour examiner les pièces"
+                      title="Aller au panneau comptable pour examiner les piÃ¨ces"
                     >
-                      <span>Examiner les pièces →</span>
+                      <span>Examiner les piÃ¨ces â†’</span>
                     </button>
                   </div>
 
@@ -2607,16 +2605,16 @@ export default function AdminDashboard({
                     </div>
                     <div>
                       <p className="font-display text-2xl font-black text-white">{activeProjectsCount} Projets</p>
-                      <p className="text-[11px] text-slate-500 mt-1 font-mono">En cours d'étude UR-GEDT</p>
+                      <p className="text-[11px] text-slate-500 mt-1 font-mono">En cours d'Ã©tude UR-GEDT</p>
                     </div>
                   </div>
                 </div>
               ) : (
-                /* Standard Members (Chercheur, Secrétaire, etc.) - Decluttered Academic & Research Summary Cards */
+                /* Standard Members (Chercheur, SecrÃ©taire, etc.) - Decluttered Academic & Research Summary Cards */
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                     <div className="flex justify-between items-center mb-4 text-slate-500">
-                      <span className="text-xs font-semibold uppercase tracking-wider font-mono">Projets Académiques</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider font-mono">Projets AcadÃ©miques</span>
                       <Briefcase className="h-5 w-5 text-blue-400" />
                     </div>
                     <p className="font-display text-2xl font-black text-white">{activeProjectsCount} Actifs</p>
@@ -2628,26 +2626,26 @@ export default function AdminDashboard({
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono">Publications Sci.</span>
                       <BookOpen className="h-5 w-5 text-purple-400" />
                     </div>
-                    <p className="font-display text-2xl font-black text-white">{db.publications.length} Articles & Thèses</p>
-                    <p className="text-[11px] text-slate-500 mt-1 font-mono">Base de savoir académique</p>
+                    <p className="font-display text-2xl font-black text-white">{db.publications.length} Articles & ThÃ¨ses</p>
+                    <p className="text-[11px] text-slate-500 mt-1 font-mono">Base de savoir acadÃ©mique</p>
                   </div>
 
                   <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                     <div className="flex justify-between items-center mb-4 text-slate-500">
-                      <span className="text-xs font-semibold uppercase tracking-wider font-mono">Activités Terrain</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider font-mono">ActivitÃ©s Terrain</span>
                       <Activity className="h-5 w-5 text-emerald-400" />
                     </div>
                     <p className="font-display text-2xl font-black text-white">{db.activities.length} Missions</p>
-                    <p className="text-[11px] text-slate-500 mt-1 font-mono">Investigations & enquêtes</p>
+                    <p className="text-[11px] text-slate-500 mt-1 font-mono">Investigations & enquÃªtes</p>
                   </div>
 
                   <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                     <div className="flex justify-between items-center mb-4 text-slate-500">
-                      <span className="text-xs font-semibold uppercase tracking-wider font-mono">Actualités Publiées</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider font-mono">ActualitÃ©s PubliÃ©es</span>
                       <FileText className="h-5 w-5 text-[#D4AF37]" />
                     </div>
-                    <p className="font-display text-2xl font-black text-white">{db.news.length} Communiqués</p>
-                    <p className="text-[11px] text-slate-500 mt-1 font-mono">Espace média UR-GEDT</p>
+                    <p className="font-display text-2xl font-black text-white">{db.news.length} CommuniquÃ©s</p>
+                    <p className="text-[11px] text-slate-500 mt-1 font-mono">Espace mÃ©dia UR-GEDT</p>
                   </div>
                 </div>
               )}
@@ -2658,10 +2656,10 @@ export default function AdminDashboard({
                   <div>
                     <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                       <TrendingUp className="h-5 w-5 text-[#D4AF37]" />
-                      <span>Tendances Mensuelles : Recettes vs Dépenses (2026)</span>
+                      <span>Tendances Mensuelles : Recettes vs DÃ©penses (2026)</span>
                     </h3>
                     <p className="text-xs text-slate-400 mt-1">
-                      Analyse dynamique Recharts des flux financiers entrants (Recettes) et sortants (Dépenses) par mois.
+                      Analyse dynamique Recharts des flux financiers entrants (Recettes) et sortants (DÃ©penses) par mois.
                     </p>
                   </div>
                   <div className="flex items-center space-x-2 bg-[#151515] p-1.5 rounded-xl border border-white/5 self-start sm:self-auto">
@@ -2672,7 +2670,7 @@ export default function AdminDashboard({
                         chartType === "area" ? "bg-[#D4AF37] text-black shadow-md" : "text-slate-400 hover:text-white"
                       }`}
                     >
-                      Aires Cumulées
+                      Aires CumulÃ©es
                     </button>
                     <button
                       type="button"
@@ -2706,7 +2704,7 @@ export default function AdminDashboard({
                         <Tooltip content={<CustomChartTooltip />} />
                         <Legend wrapperStyle={{ paddingTop: 10, fontSize: 12, color: "#94a3b8" }} />
                         <Area type="monotone" dataKey="Recettes" stroke="#10B981" strokeWidth={2.5} fillOpacity={1} fill="url(#colorRecettesDash)" name="Recettes (USD)" />
-                        <Area type="monotone" dataKey="Dépenses" stroke="#EF4444" strokeWidth={2.5} fillOpacity={1} fill="url(#colorDepensesDash)" name="Dépenses (USD)" />
+                        <Area type="monotone" dataKey="DÃ©penses" stroke="#EF4444" strokeWidth={2.5} fillOpacity={1} fill="url(#colorDepensesDash)" name="DÃ©penses (USD)" />
                       </AreaChart>
                     ) : (
                       <BarChart data={monthlyFinancialTrends} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
@@ -2716,7 +2714,7 @@ export default function AdminDashboard({
                         <Tooltip content={<CustomChartTooltip />} />
                         <Legend wrapperStyle={{ paddingTop: 10, fontSize: 12, color: "#94a3b8" }} />
                         <Bar dataKey="Recettes" fill="#10B981" radius={[4, 4, 0, 0]} name="Recettes (USD)" />
-                        <Bar dataKey="Dépenses" fill="#EF4444" radius={[4, 4, 0, 0]} name="Dépenses (USD)" />
+                        <Bar dataKey="DÃ©penses" fill="#EF4444" radius={[4, 4, 0, 0]} name="DÃ©penses (USD)" />
                       </BarChart>
                     )}
                   </ResponsiveContainer>
@@ -2730,7 +2728,7 @@ export default function AdminDashboard({
                   <div className="flex justify-between items-center mb-6">
                     <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                       <BarChart2 className="h-4 w-4 text-[#D4AF37]" />
-                      <span>Répartition du Budget d'Investissement ({db.budget?.year || 2026})</span>
+                      <span>RÃ©partition du Budget d'Investissement ({db.budget?.year || 2026})</span>
                     </h3>
                     <div className="flex items-center gap-2">
                       <span className="text-[11px] text-slate-500 font-mono">UR-GEDT</span>
@@ -2749,7 +2747,7 @@ export default function AdminDashboard({
                     </div>
                   </div>
                   
-                  {/* SVG Bar chart for allocation — percentages computed dynamically
+                  {/* SVG Bar chart for allocation â€” percentages computed dynamically
                       from real amounts, never hardcoded, so the bars always match
                       the actual budget figures even after they change. */}
                   <div className="space-y-4">
@@ -2781,15 +2779,15 @@ export default function AdminDashboard({
                   </div>
 
                   <p className="text-[11px] text-slate-500 leading-relaxed mt-6 italic border-t border-white/5 pt-4">
-                    Ce graphique indique l'allocation programmatique du budget annuel de l'Unité de Recherche, réparti en six enveloppes distinctes (Recherche, Logistique, Matériels, Personnel, Missions, Investissements).
+                    Ce graphique indique l'allocation programmatique du budget annuel de l'UnitÃ© de Recherche, rÃ©parti en six enveloppes distinctes (Recherche, Logistique, MatÃ©riels, Personnel, Missions, Investissements).
                   </p>
                 </div>
 
-                {/* Journal simplié */}
+                {/* Journal simpliÃ© */}
                 <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
                   <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
                     <Clock className="h-4 w-4 text-[#D4AF37]" />
-                    <span>Derniers Événements du Système</span>
+                    <span>Derniers Ã‰vÃ©nements du SystÃ¨me</span>
                   </h3>
                   <div className="space-y-4 max-h-[280px] overflow-y-auto pr-2">
                     {db.logs.slice(0, 6).map((log) => (
@@ -2816,7 +2814,7 @@ export default function AdminDashboard({
                   <FileSpreadsheet className="h-4 w-4" />
                   <span>Centre de Rapports Officiels (PDF / Impression)</span>
                 </h3>
-                <p className="text-xs text-slate-400 mb-6">Générez instantanément des rapports conformes et signés pour vos archives académiques ou pour les bailleurs de fonds.</p>
+                <p className="text-xs text-slate-400 mb-6">GÃ©nÃ©rez instantanÃ©ment des rapports conformes et signÃ©s pour vos archives acadÃ©miques ou pour les bailleurs de fonds.</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* Recettes Card */}
                   <div className="flex flex-col justify-between p-4 bg-[#151515] border border-white/5 rounded-xl space-y-3">
@@ -2824,7 +2822,7 @@ export default function AdminDashboard({
                       <TrendingUp className="h-6 w-6 text-emerald-400 shrink-0" />
                       <div>
                         <h4 className="text-xs font-bold text-white">Rapport des Recettes</h4>
-                        <p className="text-[10px] text-slate-500 font-mono">Finances & Entrées</p>
+                        <p className="text-[10px] text-slate-500 font-mono">Finances & EntrÃ©es</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 pt-2 border-t border-white/5">
@@ -2849,12 +2847,12 @@ export default function AdminDashboard({
                     </div>
                   </div>
 
-                  {/* Dépenses Card */}
+                  {/* DÃ©penses Card */}
                   <div className="flex flex-col justify-between p-4 bg-[#151515] border border-white/5 rounded-xl space-y-3">
                     <div className="flex items-center space-x-3">
                       <TrendingDown className="h-6 w-6 text-red-400 shrink-0" />
                       <div>
-                        <h4 className="text-xs font-bold text-white">Rapport des Dépenses</h4>
+                        <h4 className="text-xs font-bold text-white">Rapport des DÃ©penses</h4>
                         <p className="text-[10px] text-slate-500 font-mono">Finances & Sorties</p>
                       </div>
                     </div>
@@ -2911,12 +2909,12 @@ export default function AdminDashboard({
                     </div>
                   </div>
 
-                  {/* Activités Card */}
+                  {/* ActivitÃ©s Card */}
                   <div className="flex flex-col justify-between p-4 bg-[#151515] border border-white/5 rounded-xl space-y-3">
                     <div className="flex items-center space-x-3">
                       <Activity className="h-6 w-6 text-purple-400 shrink-0" />
                       <div>
-                        <h4 className="text-xs font-bold text-white">Activités Terrain</h4>
+                        <h4 className="text-xs font-bold text-white">ActivitÃ©s Terrain</h4>
                         <p className="text-[10px] text-slate-500 font-mono">Investigations</p>
                       </div>
                     </div>
@@ -2949,7 +2947,7 @@ export default function AdminDashboard({
                               { key: "status", label: "Statut" },
                               { key: "budget", label: "Budget (USD)" },
                               { key: "date", label: "Date" },
-                              { key: "researchers", label: "Chercheurs Impliqués" },
+                              { key: "researchers", label: "Chercheurs ImpliquÃ©s" },
                               { key: "description", label: "Description" }
                             ]
                           );
@@ -2967,10 +2965,6 @@ export default function AdminDashboard({
             </div>
           )}
 
-          {/* PANEL: ARES BUDGET MODULE */}
-          {activePanel === "ares" && (
-            <AresBudgetPanel addToast={addToast} />
-          )}
 
           {/* PANEL: FINANCES MODULE */}
           {activePanel === "finances" && (
@@ -2985,14 +2979,14 @@ export default function AdminDashboard({
                   <div>
                     <div className="flex items-center gap-2">
                       <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">
-                        Gestion du Budget & Enveloppes Financières ({db.budget?.year || 2026})
+                        Gestion du Budget & Enveloppes FinanciÃ¨res ({db.budget?.year || 2026})
                       </h3>
                       <span className="bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37] text-[11px] font-mono font-bold px-2 py-0.5 rounded-md">
-                        Base de Données UR-GEDT
+                        Base de DonnÃ©es UR-GEDT
                       </span>
                     </div>
                     <p className="text-xs text-slate-300 mt-1 font-mono">
-                      Budget Global Alloué : <strong className="text-[#D4AF37] font-extrabold font-mono">{(db.budget?.totalBudget || 0).toLocaleString()} USD</strong> (Recherche: {(db.budget?.allocatedResearch || 0).toLocaleString()} USD | Logistique: {(db.budget?.allocatedLogistics || 0).toLocaleString()} USD | Matériel: {(db.budget?.allocatedEquipment || 0).toLocaleString()} USD | RH: {(db.budget?.allocatedPersonnel || 0).toLocaleString()} USD | Missions: {(db.budget?.allocatedMissions || 0).toLocaleString()} USD | Investissements: {(db.budget?.allocatedInvestments || 0).toLocaleString()} USD)
+                      Budget Global AllouÃ© : <strong className="text-[#D4AF37] font-extrabold font-mono">{(db.budget?.totalBudget || 0).toLocaleString()} USD</strong> (Recherche: {(db.budget?.allocatedResearch || 0).toLocaleString()} USD | Logistique: {(db.budget?.allocatedLogistics || 0).toLocaleString()} USD | MatÃ©riel: {(db.budget?.allocatedEquipment || 0).toLocaleString()} USD | RH: {(db.budget?.allocatedPersonnel || 0).toLocaleString()} USD | Missions: {(db.budget?.allocatedMissions || 0).toLocaleString()} USD | Investissements: {(db.budget?.allocatedInvestments || 0).toLocaleString()} USD)
                     </p>
                   </div>
                 </div>
@@ -3014,15 +3008,15 @@ export default function AdminDashboard({
                         className="flex-1 md:flex-none flex items-center justify-center space-x-2 bg-red-500/15 hover:bg-red-500/25 text-red-400 border border-red-500/30 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-md hover:scale-[1.02]"
                       >
                         <RotateCcw className="h-4 w-4" />
-                        <span>Réinitialiser Budget</span>
+                        <span>RÃ©initialiser Budget</span>
                       </button>
                     </>
                   ) : (
                     <div className="flex items-center gap-2.5 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2.5 text-slate-400">
                       <Lock className="h-4 w-4 text-[#D4AF37] shrink-0" />
                       <div className="text-[11px] leading-snug">
-                        <p className="font-bold text-slate-300">Budget verrouillé pour votre rôle</p>
-                        <p>Seul le Directeur peut modifier ou réinitialiser l'enveloppe budgétaire.</p>
+                        <p className="font-bold text-slate-300">Budget verrouillÃ© pour votre rÃ´le</p>
+                        <p>Seul le Directeur peut modifier ou rÃ©initialiser l'enveloppe budgÃ©taire.</p>
                       </div>
                     </div>
                   )}
@@ -3046,7 +3040,7 @@ export default function AdminDashboard({
                     <button
                       onClick={handleExportRecipesCSV}
                       className="flex items-center space-x-1 px-2.5 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded text-xs font-bold transition-all cursor-pointer"
-                      title="Télécharger l'ensemble des recettes au format CSV"
+                      title="TÃ©lÃ©charger l'ensemble des recettes au format CSV"
                     >
                       <Download className="h-3.5 w-3.5" />
                       <span>Recettes CSV</span>
@@ -3054,15 +3048,15 @@ export default function AdminDashboard({
                     <button
                       onClick={handleExportExpensesCSV}
                       className="flex items-center space-x-1 px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 rounded text-xs font-bold transition-all cursor-pointer"
-                      title="Télécharger l'ensemble des dépenses au format CSV"
+                      title="TÃ©lÃ©charger l'ensemble des dÃ©penses au format CSV"
                     >
                       <Download className="h-3.5 w-3.5" />
-                      <span>Dépenses CSV</span>
+                      <span>DÃ©penses CSV</span>
                     </button>
                     <button
                       onClick={handleExportConsolidatedFinancialsCSV}
                       className="flex items-center space-x-1 px-2.5 py-1 bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 rounded text-xs font-bold transition-all cursor-pointer"
-                      title="Télécharger le Grand Livre comptable consolidé en CSV"
+                      title="TÃ©lÃ©charger le Grand Livre comptable consolidÃ© en CSV"
                     >
                       <FileSpreadsheet className="h-3.5 w-3.5" />
                       <span>Grand Livre CSV</span>
@@ -3075,17 +3069,17 @@ export default function AdminDashboard({
                           ? "bg-[#D4AF37]/20 border-[#D4AF37] text-[#D4AF37]"
                           : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-300 hover:text-white"
                       }`}
-                      title={isFullscreen ? "Quitter le mode plein écran" : "Agrandir le tableau financier en plein écran"}
+                      title={isFullscreen ? "Quitter le mode plein Ã©cran" : "Agrandir le tableau financier en plein Ã©cran"}
                     >
                       {isFullscreen ? (
                         <>
                           <Minimize2 className="h-3.5 w-3.5 text-[#D4AF37]" />
-                          <span>Réduire</span>
+                          <span>RÃ©duire</span>
                         </>
                       ) : (
                         <>
                           <Maximize2 className="h-3.5 w-3.5 text-[#D4AF37]" />
-                          <span>Plein Écran</span>
+                          <span>Plein Ã‰cran</span>
                         </>
                       )}
                     </button>
@@ -3098,7 +3092,7 @@ export default function AdminDashboard({
                           <button
                             onClick={handleOpenBudgetModal}
                             className="flex items-center space-x-1.5 bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/40 px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-[#D4AF37]/25 transition-all cursor-pointer shadow-sm"
-                            title="Modifier le budget global et la ventilation analytique en base de données"
+                            title="Modifier le budget global et la ventilation analytique en base de donnÃ©es"
                           >
                             <Sliders className="h-4 w-4 text-[#D4AF37]" />
                             <span>Modifier Budget</span>
@@ -3106,16 +3100,16 @@ export default function AdminDashboard({
                           <button
                             onClick={() => setIsResetBudgetConfirmOpen(true)}
                             className="flex items-center space-x-1.5 bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-amber-500/20 transition-all cursor-pointer shadow-sm"
-                            title="Réinitialiser le budget aux valeurs par défaut (120 000 USD) en BDD"
+                            title="RÃ©initialiser le budget aux valeurs par dÃ©faut (120 000 USD) en BDD"
                           >
                             <RotateCcw className="h-4 w-4" />
-                            <span>Réinitialiser Budget</span>
+                            <span>RÃ©initialiser Budget</span>
                           </button>
                         </>
                       ) : (
                         <div className="flex items-center gap-2 bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-[11px] text-slate-400">
                           <Lock className="h-3.5 w-3.5 text-[#D4AF37] shrink-0" />
-                          <span>Budget verrouillé — modification réservée au Directeur</span>
+                          <span>Budget verrouillÃ© â€” modification rÃ©servÃ©e au Directeur</span>
                         </div>
                       )}
                       <button
@@ -3130,10 +3124,10 @@ export default function AdminDashboard({
                       <button
                         onClick={() => handleOpenForm("expense")}
                         className="flex items-center space-x-1.5 bg-red-500/15 text-red-400 border border-red-500/30 px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-red-500/25 transition-all cursor-pointer"
-                        title="Ajouter une Dépense [Raccourci: Alt + E ou Alt + D]"
+                        title="Ajouter une DÃ©pense [Raccourci: Alt + E ou Alt + D]"
                       >
                         <Plus className="h-4 w-4" />
-                        <span>Ajouter Dépense</span>
+                        <span>Ajouter DÃ©pense</span>
                         <kbd className="hidden sm:inline-block text-[10px] font-mono bg-red-500/20 text-red-300 px-1 py-0.5 rounded border border-red-500/30 ml-1">Alt+E</kbd>
                       </button>
                       <button
@@ -3155,7 +3149,7 @@ export default function AdminDashboard({
                           setIsQrScannerModalOpen(true);
                         }}
                         className="flex items-center space-x-1.5 bg-[#D4AF37] text-black border border-[#D4AF37] px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-[#D4AF37]/90 transition-all cursor-pointer shadow-md"
-                        title="Scanner et valider un QR Code de reçu imprimé"
+                        title="Scanner et valider un QR Code de reÃ§u imprimÃ©"
                       >
                         <QrCode className="h-4 w-4" />
                         <span>Valideur QR Code</span>
@@ -3171,10 +3165,10 @@ export default function AdminDashboard({
                   <div>
                     <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                       <DollarSign className="h-4 w-4 text-[#D4AF37]" />
-                      <span>Enveloppe Budgétaire Exercice Courant ({db.budget?.year || 2026})</span>
+                      <span>Enveloppe BudgÃ©taire Exercice Courant ({db.budget?.year || 2026})</span>
                     </h3>
                     <p className="text-xs text-slate-400 mt-0.5">
-                      Gestion des plafonds financiers et ventilation analytique par poste dans la base de données.
+                      Gestion des plafonds financiers et ventilation analytique par poste dans la base de donnÃ©es.
                     </p>
                   </div>
 
@@ -3187,7 +3181,7 @@ export default function AdminDashboard({
                       type="button"
                       onClick={handleOpenBudgetModal}
                       className="flex items-center space-x-1.5 bg-[#D4AF37]/15 hover:bg-[#D4AF37]/30 text-[#D4AF37] border border-[#D4AF37]/40 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-sm hover:scale-[1.02]"
-                      title="Modifier les plafonds et l'enveloppe budgétaire"
+                      title="Modifier les plafonds et l'enveloppe budgÃ©taire"
                     >
                       <Edit className="h-3.5 w-3.5" />
                       <span>Modifier Budget</span>
@@ -3197,10 +3191,10 @@ export default function AdminDashboard({
                       type="button"
                       onClick={() => setIsResetBudgetConfirmOpen(true)}
                       className="flex items-center space-x-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/25 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-sm hover:scale-[1.02]"
-                      title="Réinitialiser les enveloppes budgétaires aux valeurs initiales par défaut"
+                      title="RÃ©initialiser les enveloppes budgÃ©taires aux valeurs initiales par dÃ©faut"
                     >
                       <RotateCcw className="h-3.5 w-3.5" />
-                      <span>Réinitialiser</span>
+                      <span>RÃ©initialiser</span>
                     </button>
                   </div>
                 </div>
@@ -3245,10 +3239,10 @@ export default function AdminDashboard({
                   <div>
                     <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                       <BarChart2 className="h-5 w-5 text-[#D4AF37]" />
-                      <span>Graphique des Flux Financiers Mensuels (Recettes vs Dépenses)</span>
+                      <span>Graphique des Flux Financiers Mensuels (Recettes vs DÃ©penses)</span>
                     </h3>
                     <p className="text-xs text-slate-400 mt-1">
-                      Analyse comparative mensuelle produite par Recharts pour un suivi précis de la trésorerie.
+                      Analyse comparative mensuelle produite par Recharts pour un suivi prÃ©cis de la trÃ©sorerie.
                     </p>
                   </div>
                   <div className="flex items-center space-x-2 bg-[#151515] p-1.5 rounded-xl border border-white/5 self-start sm:self-auto">
@@ -3268,7 +3262,7 @@ export default function AdminDashboard({
                         chartType === "bar" ? "bg-[#D4AF37] text-black shadow-md" : "text-slate-400 hover:text-white"
                       }`}
                     >
-                      Bâtonnets
+                      BÃ¢tonnets
                     </button>
                   </div>
                 </div>
@@ -3293,7 +3287,7 @@ export default function AdminDashboard({
                         <Tooltip content={<CustomChartTooltip />} />
                         <Legend wrapperStyle={{ paddingTop: 10, fontSize: 12, color: "#94a3b8" }} />
                         <Area type="monotone" dataKey="Recettes" stroke="#10B981" strokeWidth={2.5} fillOpacity={1} fill="url(#colorRecettesFin)" name="Recettes (USD)" />
-                        <Area type="monotone" dataKey="Dépenses" stroke="#EF4444" strokeWidth={2.5} fillOpacity={1} fill="url(#colorDepensesFin)" name="Dépenses (USD)" />
+                        <Area type="monotone" dataKey="DÃ©penses" stroke="#EF4444" strokeWidth={2.5} fillOpacity={1} fill="url(#colorDepensesFin)" name="DÃ©penses (USD)" />
                       </AreaChart>
                     ) : (
                       <BarChart data={monthlyFinancialTrends} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
@@ -3303,7 +3297,7 @@ export default function AdminDashboard({
                         <Tooltip content={<CustomChartTooltip />} />
                         <Legend wrapperStyle={{ paddingTop: 10, fontSize: 12, color: "#94a3b8" }} />
                         <Bar dataKey="Recettes" fill="#10B981" radius={[4, 4, 0, 0]} name="Recettes (USD)" />
-                        <Bar dataKey="Dépenses" fill="#EF4444" radius={[4, 4, 0, 0]} name="Dépenses (USD)" />
+                        <Bar dataKey="DÃ©penses" fill="#EF4444" radius={[4, 4, 0, 0]} name="DÃ©penses (USD)" />
                       </BarChart>
                     )}
                   </ResponsiveContainer>
@@ -3326,7 +3320,7 @@ export default function AdminDashboard({
                       title="Exporter le registre des recettes au format CSV"
                     >
                       <Download className="h-3.5 w-3.5" />
-                      <span>Télécharger CSV</span>
+                      <span>TÃ©lÃ©charger CSV</span>
                     </button>
                   </div>
                   <div className="overflow-x-auto">
@@ -3337,7 +3331,7 @@ export default function AdminDashboard({
                           <th className="py-2.5">Source / Type</th>
                           <th className="py-2.5">Description</th>
                           <th className="py-2.5 text-right">Montant</th>
-                          <th className="py-2.5 text-center">Reçu</th>
+                          <th className="py-2.5 text-center">ReÃ§u</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-white/5">
@@ -3372,7 +3366,7 @@ export default function AdminDashboard({
                                   <button
                                     onClick={() => onTriggerPrint({ type: "recette", data: r })}
                                     className="p-1.5 bg-[#151515] hover:bg-white/10 text-slate-400 hover:text-white border border-white/5 rounded-lg transition-colors cursor-pointer"
-                                    title="Imprimer / Aperçu Officiel"
+                                    title="Imprimer / AperÃ§u Officiel"
                                   >
                                     <Printer className="h-3 w-3" />
                                   </button>
@@ -3399,16 +3393,16 @@ export default function AdminDashboard({
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="font-display text-sm font-bold text-red-400 uppercase tracking-wider flex items-center gap-2">
                       <TrendingDown className="h-5 w-5" />
-                      <span>Registre des Dépenses (Dépenses)</span>
+                      <span>Registre des DÃ©penses (DÃ©penses)</span>
                     </h3>
                     <button
                       type="button"
                       onClick={handleExportExpensesCSV}
                       className="flex items-center space-x-1.5 px-3 py-1.5 bg-[#151515] hover:bg-red-500/10 text-red-400 border border-red-500/20 rounded-lg text-xs font-semibold transition-all cursor-pointer shadow-sm"
-                      title="Exporter le registre des dépenses au format CSV"
+                      title="Exporter le registre des dÃ©penses au format CSV"
                     >
                       <Download className="h-3.5 w-3.5" />
-                      <span>Télécharger CSV</span>
+                      <span>TÃ©lÃ©charger CSV</span>
                     </button>
                   </div>
                   <div className="overflow-x-auto">
@@ -3416,7 +3410,7 @@ export default function AdminDashboard({
                       <thead>
                         <tr className="border-b border-white/5 text-slate-500 uppercase text-[10px] tracking-wider">
                           <th className="py-2.5">ID / Date</th>
-                          <th className="py-2.5">Bénéficiaire / Cat.</th>
+                          <th className="py-2.5">BÃ©nÃ©ficiaire / Cat.</th>
                           <th className="py-2.5">Description</th>
                           <th className="py-2.5 text-right">Montant</th>
                           <th className="py-2.5 text-center">Bordereau & PDF</th>
@@ -3447,7 +3441,7 @@ export default function AdminDashboard({
                                     <button
                                       onClick={() => setActiveReceiptUrl(e.receiptUrl!)}
                                       className="p-1.5 bg-amber-500/10 hover:bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/20 rounded-lg transition-colors cursor-pointer"
-                                      title="Voir la pièce justificative (Facture scannée)"
+                                      title="Voir la piÃ¨ce justificative (Facture scannÃ©e)"
                                     >
                                       <Eye className="h-3 w-3" />
                                     </button>
@@ -3455,7 +3449,7 @@ export default function AdminDashboard({
                                   <button
                                     onClick={() => onTriggerPrint({ type: "depense", data: e })}
                                     className="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg text-[11px] font-bold transition-all cursor-pointer flex items-center space-x-1 shadow-sm"
-                                    title="Exporter la fiche individuelle de dépense au format PDF pour archivage"
+                                    title="Exporter la fiche individuelle de dÃ©pense au format PDF pour archivage"
                                   >
                                     <Download className="h-3 w-3" />
                                     <span>Fiche PDF</span>
@@ -3463,7 +3457,7 @@ export default function AdminDashboard({
                                   <button
                                     onClick={() => onTriggerPrint({ type: "depense", data: e })}
                                     className="p-1.5 bg-[#151515] hover:bg-white/10 text-slate-400 hover:text-white border border-white/5 rounded-lg transition-colors cursor-pointer"
-                                    title="Imprimer / Aperçu Officiel"
+                                    title="Imprimer / AperÃ§u Officiel"
                                   >
                                     <Printer className="h-3 w-3" />
                                   </button>
@@ -3502,7 +3496,7 @@ export default function AdminDashboard({
                   <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
                   <input
                     type="text"
-                    placeholder="Rechercher actualités..."
+                    placeholder="Rechercher actualitÃ©s..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full bg-[#12261C] text-slate-100 pl-10 pr-4 py-2 border border-white/5 rounded-lg text-xs"
@@ -3514,7 +3508,7 @@ export default function AdminDashboard({
                     className="flex items-center space-x-1.5 bg-[#D4AF37] text-slate-950 px-4 py-2 rounded-lg text-xs font-bold cursor-pointer"
                   >
                     <Plus className="h-4 w-4" />
-                    <span>Créer une Actualité</span>
+                    <span>CrÃ©er une ActualitÃ©</span>
                   </button>
                 )}
               </div>
@@ -3560,7 +3554,7 @@ export default function AdminDashboard({
                           <button
                             onClick={() => onTriggerPrint({ type: "actualite", data: item })}
                             className="p-1.5 bg-[#12261C] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded transition-colors cursor-pointer"
-                            title="Aperçu avant impression (Fiche Actualité)"
+                            title="AperÃ§u avant impression (Fiche ActualitÃ©)"
                           >
                             <Printer className="h-3 w-3" />
                           </button>
@@ -3604,7 +3598,7 @@ export default function AdminDashboard({
                     title="Exporter la liste des projets de recherche au format CSV"
                   >
                     <Download className="h-4 w-4" />
-                    <span>Télécharger CSV</span>
+                    <span>TÃ©lÃ©charger CSV</span>
                   </button>
                   {canManageAcademic() && (
                     <button
@@ -3645,7 +3639,7 @@ export default function AdminDashboard({
                           <button
                             onClick={() => onTriggerPrint({ type: "projet", data: proj })}
                             className="p-1.5 bg-[#151515] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded transition-colors cursor-pointer"
-                            title="Aperçu avant impression (Fiche Projet)"
+                            title="AperÃ§u avant impression (Fiche Projet)"
                           >
                             <Printer className="h-3 w-3" />
                           </button>
@@ -3687,7 +3681,7 @@ export default function AdminDashboard({
                     className="flex items-center space-x-1.5 bg-[#D4AF37] text-slate-950 px-4 py-2 rounded-lg text-xs font-bold cursor-pointer"
                   >
                     <Plus className="h-4 w-4" />
-                    <span>Créer une Activité</span>
+                    <span>CrÃ©er une ActivitÃ©</span>
                   </button>
                 )}
               </div>
@@ -3704,7 +3698,7 @@ export default function AdminDashboard({
                             {act.location}
                           </span>
                           <span className={`px-2 py-0.5 rounded font-mono font-bold uppercase ${
-                            act.status === "Réalisé" ? "bg-emerald-500/10 text-emerald-400" : act.status === "En cours" ? "bg-blue-500/10 text-blue-400" : "bg-amber-500/10 text-amber-400"
+                            act.status === "RÃ©alisÃ©" ? "bg-emerald-500/10 text-emerald-400" : act.status === "En cours" ? "bg-blue-500/10 text-blue-400" : "bg-amber-500/10 text-amber-400"
                           }`}>
                             {act.status}
                           </span>
@@ -3715,11 +3709,11 @@ export default function AdminDashboard({
 
                       <div className="pt-4 border-t border-white/5 space-y-3 text-[11px]">
                         <div className="flex justify-between text-slate-500">
-                          <span>Budget alloué :</span>
+                          <span>Budget allouÃ© :</span>
                           <span className="font-mono text-slate-300 font-bold">{(act.budget || 0).toLocaleString()} USD</span>
                         </div>
                         <div className="flex justify-between text-slate-500">
-                          <span>Prévu le :</span>
+                          <span>PrÃ©vu le :</span>
                           <span className="font-mono text-slate-300">{new Date(act.date).toLocaleDateString("fr-FR")}</span>
                         </div>
                         <div className="flex flex-wrap gap-1">
@@ -3732,7 +3726,7 @@ export default function AdminDashboard({
                           <button
                             onClick={() => onTriggerPrint({ type: "activite", data: act })}
                             className="p-1.5 bg-[#151515] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded transition-colors cursor-pointer"
-                            title="Aperçu avant impression (Fiche Activité)"
+                            title="AperÃ§u avant impression (Fiche ActivitÃ©)"
                           >
                             <Printer className="h-3 w-3" />
                           </button>
@@ -3761,9 +3755,9 @@ export default function AdminDashboard({
                 <div>
                   <h2 className="font-display font-extrabold text-lg md:text-xl text-white tracking-tight uppercase flex items-center gap-2.5">
                     <Calendar className="h-6 w-6 text-[#D4AF37]" />
-                    <span>Calendrier des Activités UR-GEDT</span>
+                    <span>Calendrier des ActivitÃ©s UR-GEDT</span>
                   </h2>
-                  <p className="text-slate-400 text-xs mt-1">Planification interactive des missions de recherche, réunions de coordination et séminaires scientifiques.</p>
+                  <p className="text-slate-400 text-xs mt-1">Planification interactive des missions de recherche, rÃ©unions de coordination et sÃ©minaires scientifiques.</p>
                 </div>
                 {canManageAcademic() && (
                   <button
@@ -3771,7 +3765,7 @@ export default function AdminDashboard({
                     className="flex items-center space-x-1.5 bg-[#D4AF37] text-slate-950 px-4 py-2 rounded-lg text-xs font-bold cursor-pointer"
                   >
                     <Plus className="h-4 w-4" />
-                    <span>Planifier une Activité</span>
+                    <span>Planifier une ActivitÃ©</span>
                   </button>
                 )}
               </div>
@@ -3816,7 +3810,7 @@ export default function AdminDashboard({
                       <th className="py-2.5">Type / Titre</th>
                       <th className="py-2.5">Auteurs</th>
                       <th className="py-2.5">Revue / Support</th>
-                      <th className="py-2.5 text-center">Année</th>
+                      <th className="py-2.5 text-center">AnnÃ©e</th>
                       <th className="py-2.5 text-center">Actions</th>
                     </tr>
                   </thead>
@@ -3837,7 +3831,7 @@ export default function AdminDashboard({
                               <button
                                 onClick={() => onTriggerPrint({ type: "publication", data: pub })}
                                 className="p-1.5 bg-[#151515] hover:bg-[#D4AF37]/10 text-slate-400 hover:text-[#D4AF37] border border-white/5 rounded transition-colors cursor-pointer"
-                                title="Aperçu avant impression (Fiche Publication)"
+                                title="AperÃ§u avant impression (Fiche Publication)"
                               >
                                 <Printer className="h-3 w-3" />
                               </button>
@@ -3869,14 +3863,14 @@ export default function AdminDashboard({
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <Image className="h-5 w-5 text-[#D4AF37]" />
-                    <span>Médiathèque Publique (Galerie Photos/Vidéos)</span>
+                    <span>MÃ©diathÃ¨que Publique (Galerie Photos/VidÃ©os)</span>
                   </h3>
                   <button
                     onClick={() => handleOpenForm("gallery")}
                     className="flex items-center space-x-1.5 bg-[#D4AF37] text-slate-950 px-3.5 py-1.5 rounded-lg text-xs font-bold cursor-pointer animate-pulse"
                   >
                     <Plus className="h-4 w-4" />
-                    <span>Ajouter Média</span>
+                    <span>Ajouter MÃ©dia</span>
                   </button>
                 </div>
 
@@ -3947,7 +3941,7 @@ export default function AdminDashboard({
             <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
               <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2">
                 <Mail className="h-5 w-5 text-[#D4AF37]" />
-                <span>Boîte de réception des messages publics</span>
+                <span>BoÃ®te de rÃ©ception des messages publics</span>
               </h3>
 
               <div className="space-y-4">
@@ -3961,7 +3955,7 @@ export default function AdminDashboard({
                         <a 
                           href={`mailto:${msg.senderEmail}?subject=${encodeURIComponent(`RE: ${msg.subject}`)}`}
                           className="text-xs text-[#D4AF37] hover:underline font-mono flex items-center gap-1"
-                          title="Envoyer un courriel de réponse"
+                          title="Envoyer un courriel de rÃ©ponse"
                         >
                           <Mail className="h-3 w-3 inline shrink-0" />
                           <span>({msg.senderEmail})</span>
@@ -3972,22 +3966,22 @@ export default function AdminDashboard({
                       </div>
                       <p className="text-xs text-slate-200 font-bold uppercase tracking-wider">Sujet : {msg.subject}</p>
                       <p className="text-slate-400 text-xs leading-relaxed whitespace-pre-line">{msg.message}</p>
-                      <p className="text-[11px] text-slate-500 font-mono mt-2">Reçu le : {new Date(msg.date).toLocaleString("fr-FR")}</p>
+                      <p className="text-[11px] text-slate-500 font-mono mt-2">ReÃ§u le : {new Date(msg.date).toLocaleString("fr-FR")}</p>
                     </div>
 
                     <div className="flex sm:flex-col items-end justify-center space-y-2 shrink-0 gap-2 sm:gap-0">
                       <a
                         href={`mailto:${msg.senderEmail}?subject=${encodeURIComponent(`RE: ${msg.subject}`)}`}
                         className="flex items-center space-x-1.5 bg-[#D4AF37]/10 hover:bg-[#D4AF37] text-[#D4AF37] hover:text-black border border-[#D4AF37]/30 px-3 py-1.5 rounded text-[11px] font-bold uppercase transition-all cursor-pointer shadow-sm"
-                        title="Ouvrir votre logiciel de messagerie pour répondre"
+                        title="Ouvrir votre logiciel de messagerie pour rÃ©pondre"
                       >
                         <Mail className="h-3 w-3" />
-                        <span>Répondre</span>
+                        <span>RÃ©pondre</span>
                       </a>
                       <button
                         onClick={() => onTriggerPrint({ type: "message", data: msg })}
                         className="flex items-center space-x-1.5 bg-[#12261C] hover:bg-[#D4AF37]/10 text-slate-300 hover:text-[#D4AF37] border border-white/5 hover:border-[#D4AF37]/30 px-3 py-1.5 rounded text-[11px] font-bold uppercase transition-colors cursor-pointer"
-                        title="Aperçu avant impression (Fiche Message)"
+                        title="AperÃ§u avant impression (Fiche Message)"
                       >
                         <Printer className="h-3 w-3" />
                         <span>Imprimer</span>
@@ -4035,8 +4029,8 @@ export default function AdminDashboard({
                 await onUpdateTable(
                   "users",
                   updatedList,
-                  "Création Personnel",
-                  `Création du membre du personnel ${userData.name} (${userData.role}).`
+                  "CrÃ©ation Personnel",
+                  `CrÃ©ation du membre du personnel ${userData.name} (${userData.role}).`
                 );
               }}
               onUpdateUser={async (userId, updatedData) => {
@@ -4047,7 +4041,7 @@ export default function AdminDashboard({
                   "users",
                   updatedList,
                   "Modification Personnel",
-                  `Mise à jour des informations pour ${updatedData.name || userId}.`
+                  `Mise Ã  jour des informations pour ${updatedData.name || userId}.`
                 );
               }}
               onDeleteUser={async (userId) => {
@@ -4068,8 +4062,8 @@ export default function AdminDashboard({
                 await onUpdateTable(
                   "users",
                   updatedList,
-                  "Réinitialisation Mot de Passe",
-                  `Réinitialisation du mot de passe pour ${targetUser?.name || userId}.`
+                  "RÃ©initialisation Mot de Passe",
+                  `RÃ©initialisation du mot de passe pour ${targetUser?.name || userId}.`
                 );
               }}
               onToggleStatus={async (user) => {
@@ -4077,7 +4071,7 @@ export default function AdminDashboard({
                 const updatedList = db.users.map((u) =>
                   u.id === user.id ? { ...u, active: newActiveState } : u
                 );
-                const actionVerb = newActiveState ? "Réactivation Accès" : "Révocation Accès";
+                const actionVerb = newActiveState ? "RÃ©activation AccÃ¨s" : "RÃ©vocation AccÃ¨s";
                 await onUpdateTable(
                   "users",
                   updatedList,
@@ -4098,7 +4092,7 @@ export default function AdminDashboard({
                   <div>
                     <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Total Comptes Institutionnels</p>
                     <p className="text-2xl font-black text-white font-display mt-1">{db.users.length}</p>
-                    <p className="text-[11px] text-slate-500 font-mono mt-0.5">Membres répertoriés</p>
+                    <p className="text-[11px] text-slate-500 font-mono mt-0.5">Membres rÃ©pertoriÃ©s</p>
                   </div>
                   <div className="h-10 w-10 bg-[#D4AF37]/10 border border-[#D4AF37]/20 rounded-xl flex items-center justify-center text-[#D4AF37]">
                     <Users className="h-5 w-5" />
@@ -4107,7 +4101,7 @@ export default function AdminDashboard({
 
                 <div className="bg-[#12261C] border border-white/5 p-4.5 rounded-xl shadow-md flex items-center justify-between">
                   <div>
-                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Accès Autorisés (Actifs)</p>
+                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">AccÃ¨s AutorisÃ©s (Actifs)</p>
                     <p className="text-2xl font-black text-emerald-400 font-display mt-1">
                       {db.users.filter((u) => u.active).length}
                     </p>
@@ -4122,11 +4116,11 @@ export default function AdminDashboard({
 
                 <div className="bg-[#12261C] border border-white/5 p-4.5 rounded-xl shadow-md flex items-center justify-between">
                   <div>
-                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Accès Révoqués / Suspendus</p>
+                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">AccÃ¨s RÃ©voquÃ©s / Suspendus</p>
                     <p className="text-2xl font-black text-red-400 font-display mt-1">
                       {db.users.filter((u) => !u.active).length}
                     </p>
-                    <p className="text-[11px] text-red-500/80 font-mono mt-0.5">Comptes désactivés</p>
+                    <p className="text-[11px] text-red-500/80 font-mono mt-0.5">Comptes dÃ©sactivÃ©s</p>
                   </div>
                   <div className="h-10 w-10 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center text-red-400">
                     <ShieldOff className="h-5 w-5" />
@@ -4153,10 +4147,10 @@ export default function AdminDashboard({
                   <div>
                     <h3 className="font-display text-base font-bold text-white uppercase tracking-wider flex items-center gap-2.5">
                       <Users className="h-5 w-5 text-[#D4AF37]" />
-                      <span>Gestion du Personnel & Comptes d'Accès</span>
+                      <span>Gestion du Personnel & Comptes d'AccÃ¨s</span>
                     </h3>
                     <p className="text-xs text-slate-400 font-mono mt-1">
-                      Enregistrez les membres du personnel, attribuez leurs rôles académiques et définissez ou modifiez leurs mots de passe d'accès.
+                      Enregistrez les membres du personnel, attribuez leurs rÃ´les acadÃ©miques et dÃ©finissez ou modifiez leurs mots de passe d'accÃ¨s.
                     </p>
                   </div>
 
@@ -4164,7 +4158,7 @@ export default function AdminDashboard({
                     <button
                       onClick={handleExportUsersCSV}
                       className="px-3 py-2 bg-[#151515] hover:bg-white/5 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
-                      title="Exporter le répertoire du personnel au format CSV"
+                      title="Exporter le rÃ©pertoire du personnel au format CSV"
                     >
                       <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" />
                       <span>Exporter CSV</span>
@@ -4189,7 +4183,7 @@ export default function AdminDashboard({
                     <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-slate-500" />
                     <input
                       type="text"
-                      placeholder="Rechercher par nom, email ou rôle..."
+                      placeholder="Rechercher par nom, email ou rÃ´le..."
                       value={userSearchQuery}
                       onChange={(e) => setUserSearchQuery(e.target.value)}
                       className="w-full bg-[#151515] text-slate-100 pl-9 pr-8 py-2 border border-white/5 rounded-lg text-xs focus:outline-none focus:border-[#D4AF37]"
@@ -4208,24 +4202,24 @@ export default function AdminDashboard({
                   <div className="flex flex-wrap items-center gap-2 shrink-0">
                     {/* Role Filter */}
                     <div className="flex items-center gap-1.5 bg-[#151515] px-2.5 py-1 border border-white/5 rounded-lg">
-                      <span className="text-[11px] text-slate-500 font-mono uppercase font-bold">Rôle:</span>
+                      <span className="text-[11px] text-slate-500 font-mono uppercase font-bold">RÃ´le:</span>
                       <select
                         value={userRoleFilter}
                         onChange={(e) => setUserRoleFilter(e.target.value)}
                         className="bg-transparent text-xs text-white focus:outline-none cursor-pointer"
                       >
-                        <option value="Tous" className="bg-[#151515]">Tous les rôles</option>
+                        <option value="Tous" className="bg-[#151515]">Tous les rÃ´les</option>
                         <option value="Administrateur" className="bg-[#151515]">Administrateur</option>
                         <option value="Directeur" className="bg-[#151515]">Directeur</option>
                         <option value="Comptable" className="bg-[#151515]">Comptable</option>
-                        <option value="Secrétaire" className="bg-[#151515]">Secrétaire</option>
+                        <option value="SecrÃ©taire" className="bg-[#151515]">SecrÃ©taire</option>
                         <option value="Chercheur" className="bg-[#151515]">Chercheur</option>
                       </select>
                     </div>
 
                     {/* Status Filter */}
                     <div className="flex items-center gap-1.5 bg-[#151515] px-2.5 py-1 border border-white/5 rounded-lg">
-                      <span className="text-[11px] text-slate-500 font-mono uppercase font-bold">Accès:</span>
+                      <span className="text-[11px] text-slate-500 font-mono uppercase font-bold">AccÃ¨s:</span>
                       <select
                         value={userStatusFilter}
                         onChange={(e) => setUserStatusFilter(e.target.value)}
@@ -4233,7 +4227,7 @@ export default function AdminDashboard({
                       >
                         <option value="Tous" className="bg-[#151515]">Tous les statuts</option>
                         <option value="Actifs" className="bg-[#151515]">Actifs uniquement</option>
-                        <option value="Révoqués" className="bg-[#151515]">Révoqués uniquement</option>
+                        <option value="RÃ©voquÃ©s" className="bg-[#151515]">RÃ©voquÃ©s uniquement</option>
                       </select>
                     </div>
 
@@ -4265,9 +4259,9 @@ export default function AdminDashboard({
                 {filteredUsersList.length === 0 ? (
                   <div className="p-12 text-center border border-white/5 rounded-xl bg-black/20 space-y-3">
                     <Users className="h-10 w-10 text-slate-600 mx-auto" />
-                    <p className="text-xs font-bold text-slate-300">Aucun utilisateur trouvé</p>
+                    <p className="text-xs font-bold text-slate-300">Aucun utilisateur trouvÃ©</p>
                     <p className="text-xs text-slate-500 font-mono">
-                      Ajustez vos filtres de recherche ou créez un nouveau compte d'agent.
+                      Ajustez vos filtres de recherche ou crÃ©ez un nouveau compte d'agent.
                     </p>
                   </div>
                 ) : userViewMode === "cards" ? (
@@ -4281,7 +4275,7 @@ export default function AdminDashboard({
                             return "bg-[#D4AF37]/15 border-[#D4AF37]/30 text-[#D4AF37]";
                           case "Comptable":
                             return "bg-emerald-500/15 border-emerald-500/30 text-emerald-300";
-                          case "Secrétaire":
+                          case "SecrÃ©taire":
                             return "bg-purple-500/15 border-purple-500/30 text-purple-300";
                           default:
                             return "bg-blue-500/15 border-blue-500/30 text-blue-300";
@@ -4316,7 +4310,7 @@ export default function AdminDashboard({
                                 className={`absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full border-2 border-[#151515] ${
                                   u.active ? "bg-emerald-400 shadow-emerald-400/50 shadow-sm" : "bg-red-500"
                                 }`}
-                                title={u.active ? "Accès Actif" : "Accès Révoqué"}
+                                title={u.active ? "AccÃ¨s Actif" : "AccÃ¨s RÃ©voquÃ©"}
                               ></span>
                             </div>
 
@@ -4335,7 +4329,7 @@ export default function AdminDashboard({
                                   ) : (
                                     <>
                                       <ShieldOff className="h-2.5 w-2.5" />
-                                      <span>Révoqué</span>
+                                      <span>RÃ©voquÃ©</span>
                                     </>
                                   )}
                                 </span>
@@ -4369,7 +4363,7 @@ export default function AdminDashboard({
                               : "bg-red-950/20 border-red-900/30 text-red-300"
                           }`}>
                             <span className="truncate">
-                              {u.active ? "Autorisé sur le portail UR-GEDT" : "Accès désactivé par l'Admin"}
+                              {u.active ? "AutorisÃ© sur le portail UR-GEDT" : "AccÃ¨s dÃ©sactivÃ© par l'Admin"}
                             </span>
                           </div>
 
@@ -4414,17 +4408,17 @@ export default function AdminDashboard({
                                       ? "bg-red-950/30 hover:bg-red-900/50 text-red-300 border-red-900/40 hover:border-red-500/60"
                                       : "bg-emerald-950/30 hover:bg-emerald-900/50 text-emerald-300 border-emerald-900/40 hover:border-emerald-500/60"
                                   }`}
-                                  title={u.active ? "Révoquer l'accès" : "Réactiver l'accès"}
+                                  title={u.active ? "RÃ©voquer l'accÃ¨s" : "RÃ©activer l'accÃ¨s"}
                                 >
                                   {u.active ? (
                                     <>
                                       <ShieldOff className="h-3 w-3" />
-                                      <span>Révoquer</span>
+                                      <span>RÃ©voquer</span>
                                     </>
                                   ) : (
                                     <>
                                       <ShieldCheck className="h-3 w-3" />
-                                      <span>Réactiver</span>
+                                      <span>RÃ©activer</span>
                                     </>
                                   )}
                                 </button>
@@ -4432,7 +4426,7 @@ export default function AdminDashboard({
                                 <button
                                   onClick={() => handleDeleteItem("user", u.id, u.name)}
                                   className="p-1.5 bg-[#12261C] hover:bg-red-950/40 text-slate-500 hover:text-red-400 border border-white/5 hover:border-red-900/40 rounded-lg cursor-pointer transition-colors"
-                                  title="Supprimer définitivement"
+                                  title="Supprimer dÃ©finitivement"
                                 >
                                   <Trash2 className="h-3.5 w-3.5" />
                                 </button>
@@ -4451,10 +4445,10 @@ export default function AdminDashboard({
                         <thead>
                           <tr className="bg-black/40 border-b border-white/5 text-[11px] uppercase font-mono text-slate-400 font-bold">
                             <th className="py-3 px-4">Agent / Nom Complet</th>
-                            <th className="py-3 px-4">Coordonnées & Contact</th>
-                            <th className="py-3 px-4">Département & Fonction</th>
-                            <th className="py-3 px-4">Rôle</th>
-                            <th className="py-3 px-4">Statut d'Accès</th>
+                            <th className="py-3 px-4">CoordonnÃ©es & Contact</th>
+                            <th className="py-3 px-4">DÃ©partement & Fonction</th>
+                            <th className="py-3 px-4">RÃ´le</th>
+                            <th className="py-3 px-4">Statut d'AccÃ¨s</th>
                             <th className="py-3 px-4 text-right">Actions Administratives</th>
                           </tr>
                         </thead>
@@ -4477,7 +4471,7 @@ export default function AdminDashboard({
                                 <a 
                                   href={`mailto:${u.email}`} 
                                   className="text-slate-300 hover:text-[#D4AF37] hover:underline flex items-center space-x-1.5 transition-colors"
-                                  title={`Envoyer un e-mail à ${u.name}`}
+                                  title={`Envoyer un e-mail Ã  ${u.name}`}
                                 >
                                   <Mail className="h-3 w-3 text-[#D4AF37] shrink-0" />
                                   <span>{u.email}</span>
@@ -4493,7 +4487,7 @@ export default function AdminDashboard({
                                 <div className="space-y-0.5">
                                   {u.function && <p className="text-xs text-slate-200 font-semibold">{u.function}</p>}
                                   {u.department && <p className="text-[11px] text-slate-400 font-mono">{u.department}</p>}
-                                  {!u.function && !u.department && <span className="text-slate-500 italic text-[11px]">Non spécifié</span>}
+                                  {!u.function && !u.department && <span className="text-slate-500 italic text-[11px]">Non spÃ©cifiÃ©</span>}
                                 </div>
                               </td>
                               <td className="py-3 px-4">
@@ -4506,7 +4500,7 @@ export default function AdminDashboard({
                                   u.active ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400" : "bg-red-500/10 border border-red-500/20 text-red-400"
                                 }`}>
                                   <span className={`h-1.5 w-1.5 rounded-full ${u.active ? "bg-emerald-400 animate-pulse" : "bg-red-400"}`}></span>
-                                  {u.active ? "Accès Autorisé" : "Accès Révoqué"}
+                                  {u.active ? "AccÃ¨s AutorisÃ©" : "AccÃ¨s RÃ©voquÃ©"}
                                 </span>
                               </td>
                               <td className="py-3 px-4 text-right">
@@ -4542,10 +4536,10 @@ export default function AdminDashboard({
                                             ? "bg-red-950/30 text-red-300 border-red-900/40 hover:bg-red-900/50"
                                             : "bg-emerald-950/30 text-emerald-300 border-emerald-900/40 hover:bg-emerald-900/50"
                                         }`}
-                                        title={u.active ? "Révoquer l'accès" : "Réactiver l'accès"}
+                                        title={u.active ? "RÃ©voquer l'accÃ¨s" : "RÃ©activer l'accÃ¨s"}
                                       >
                                         {u.active ? <ShieldOff className="h-3 w-3" /> : <ShieldCheck className="h-3 w-3" />}
-                                        <span>{u.active ? "Révoquer" : "Réactiver"}</span>
+                                        <span>{u.active ? "RÃ©voquer" : "RÃ©activer"}</span>
                                       </button>
                                       <button
                                         onClick={() => handleDeleteItem("user", u.id, u.name)}
@@ -4613,7 +4607,7 @@ export default function AdminDashboard({
                         </h2>
                       </div>
                       <p className="text-xs text-slate-400 mt-1 max-w-2xl font-mono">
-                        Registre de traçabilité des modifications budgétaires, enregistrements financiers, gestion des comptes du personnel et opérations système de l'UR-GEDT.
+                        Registre de traÃ§abilitÃ© des modifications budgÃ©taires, enregistrements financiers, gestion des comptes du personnel et opÃ©rations systÃ¨me de l'UR-GEDT.
                       </p>
                     </div>
 
@@ -4639,7 +4633,7 @@ export default function AdminDashboard({
                       }`}
                     >
                       <div className="flex items-center justify-between text-slate-400 text-[11px] font-bold uppercase tracking-wider mb-1">
-                        <span>Total Actions Logguées</span>
+                        <span>Total Actions LogguÃ©es</span>
                         <Activity className="h-3.5 w-3.5 text-[#D4AF37]" />
                       </div>
                       <div className="text-xl font-bold text-white font-mono">{allLogs.length}</div>
@@ -4659,7 +4653,7 @@ export default function AdminDashboard({
                         <DollarSign className="h-3.5 w-3.5 text-amber-400" />
                       </div>
                       <div className="text-xl font-bold text-amber-400 font-mono">{budgetLogs.length}</div>
-                      <div className="text-[11px] text-slate-500 mt-0.5 font-sans">Recettes, Dépenses & Reset</div>
+                      <div className="text-[11px] text-slate-500 mt-0.5 font-sans">Recettes, DÃ©penses & Reset</div>
                     </div>
 
                     <div 
@@ -4675,7 +4669,7 @@ export default function AdminDashboard({
                         <Users className="h-3.5 w-3.5 text-indigo-400" />
                       </div>
                       <div className="text-xl font-bold text-indigo-400 font-mono">{personnelLogs.length}</div>
-                      <div className="text-[11px] text-slate-500 mt-0.5 font-sans">Comptes, Rôles & Accès</div>
+                      <div className="text-[11px] text-slate-500 mt-0.5 font-sans">Comptes, RÃ´les & AccÃ¨s</div>
                     </div>
 
                     <div 
@@ -4687,11 +4681,11 @@ export default function AdminDashboard({
                       }`}
                     >
                       <div className="flex items-center justify-between text-emerald-400 text-[11px] font-bold uppercase tracking-wider mb-1">
-                        <span>Projets & Activités</span>
+                        <span>Projets & ActivitÃ©s</span>
                         <Briefcase className="h-3.5 w-3.5 text-emerald-400" />
                       </div>
                       <div className="text-xl font-bold text-emerald-400 font-mono">{projetsLogs.length}</div>
-                      <div className="text-[11px] text-slate-500 mt-0.5 font-sans">Modifications académiques</div>
+                      <div className="text-[11px] text-slate-500 mt-0.5 font-sans">Modifications acadÃ©miques</div>
                     </div>
                   </div>
                 </div>
@@ -4742,12 +4736,12 @@ export default function AdminDashboard({
                         onChange={(e) => setLogActionFilter(e.target.value)}
                         className="bg-[#151515] border border-white/10 rounded-xl px-3 py-2 text-xs font-semibold text-slate-200 focus:outline-none focus:border-[#D4AF37]"
                       >
-                        <option value="all">Toutes les opérations</option>
-                        <option value="création">Créations / Ajouts</option>
+                        <option value="all">Toutes les opÃ©rations</option>
+                        <option value="crÃ©ation">CrÃ©ations / Ajouts</option>
                         <option value="modification">Modifications</option>
                         <option value="suppression">Suppressions</option>
-                        <option value="réinitialisation">Réinitialisations Budget</option>
-                        <option value="révocation">Révocations / Réactivations Accès</option>
+                        <option value="rÃ©initialisation">RÃ©initialisations Budget</option>
+                        <option value="rÃ©vocation">RÃ©vocations / RÃ©activations AccÃ¨s</option>
                         <option value="validation">Validations</option>
                       </select>
 
@@ -4756,7 +4750,7 @@ export default function AdminDashboard({
                           onClick={() => { setLogCategoryFilter("all"); setLogActionFilter("all"); setSearchQuery(""); }}
                           className="px-3 py-2 bg-[#151515] hover:bg-red-950/40 text-red-400 border border-white/10 hover:border-red-900 rounded-xl text-xs font-bold transition-all cursor-pointer"
                         >
-                          Réinitialiser filtres
+                          RÃ©initialiser filtres
                         </button>
                       )}
                     </div>
@@ -4770,21 +4764,21 @@ export default function AdminDashboard({
                       <Clock className="h-4 w-4 text-[#D4AF37]" />
                       <span>Registres d'Audit</span>
                       <span className="px-2 py-0.5 rounded-full bg-[#D4AF37]/10 text-[#D4AF37] text-[11px] font-mono border border-[#D4AF37]/20">
-                        {displayLogs.length} résultat{displayLogs.length > 1 ? "s" : ""}
+                        {displayLogs.length} rÃ©sultat{displayLogs.length > 1 ? "s" : ""}
                       </span>
                     </span>
 
                     <span className="text-[11px] text-slate-500 font-mono">
-                      Horodatage système automatisé
+                      Horodatage systÃ¨me automatisÃ©
                     </span>
                   </div>
 
                   {displayLogs.length === 0 ? (
                     <div className="p-12 text-center">
                       <Clock className="h-10 w-10 text-slate-600 mx-auto mb-3" />
-                      <h4 className="text-sm font-bold text-slate-300">Aucun journal d'action ne correspond aux critères</h4>
+                      <h4 className="text-sm font-bold text-slate-300">Aucun journal d'action ne correspond aux critÃ¨res</h4>
                       <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
-                        Essayez de réinitialiser la recherche ou de changer les filtres de catégorie.
+                        Essayez de rÃ©initialiser la recherche ou de changer les filtres de catÃ©gorie.
                       </p>
                       <button
                         onClick={() => { setLogCategoryFilter("all"); setLogActionFilter("all"); setSearchQuery(""); }}
@@ -4799,10 +4793,10 @@ export default function AdminDashboard({
                         <thead>
                           <tr className="border-b border-white/5 text-slate-500 uppercase text-[10px] tracking-wider bg-[#151515]">
                             <th className="py-3 px-4">Horodatage</th>
-                            <th className="py-3 px-4">Agent Opérateur</th>
-                            <th className="py-3 px-4">Catégorie</th>
-                            <th className="py-3 px-4">Action Effectuée</th>
-                            <th className="py-3 px-4">Détail Opérationnel & Traçabilité</th>
+                            <th className="py-3 px-4">Agent OpÃ©rateur</th>
+                            <th className="py-3 px-4">CatÃ©gorie</th>
+                            <th className="py-3 px-4">Action EffectuÃ©e</th>
+                            <th className="py-3 px-4">DÃ©tail OpÃ©rationnel & TraÃ§abilitÃ©</th>
                             <th className="py-3 px-4 text-right">Inspection</th>
                           </tr>
                         </thead>
@@ -4812,7 +4806,7 @@ export default function AdminDashboard({
 
                             let categoryBadge = (
                               <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
-                                Système
+                                SystÃ¨me
                               </span>
                             );
                             if (cat === "budget") {
@@ -4824,7 +4818,7 @@ export default function AdminDashboard({
                             } else if (cat === "personnel") {
                               categoryBadge = (
                                 <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                                  Personnel & Accès
+                                  Personnel & AccÃ¨s
                                 </span>
                               );
                             } else if (cat === "projets") {
@@ -4887,7 +4881,7 @@ export default function AdminDashboard({
             );
           })()}
 
-          {/* PANEL: CONFIGURATION / PARAMÈTRES */}
+          {/* PANEL: CONFIGURATION / PARAMÃˆTRES */}
           {activePanel === "parametres" && (
             <div className="space-y-6">
               <div className="bg-[#12261C] p-6 rounded-xl border border-white/5 shadow-md">
@@ -4895,25 +4889,25 @@ export default function AdminDashboard({
                   <div>
                     <h3 className="font-display text-base font-bold text-white uppercase tracking-wider flex items-center gap-2.5">
                       <Settings className="h-5 w-5 text-[#D4AF37]" />
-                      <span>Configuration Générale du Portail UR-GEDT</span>
+                      <span>Configuration GÃ©nÃ©rale du Portail UR-GEDT</span>
                     </h3>
                     <p className="text-xs text-slate-400 font-mono mt-1">
-                      Gérez le nom institutionnel, le logo officiel, le favicon, les coordonnées directes et les réseaux sociaux.
+                      GÃ©rez le nom institutionnel, le logo officiel, le favicon, les coordonnÃ©es directes et les rÃ©seaux sociaux.
                     </p>
                   </div>
                 </div>
 
                 <form onSubmit={handleSaveSettings} className="mt-6 space-y-8">
-                  {/* SECTION 1: Identité du Portail */}
+                  {/* SECTION 1: IdentitÃ© du Portail */}
                   <div className="space-y-4">
                     <h4 className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider font-mono border-b border-white/5 pb-2">
-                      1. Identité Visuelle & Branding
+                      1. IdentitÃ© Visuelle & Branding
                     </h4>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                          Nom Officiel du Portail / Unité <span className="text-[#D4AF37]">*</span>
+                          Nom Officiel du Portail / UnitÃ© <span className="text-[#D4AF37]">*</span>
                         </label>
                         <input
                           type="text"
@@ -4947,26 +4941,26 @@ export default function AdminDashboard({
                             onChange={async (e) => {
                               const file = e.target.files?.[0];
                               if (!file) return;
-                              addToast("Téléversement du logo en cours...", "info", "Paramètres");
+                              addToast("TÃ©lÃ©versement du logo en cours...", "info", "ParamÃ¨tres");
                               try {
                                 const result = await uploadFileToCloudinary(file);
                                 setSettingsForm({ ...settingsForm, logo: result.url });
-                                addToast("Logo téléversé avec succès.", "success", "Paramètres");
+                                addToast("Logo tÃ©lÃ©versÃ© avec succÃ¨s.", "success", "ParamÃ¨tres");
                               } catch (err: any) {
                                 console.error("Cloudinary upload error:", err);
                                 addToast(
                                   err instanceof CloudinaryConfigError
                                     ? err.message
-                                    : "Échec du téléversement. Vérifiez votre connexion et réessayez.",
+                                    : "Ã‰chec du tÃ©lÃ©versement. VÃ©rifiez votre connexion et rÃ©essayez.",
                                   "error",
-                                  "Paramètres"
+                                  "ParamÃ¨tres"
                                 );
                               }
                             }}
                           />
                           <div className="flex items-center space-x-1.5 text-xs font-bold text-slate-300">
                             <Upload className="h-3.5 w-3.5 text-[#D4AF37]" />
-                            <span>Téléverser Logo</span>
+                            <span>TÃ©lÃ©verser Logo</span>
                           </div>
                         </div>
                         <button
@@ -4975,15 +4969,15 @@ export default function AdminDashboard({
                           className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-slate-950 px-3.5 py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-colors shrink-0"
                         >
                           <FolderOpen className="h-3.5 w-3.5" />
-                          <span>Médiathèque</span>
+                          <span>MÃ©diathÃ¨que</span>
                         </button>
                       </div>
                       {settingsForm.logo && (
                         <div className="p-3 bg-black/30 border border-white/5 rounded-lg flex items-center gap-3 w-fit">
-                          <img src={settingsForm.logo} alt="Aperçu Logo" className="h-10 w-10 object-contain rounded-full bg-white p-0.5 border border-[#D4AF37]" referrerPolicy="no-referrer" />
+                          <img src={settingsForm.logo} alt="AperÃ§u Logo" className="h-10 w-10 object-contain rounded-full bg-white p-0.5 border border-[#D4AF37]" referrerPolicy="no-referrer" />
                           <div>
-                            <p className="text-[11px] font-bold text-white">Aperçu du Logo</p>
-                            <p className="text-[10px] text-slate-400 font-mono">Affiché dans la barre de navigation et le pied de page</p>
+                            <p className="text-[11px] font-bold text-white">AperÃ§u du Logo</p>
+                            <p className="text-[10px] text-slate-400 font-mono">AffichÃ© dans la barre de navigation et le pied de page</p>
                           </div>
                         </div>
                       )}
@@ -5010,26 +5004,26 @@ export default function AdminDashboard({
                             onChange={async (e) => {
                               const file = e.target.files?.[0];
                               if (!file) return;
-                              addToast("Téléversement du favicon en cours...", "info", "Paramètres");
+                              addToast("TÃ©lÃ©versement du favicon en cours...", "info", "ParamÃ¨tres");
                               try {
                                 const result = await uploadFileToCloudinary(file);
                                 setSettingsForm({ ...settingsForm, favicon: result.url });
-                                addToast("Favicon téléversé avec succès.", "success", "Paramètres");
+                                addToast("Favicon tÃ©lÃ©versÃ© avec succÃ¨s.", "success", "ParamÃ¨tres");
                               } catch (err: any) {
                                 console.error("Cloudinary upload error:", err);
                                 addToast(
                                   err instanceof CloudinaryConfigError
                                     ? err.message
-                                    : "Échec du téléversement. Vérifiez votre connexion et réessayez.",
+                                    : "Ã‰chec du tÃ©lÃ©versement. VÃ©rifiez votre connexion et rÃ©essayez.",
                                   "error",
-                                  "Paramètres"
+                                  "ParamÃ¨tres"
                                 );
                               }
                             }}
                           />
                           <div className="flex items-center space-x-1.5 text-xs font-bold text-slate-300">
                             <Upload className="h-3.5 w-3.5 text-[#D4AF37]" />
-                            <span>Téléverser Favicon</span>
+                            <span>TÃ©lÃ©verser Favicon</span>
                           </div>
                         </div>
                         <button
@@ -5038,31 +5032,31 @@ export default function AdminDashboard({
                           className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-slate-950 px-3.5 py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-colors shrink-0"
                         >
                           <FolderOpen className="h-3.5 w-3.5" />
-                          <span>Médiathèque</span>
+                          <span>MÃ©diathÃ¨que</span>
                         </button>
                       </div>
                       {settingsForm.favicon && (
                         <div className="p-3 bg-black/30 border border-white/5 rounded-lg flex items-center gap-3 w-fit">
-                          <img src={settingsForm.favicon} alt="Aperçu Favicon" className="h-6 w-6 object-contain rounded bg-white p-0.5" referrerPolicy="no-referrer" />
+                          <img src={settingsForm.favicon} alt="AperÃ§u Favicon" className="h-6 w-6 object-contain rounded bg-white p-0.5" referrerPolicy="no-referrer" />
                           <div>
-                            <p className="text-[11px] font-bold text-white">Aperçu du Favicon</p>
-                            <p className="text-[10px] text-slate-400 font-mono">Icône d'onglet du navigateur</p>
+                            <p className="text-[11px] font-bold text-white">AperÃ§u du Favicon</p>
+                            <p className="text-[10px] text-slate-400 font-mono">IcÃ´ne d'onglet du navigateur</p>
                           </div>
                         </div>
                       )}
                     </div>
                   </div>
 
-                  {/* SECTION 2: Coordonnées & Contact */}
+                  {/* SECTION 2: CoordonnÃ©es & Contact */}
                   <div className="space-y-4 pt-4 border-t border-white/5">
                     <h4 className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider font-mono border-b border-white/5 pb-2">
-                      2. Coordonnées Officielles & Adresse
+                      2. CoordonnÃ©es Officielles & Adresse
                     </h4>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                          Courriel Officiel (Contact Secrétariat)
+                          Courriel Officiel (Contact SecrÃ©tariat)
                         </label>
                         <input
                           type="email"
@@ -5074,7 +5068,7 @@ export default function AdminDashboard({
                       </div>
                       <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                          Téléphone Officiel
+                          TÃ©lÃ©phone Officiel
                         </label>
                         <input
                           type="text"
@@ -5100,10 +5094,10 @@ export default function AdminDashboard({
                     </div>
                   </div>
 
-                  {/* SECTION 3: Réseaux Sociaux */}
+                  {/* SECTION 3: RÃ©seaux Sociaux */}
                   <div className="space-y-4 pt-4 border-t border-white/5">
                     <h4 className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider font-mono border-b border-white/5 pb-2">
-                      3. Liens des Réseaux Sociaux Institutionnels
+                      3. Liens des RÃ©seaux Sociaux Institutionnels
                     </h4>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -5145,7 +5139,7 @@ export default function AdminDashboard({
                       </div>
                       <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                          Chaîne YouTube
+                          ChaÃ®ne YouTube
                         </label>
                         <input
                           type="url"
@@ -5169,7 +5163,7 @@ export default function AdminDashboard({
                       </div>
                       <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                          Dépôt GitHub / Code
+                          DÃ©pÃ´t GitHub / Code
                         </label>
                         <input
                           type="url"
@@ -5197,7 +5191,7 @@ export default function AdminDashboard({
                       ) : (
                         <>
                           <Save className="h-4 w-4" />
-                          <span>Enregistrer les Paramètres</span>
+                          <span>Enregistrer les ParamÃ¨tres</span>
                         </>
                       )}
                     </button>
@@ -5234,7 +5228,7 @@ export default function AdminDashboard({
                 <h3 id="crud-modal-title" className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                   <Edit className="h-4 w-4 text-[#D4AF37]" aria-hidden="true" />
                   <span>
-                    {editingItem ? "Modifier" : "Ajouter / Créer"} : {modalType.toUpperCase()}
+                    {editingItem ? "Modifier" : "Ajouter / CrÃ©er"} : {modalType.toUpperCase()}
                   </span>
                 </h3>
                 <button
@@ -5257,14 +5251,14 @@ export default function AdminDashboard({
                     <div className="flex items-center space-x-4 bg-black/30 p-3 rounded-xl border border-white/5">
                       <div className="h-16 w-16 rounded-full bg-gradient-to-tr from-[#111111] to-[#D4AF37] flex items-center justify-center text-white text-2xl font-black font-display shrink-0 border border-white/10 overflow-hidden shadow-md">
                         {formData.avatarUrl ? (
-                          <img src={formData.avatarUrl} alt="Aperçu photo" className="h-full w-full object-cover" referrerPolicy="no-referrer" />
+                          <img src={formData.avatarUrl} alt="AperÃ§u photo" className="h-full w-full object-cover" referrerPolicy="no-referrer" />
                         ) : (
                           (formData.name || "U").split(" ").slice(-1)[0]?.[0] || "U"
                         )}
                       </div>
                       <div className="space-y-1">
                         <p className="text-xs font-bold text-white">Photo de profil de l'utilisateur</p>
-                        <p className="text-[11px] text-slate-400">Importez une photo, saisissez une URL ou choisissez dans la médiathèque.</p>
+                        <p className="text-[11px] text-slate-400">Importez une photo, saisissez une URL ou choisissez dans la mÃ©diathÃ¨que.</p>
                       </div>
                     </div>
 
@@ -5278,7 +5272,7 @@ export default function AdminDashboard({
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Photo de profil (URL, Téléversement ou Médiathèque)</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Photo de profil (URL, TÃ©lÃ©versement ou MÃ©diathÃ¨que)</label>
                       <div className="flex gap-2">
                         <input
                           type="text"
@@ -5295,17 +5289,17 @@ export default function AdminDashboard({
                             onChange={async (e) => {
                               const file = e.target.files?.[0];
                               if (!file) return;
-                              addToast("Téléversement de la photo en cours...", "info", "Personnel");
+                              addToast("TÃ©lÃ©versement de la photo en cours...", "info", "Personnel");
                               try {
                                 const result = await uploadFileToCloudinary(file);
                                 setFormData({ ...formData, avatarUrl: result.url });
-                                addToast("Photo téléversée avec succès.", "success", "Personnel");
+                                addToast("Photo tÃ©lÃ©versÃ©e avec succÃ¨s.", "success", "Personnel");
                               } catch (err: any) {
                                 console.error("Cloudinary upload error:", err);
                                 addToast(
                                   err instanceof CloudinaryConfigError
                                     ? err.message
-                                    : "Échec du téléversement. Vérifiez votre connexion et réessayez.",
+                                    : "Ã‰chec du tÃ©lÃ©versement. VÃ©rifiez votre connexion et rÃ©essayez.",
                                   "error",
                                   "Personnel"
                                 );
@@ -5314,7 +5308,7 @@ export default function AdminDashboard({
                           />
                           <div className="flex items-center space-x-1 text-xs font-bold text-slate-300">
                             <Upload className="h-3.5 w-3.5 text-[#D4AF37]" />
-                            <span>Téléverser</span>
+                            <span>TÃ©lÃ©verser</span>
                           </div>
                         </div>
                         <button
@@ -5323,7 +5317,7 @@ export default function AdminDashboard({
                           className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-black px-3 py-2 rounded text-xs font-bold flex items-center gap-1 cursor-pointer transition-colors shrink-0"
                         >
                           <FolderOpen className="h-3.5 w-3.5" />
-                          <span>Médiathèque</span>
+                          <span>MÃ©diathÃ¨que</span>
                         </button>
                       </div>
                     </div>
@@ -5332,7 +5326,7 @@ export default function AdminDashboard({
                       <div className="flex items-center justify-between mb-1">
                         <label className="block text-[11px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                           <Key className="h-3.5 w-3.5" />
-                          <span>Mot de passe d'accès</span>
+                          <span>Mot de passe d'accÃ¨s</span>
                         </label>
                         <button
                           type="button"
@@ -5340,7 +5334,7 @@ export default function AdminDashboard({
                           className="text-[11px] font-bold text-amber-300 hover:text-amber-200 bg-amber-500/10 hover:bg-amber-500/20 px-2.5 py-0.5 rounded border border-amber-500/20 cursor-pointer flex items-center gap-1 transition-colors"
                         >
                           <Sparkles className="h-3 w-3 text-amber-400" />
-                          <span>Générer un mot de passe fort</span>
+                          <span>GÃ©nÃ©rer un mot de passe fort</span>
                         </button>
                       </div>
 
@@ -5350,7 +5344,7 @@ export default function AdminDashboard({
                           required={!editingItem} 
                           value={formData.password || ""} 
                           onChange={(e) => setFormData({ ...formData, password: e.target.value })} 
-                          placeholder={editingItem ? "•••••••• (laissez vide pour conserver le mot de passe actuel)" : "Saisissez ou générez un mot de passe..."}
+                          placeholder={editingItem ? "â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢ (laissez vide pour conserver le mot de passe actuel)" : "Saisissez ou gÃ©nÃ©rez un mot de passe..."}
                           className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4AF37] pr-10" 
                         />
                         <button
@@ -5391,16 +5385,16 @@ export default function AdminDashboard({
                             {/* Real-time criteria checklist */}
                             <div className="grid grid-cols-2 gap-1 pt-1 text-[11px] font-mono">
                               <span className={`flex items-center gap-1 ${str.hasMinLen ? "text-emerald-400" : "text-gray-500"}`}>
-                                {str.hasMinLen ? "✓" : "○"} 6+ caractères
+                                {str.hasMinLen ? "âœ“" : "â—‹"} 6+ caractÃ¨res
                               </span>
                               <span className={`flex items-center gap-1 ${str.hasUpper ? "text-emerald-400" : "text-gray-500"}`}>
-                                {str.hasUpper ? "✓" : "○"} Majuscule (A-Z)
+                                {str.hasUpper ? "âœ“" : "â—‹"} Majuscule (A-Z)
                               </span>
                               <span className={`flex items-center gap-1 ${str.hasNumber ? "text-emerald-400" : "text-gray-500"}`}>
-                                {str.hasNumber ? "✓" : "○"} Chiffre (0-9)
+                                {str.hasNumber ? "âœ“" : "â—‹"} Chiffre (0-9)
                               </span>
                               <span className={`flex items-center gap-1 ${str.hasSpecial ? "text-emerald-400" : "text-gray-500"}`}>
-                                {str.hasSpecial ? "✓" : "○"} Symbole (@#$...)
+                                {str.hasSpecial ? "âœ“" : "â—‹"} Symbole (@#$...)
                               </span>
                             </div>
                           </div>
@@ -5408,19 +5402,19 @@ export default function AdminDashboard({
                       })()}
                     </div>
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Rôle au sein de l'Unité</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">RÃ´le au sein de l'UnitÃ©</label>
                       <select value={formData.role || "Chercheur"} onChange={(e) => setFormData({ ...formData, role: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
                         <option value="Administrateur">Administrateur</option>
                         <option value="Directeur">Directeur</option>
                         <option value="Comptable">Comptable</option>
-                        <option value="Secrétaire">Secrétaire</option>
+                        <option value="SecrÃ©taire">SecrÃ©taire</option>
                         <option value="Chercheur">Chercheur</option>
                       </select>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Téléphone de contact</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">TÃ©lÃ©phone de contact</label>
                         <input
                           type="text"
                           value={formData.phone || ""}
@@ -5430,24 +5424,24 @@ export default function AdminDashboard({
                         />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Département / Faculté</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">DÃ©partement / FacultÃ©</label>
                         <input
                           type="text"
                           value={formData.department || ""}
                           onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                          placeholder="Ex: Faculté des Sciences Sociales"
+                          placeholder="Ex: FacultÃ© des Sciences Sociales"
                           className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Fonction / Titre Académique</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Fonction / Titre AcadÃ©mique</label>
                       <input
                         type="text"
                         value={formData.function || ""}
                         onChange={(e) => setFormData({ ...formData, function: e.target.value })}
-                        placeholder="Ex: Professeur Associé, Enquêteur Senior"
+                        placeholder="Ex: Professeur AssociÃ©, EnquÃªteur Senior"
                         className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]"
                       />
                     </div>
@@ -5458,7 +5452,7 @@ export default function AdminDashboard({
                         rows={3}
                         value={formData.bio || ""}
                         onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                        placeholder="Brève biographie, spécialité ou thèmes de recherche..."
+                        placeholder="BrÃ¨ve biographie, spÃ©cialitÃ© ou thÃ¨mes de recherche..."
                         className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]"
                       />
                     </div>
@@ -5473,11 +5467,11 @@ export default function AdminDashboard({
                 {modalType === "news" && (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Titre de l'actualité</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Titre de l'actualitÃ©</label>
                       <input type="text" required value={formData.title || ""} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Catégorie</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">CatÃ©gorie</label>
                       <select value={formData.category || "Recherche"} onChange={(e) => setFormData({ ...formData, category: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
                         <option value="Recherche">Recherche</option>
                         <option value="Environnement">Environnement</option>
@@ -5502,10 +5496,10 @@ export default function AdminDashboard({
                           className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-black px-3 py-2 rounded text-xs font-bold flex items-center gap-1 cursor-pointer transition-colors shrink-0"
                         >
                           <FolderOpen className="h-3.5 w-3.5" />
-                          <span>Médiathèque</span>
+                          <span>MÃ©diathÃ¨que</span>
                         </button>
                       </div>
-                      <p className="text-[10px] text-slate-500 mt-1">Collez une URL d'image/document, ou cliquez sur <strong>Médiathèque</strong> pour parcourir, glisser-déposer ou téléverser vos photos et PDFs.</p>
+                      <p className="text-[10px] text-slate-500 mt-1">Collez une URL d'image/document, ou cliquez sur <strong>MÃ©diathÃ¨que</strong> pour parcourir, glisser-dÃ©poser ou tÃ©lÃ©verser vos photos et PDFs.</p>
                       
                       {/* Live preview in the form itself! */}
                       {formData.image && (
@@ -5515,17 +5509,17 @@ export default function AdminDashboard({
                               <FileText className="h-5 w-5" />
                             </div>
                           ) : (
-                            <img src={formData.image} alt="Aperçu" className="h-10 w-10 object-cover rounded" referrerPolicy="no-referrer" />
+                            <img src={formData.image} alt="AperÃ§u" className="h-10 w-10 object-cover rounded" referrerPolicy="no-referrer" />
                           )}
                           <div className="overflow-hidden">
-                            <p className="text-[11px] font-bold text-white truncate">Fichier sélectionné</p>
+                            <p className="text-[11px] font-bold text-white truncate">Fichier sÃ©lectionnÃ©</p>
                             <p className="text-[9px] text-slate-500 truncate font-mono">{formData.image.substring(0, 50)}...</p>
                           </div>
                         </div>
                       )}
                     </div>
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Texte intégral</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Texte intÃ©gral</label>
                       <textarea required rows={5} value={formData.content || ""} onChange={(e) => setFormData({ ...formData, content: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs leading-relaxed text-white focus:outline-none focus:border-[#D4AF37]"></textarea>
                     </div>
                   </div>
@@ -5539,24 +5533,24 @@ export default function AdminDashboard({
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Date de démarrage</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Date de dÃ©marrage</label>
                         <input type="date" required value={formData.startDate || ""} onChange={(e) => setFormData({ ...formData, startDate: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Date de fin prévue</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Date de fin prÃ©vue</label>
                         <input type="date" required value={formData.endDate || ""} onChange={(e) => setFormData({ ...formData, endDate: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Allocation budgétaire (USD)</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Allocation budgÃ©taire (USD)</label>
                         <input type="number" required value={formData.budget || ""} onChange={(e) => setFormData({ ...formData, budget: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4AF37]" />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Statut opérationnel</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Statut opÃ©rationnel</label>
                         <select value={formData.status || "En cours"} onChange={(e) => setFormData({ ...formData, status: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
                           <option value="En cours">En cours</option>
-                          <option value="Terminé">Terminé</option>
+                          <option value="TerminÃ©">TerminÃ©</option>
                           <option value="Suspendu">Suspendu</option>
                         </select>
                       </div>
@@ -5566,7 +5560,7 @@ export default function AdminDashboard({
                       <input type="text" required value={formData.funding || ""} onChange={(e) => setFormData({ ...formData, funding: e.target.value })} placeholder="Ex: Enabel" className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Description détaillée</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Description dÃ©taillÃ©e</label>
                       <textarea required rows={4} value={formData.description || ""} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs leading-relaxed text-white focus:outline-none focus:border-[#D4AF37]"></textarea>
                     </div>
                   </div>
@@ -5575,15 +5569,15 @@ export default function AdminDashboard({
                 {modalType === "activity" && (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Intitulé de l'activité</label>
-                      <input type="text" required value={formData.title || ""} onChange={(e) => setFormData({ ...formData, title: e.target.value })} placeholder="Ex: Réunion d'évaluation de l'unité" className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">IntitulÃ© de l'activitÃ©</label>
+                      <input type="text" required value={formData.title || ""} onChange={(e) => setFormData({ ...formData, title: e.target.value })} placeholder="Ex: RÃ©union d'Ã©valuation de l'unitÃ©" className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Type d'activité</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Type d'activitÃ©</label>
                       <select value={formData.type || "Recherche"} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
-                        <option value="Recherche">🔬 Activité de Recherche / Mission de Terrain</option>
-                        <option value="Réunion">👥 Réunion de coordination / de service</option>
-                        <option value="Séminaire">🎓 Séminaire académique / Atelier / Colloque</option>
+                        <option value="Recherche">ðŸ”¬ ActivitÃ© de Recherche / Mission de Terrain</option>
+                        <option value="RÃ©union">ðŸ‘¥ RÃ©union de coordination / de service</option>
+                        <option value="SÃ©minaire">ðŸŽ“ SÃ©minaire acadÃ©mique / Atelier / Colloque</option>
                       </select>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -5592,26 +5586,26 @@ export default function AdminDashboard({
                         <input type="text" required value={formData.location || ""} onChange={(e) => setFormData({ ...formData, location: e.target.value })} placeholder="Ex: Kipushi" className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Date prévue</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Date prÃ©vue</label>
                         <input type="date" required value={formData.date || ""} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Allocation financière terrain (USD)</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Allocation financiÃ¨re terrain (USD)</label>
                         <input type="number" required value={formData.budget || ""} onChange={(e) => setFormData({ ...formData, budget: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4AF37]" />
                       </div>
                       <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Statut d'avancement</label>
-                        <select value={formData.status || "Planifié"} onChange={(e) => setFormData({ ...formData, status: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
-                          <option value="Planifié">Planifié</option>
+                        <select value={formData.status || "PlanifiÃ©"} onChange={(e) => setFormData({ ...formData, status: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
+                          <option value="PlanifiÃ©">PlanifiÃ©</option>
                           <option value="En cours">En cours</option>
-                          <option value="Réalisé">Réalisé</option>
+                          <option value="RÃ©alisÃ©">RÃ©alisÃ©</option>
                         </select>
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Chercheurs mobilisés (Séparés par des virgules)</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Chercheurs mobilisÃ©s (SÃ©parÃ©s par des virgules)</label>
                       <input 
                         type="text" 
                         required 
@@ -5631,7 +5625,7 @@ export default function AdminDashboard({
                 {modalType === "publication" && (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Titre de la publication académique</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Titre de la publication acadÃ©mique</label>
                       <input type="text" required value={formData.title || ""} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                     </div>
                     <div>
@@ -5639,26 +5633,26 @@ export default function AdminDashboard({
                       <input type="text" required value={formData.authors || ""} onChange={(e) => setFormData({ ...formData, authors: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nom de la revue / Éditeur</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nom de la revue / Ã‰diteur</label>
                       <input type="text" required value={formData.journal || ""} onChange={(e) => setFormData({ ...formData, journal: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Année d'édition</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">AnnÃ©e d'Ã©dition</label>
                         <input type="number" required value={formData.year || ""} onChange={(e) => setFormData({ ...formData, year: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4AF37]" />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Catégorie scientifique</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">CatÃ©gorie scientifique</label>
                         <select value={formData.type || "Article"} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
                           <option value="Article">Article dans Revue</option>
                           <option value="Livre">Livre scientifique</option>
                           <option value="Rapport">Rapport d'expertise</option>
-                          <option value="Thèse">Thèse académique</option>
+                          <option value="ThÃ¨se">ThÃ¨se acadÃ©mique</option>
                         </select>
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Adresse URL d'indexation / Téléchargement</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Adresse URL d'indexation / TÃ©lÃ©chargement</label>
                       <input type="url" required value={formData.url || ""} onChange={(e) => setFormData({ ...formData, url: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4AF37]" />
                     </div>
                   </div>
@@ -5667,7 +5661,7 @@ export default function AdminDashboard({
                 {modalType === "gallery" && (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Titre du média</label>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Titre du mÃ©dia</label>
                       <input type="text" required value={formData.title || ""} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                     </div>
                     <div>
@@ -5676,24 +5670,24 @@ export default function AdminDashboard({
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Type de média</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Type de mÃ©dia</label>
                         <select value={formData.type || "photo"} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
-                          <option value="photo">📷 Photo / Image</option>
-                          <option value="video">🎥 Vidéo (Youtube ou fichier)</option>
-                          <option value="audio">🎵 Fichier Audio (Interview, Podcast)</option>
-                          <option value="pdf">📄 Document PDF (Rapport d'enquête)</option>
+                          <option value="photo">ðŸ“· Photo / Image</option>
+                          <option value="video">ðŸŽ¥ VidÃ©o (Youtube ou fichier)</option>
+                          <option value="audio">ðŸŽµ Fichier Audio (Interview, Podcast)</option>
+                          <option value="pdf">ðŸ“„ Document PDF (Rapport d'enquÃªte)</option>
                         </select>
                       </div>
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Date d'intégration</label>
+                        <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Date d'intÃ©gration</label>
                         <input type="date" required value={formData.date || ""} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]" />
                       </div>
                     </div>
                     <div className="border border-white/5 bg-black/30 rounded-xl p-3.5 space-y-3">
-                      <span className="text-[10px] uppercase font-bold text-slate-400 font-mono">Fichier Média (Importer ou coller l'URL)</span>
+                      <span className="text-[10px] uppercase font-bold text-slate-400 font-mono">Fichier MÃ©dia (Importer ou coller l'URL)</span>
                       <div className="flex flex-col sm:flex-row gap-3">
                         <div className="flex-grow">
-                          <label className="block text-[10px] text-slate-500 mb-1">Lien absolu du média (URL)</label>
+                          <label className="block text-[10px] text-slate-500 mb-1">Lien absolu du mÃ©dia (URL)</label>
                           <input 
                             type="text" 
                             required 
@@ -5717,26 +5711,26 @@ export default function AdminDashboard({
                               onChange={async (e) => {
                                 const file = e.target.files?.[0];
                                 if (!file) return;
-                                addToast("Téléversement du fichier en cours...", "info", "Médiathèque");
+                                addToast("TÃ©lÃ©versement du fichier en cours...", "info", "MÃ©diathÃ¨que");
                                 try {
                                   const result = await uploadFileToCloudinary(file);
                                   setFormData({ ...formData, url: result.url });
-                                  addToast("Fichier téléversé avec succès.", "success", "Médiathèque");
+                                  addToast("Fichier tÃ©lÃ©versÃ© avec succÃ¨s.", "success", "MÃ©diathÃ¨que");
                                 } catch (err: any) {
                                   console.error("Cloudinary upload error:", err);
                                   addToast(
                                     err instanceof CloudinaryConfigError
                                       ? err.message
-                                      : "Échec du téléversement. Vérifiez votre connexion et réessayez.",
+                                      : "Ã‰chec du tÃ©lÃ©versement. VÃ©rifiez votre connexion et rÃ©essayez.",
                                     "error",
-                                    "Médiathèque"
+                                    "MÃ©diathÃ¨que"
                                   );
                                 }
                               }}
                             />
                             <div className="flex items-center space-x-1 text-[11px] font-bold text-slate-400">
                               <Upload className="h-3.5 w-3.5" />
-                              <span>Téléverser fichier</span>
+                              <span>TÃ©lÃ©verser fichier</span>
                             </div>
                           </div>
                         </div>
@@ -5753,10 +5747,10 @@ export default function AdminDashboard({
                     </div>
                     <div>
                       <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Type de structure</label>
-                      <select value={formData.type || "Académique"} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
-                        <option value="Académique">Académique / Universitaire</option>
+                      <select value={formData.type || "AcadÃ©mique"} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="w-full bg-[#151515] border border-white/5 rounded p-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
+                        <option value="AcadÃ©mique">AcadÃ©mique / Universitaire</option>
                         <option value="Financier">Financier / Bailleur de fonds</option>
-                        <option value="Institutionnel">Institutionnel / État</option>
+                        <option value="Institutionnel">Institutionnel / Ã‰tat</option>
                       </select>
                     </div>
                     <div>
@@ -5777,7 +5771,7 @@ export default function AdminDashboard({
                       <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 flex items-center justify-between text-xs text-amber-200">
                         <div className="flex items-center gap-2">
                           <Save className="h-4 w-4 text-amber-400 shrink-0" />
-                          <span>Brouillon non soumis restauré automatiquement.</span>
+                          <span>Brouillon non soumis restaurÃ© automatiquement.</span>
                         </div>
                         <button
                           type="button"
@@ -5790,16 +5784,16 @@ export default function AdminDashboard({
                     )}
                     <ValidatedInputField
                       id="recipe-description"
-                      label="Libellé ou description du financement"
+                      label="LibellÃ© ou description du financement"
                       value={formData.description || ""}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      placeholder="Ex: Rétrocession mines deuxième tranche"
+                      placeholder="Ex: RÃ©trocession mines deuxiÃ¨me tranche"
                       required
                       validate={(val) => {
                         if (val.trim().length < 3) {
-                          return { isValid: false, message: "✗ Description trop courte (minimum 3 caractères)." };
+                          return { isValid: false, message: "âœ— Description trop courte (minimum 3 caractÃ¨res)." };
                         }
-                        return { isValid: true, message: "✓ Description valide." };
+                        return { isValid: true, message: "âœ“ Description valide." };
                       }}
                     />
                     <div className="grid grid-cols-2 gap-4">
@@ -5811,11 +5805,11 @@ export default function AdminDashboard({
                         onAmountChange={(cleanAmount, currency) => setFormData({ ...formData, amount: cleanAmount, currency })}
                         required
                         placeholder="Ex: 15 000,00"
-                        helpText="Formatage automatique en temps réel des séparateurs de milliers"
+                        helpText="Formatage automatique en temps rÃ©el des sÃ©parateurs de milliers"
                       />
                       <div>
                         <label htmlFor="recipe-type" className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
-                          Origine / Catégorie <span className="text-[#D4AF37]">*</span>
+                          Origine / CatÃ©gorie <span className="text-[#D4AF37]">*</span>
                         </label>
                         <select
                           id="recipe-type"
@@ -5835,13 +5829,13 @@ export default function AdminDashboard({
                       label="Bailleur / Source de provenance"
                       value={formData.source || ""}
                       onChange={(e) => setFormData({ ...formData, source: e.target.value })}
-                      placeholder="Ex: Union Européenne"
+                      placeholder="Ex: Union EuropÃ©enne"
                       required
                       validate={(val) => {
                         if (val.trim().length < 2) {
-                          return { isValid: false, message: "✗ Nom de la source requis (minimum 2 caractères)." };
+                          return { isValid: false, message: "âœ— Nom de la source requis (minimum 2 caractÃ¨res)." };
                         }
-                        return { isValid: true, message: "✓ Source identifiée." };
+                        return { isValid: true, message: "âœ“ Source identifiÃ©e." };
                       }}
                     />
                   </div>
@@ -5854,7 +5848,7 @@ export default function AdminDashboard({
                       <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 flex items-center justify-between text-xs text-amber-200">
                         <div className="flex items-center gap-2">
                           <Save className="h-4 w-4 text-amber-400 shrink-0" />
-                          <span>Brouillon non soumis restauré automatiquement.</span>
+                          <span>Brouillon non soumis restaurÃ© automatiquement.</span>
                         </div>
                         <button
                           type="button"
@@ -5870,7 +5864,7 @@ export default function AdminDashboard({
                       <div className="flex justify-between items-center">
                         <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-wider flex items-center gap-1.5">
                           <span className="animate-pulse h-2 w-2 bg-[#D4AF37] rounded-full"></span>
-                          Numérisation intelligente (IA) de bordereau
+                          NumÃ©risation intelligente (IA) de bordereau
                         </span>
                         {formData.receiptUrl && (
                           <button
@@ -5878,7 +5872,7 @@ export default function AdminDashboard({
                             onClick={() => setFormData({ ...formData, receiptUrl: "" })}
                             className="text-[11px] text-red-400 hover:text-red-300 transition-colors font-semibold hover:underline"
                           >
-                            Supprimer la pièce
+                            Supprimer la piÃ¨ce
                           </button>
                         )}
                       </div>
@@ -5904,8 +5898,8 @@ export default function AdminDashboard({
                             <div className="h-10 w-10 bg-[#D4AF37]/10 rounded-full flex items-center justify-center text-[#D4AF37] group-hover:scale-110 transition-transform">
                               <Upload className="h-5 w-5" />
                             </div>
-                            <p className="text-xs text-slate-300 font-semibold">Déposer ou cliquer pour importer la pièce justificative</p>
-                            <p className="text-[11px] text-slate-500 font-mono">Formats d'images acceptés (PNG, JPG, JPEG)</p>
+                            <p className="text-xs text-slate-300 font-semibold">DÃ©poser ou cliquer pour importer la piÃ¨ce justificative</p>
+                            <p className="text-[11px] text-slate-500 font-mono">Formats d'images acceptÃ©s (PNG, JPG, JPEG)</p>
                           </div>
                         </div>
                       ) : (
@@ -5916,8 +5910,8 @@ export default function AdminDashboard({
                             className="h-14 w-14 object-cover rounded border border-white/10"
                           />
                           <div className="flex-grow min-w-0">
-                            <p className="text-xs font-semibold text-slate-200 truncate">Justificatif de dépense chargé</p>
-                            <p className="text-[11px] text-slate-500 font-mono">Prêt pour l'analyse par intelligence artificielle</p>
+                            <p className="text-xs font-semibold text-slate-200 truncate">Justificatif de dÃ©pense chargÃ©</p>
+                            <p className="text-[11px] text-slate-500 font-mono">PrÃªt pour l'analyse par intelligence artificielle</p>
                           </div>
                           <div>
                             <button
@@ -5940,17 +5934,17 @@ export default function AdminDashboard({
                                   });
                                   const json = await res.json();
                                   if (!res.ok || !json.success) {
-                                    throw new Error(json.error || "Erreur de numérisation");
+                                    throw new Error(json.error || "Erreur de numÃ©risation");
                                   }
 
                                   const { description, amount, beneficiary, category } = json.data;
                                   
                                   // Map Category string returned to appropriate select value
-                                  let finalCategory = "Matériel";
-                                  if (category === "Logistique" || category === "Logistique & Déplacements") finalCategory = "Logistique";
+                                  let finalCategory = "MatÃ©riel";
+                                  if (category === "Logistique" || category === "Logistique & DÃ©placements") finalCategory = "Logistique";
                                   else if (category === "Recherche" || category === "Frais de Recherche") finalCategory = "Recherche";
-                                  else if (category === "RH" || category === "Indemnités RH / Enquêteurs") finalCategory = "RH";
-                                  else if (category === "Autre" || category === "Autre dépense") finalCategory = "Autre";
+                                  else if (category === "RH" || category === "IndemnitÃ©s RH / EnquÃªteurs") finalCategory = "RH";
+                                  else if (category === "Autre" || category === "Autre dÃ©pense") finalCategory = "Autre";
 
                                   setFormData({
                                     ...formData,
@@ -5963,7 +5957,7 @@ export default function AdminDashboard({
                                   setScanError(undefined);
                                 } catch (err: any) {
                                   console.error("Scanning error:", err);
-                                  setScanError(err.message || "Impossible de numériser cette pièce.");
+                                  setScanError(err.message || "Impossible de numÃ©riser cette piÃ¨ce.");
                                 } finally {
                                   setIsScanningReceipt(false);
                                 }
@@ -5977,12 +5971,12 @@ export default function AdminDashboard({
                               {isScanningReceipt ? (
                                 <>
                                   <span className="animate-spin h-3.5 w-3.5 border-2 border-slate-500 border-t-white rounded-full"></span>
-                                  <span>Numérisation...</span>
+                                  <span>NumÃ©risation...</span>
                                 </>
                               ) : (
                                 <>
                                   <Sparkles className="h-3.5 w-3.5 text-slate-950 animate-pulse" />
-                                  <span>Numériser (IA)</span>
+                                  <span>NumÃ©riser (IA)</span>
                                 </>
                               )}
                             </button>
@@ -5995,73 +5989,73 @@ export default function AdminDashboard({
                           <div className="h-4 w-4 border-2 border-amber-400 border-t-transparent rounded-full animate-spin shrink-0"></div>
                           <div className="space-y-0.5">
                             <p className="text-[11px] text-amber-300 font-bold font-mono">Gemini-3.5-flash est en train d'analyser le document...</p>
-                            <p className="text-[10px] text-slate-400">Extraction automatique de l'objet, du montant, de la catégorie et du fournisseur en cours.</p>
+                            <p className="text-[10px] text-slate-400">Extraction automatique de l'objet, du montant, de la catÃ©gorie et du fournisseur en cours.</p>
                           </div>
                         </div>
                       )}
 
                       {scanError && (
                         <p className="text-[11px] text-red-400 font-mono bg-red-950/20 p-2.5 rounded border border-red-900/40">
-                          ⚠️ {scanError}
+                          âš ï¸ {scanError}
                         </p>
                       )}
                     </div>
 
                     <ValidatedInputField
                       id="expense-description"
-                      label="Libellé de la dépense / Objet"
+                      label="LibellÃ© de la dÃ©pense / Objet"
                       value={formData.description || ""}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                       placeholder="Ex: Achat carburant mission Kipushi"
                       required
                       validate={(val) => {
                         if (val.trim().length < 3) {
-                          return { isValid: false, message: "✗ Description de la dépense trop courte ( minimum 3 car. )." };
+                          return { isValid: false, message: "âœ— Description de la dÃ©pense trop courte ( minimum 3 car. )." };
                         }
-                        return { isValid: true, message: "✓ Objet de la dépense valide." };
+                        return { isValid: true, message: "âœ“ Objet de la dÃ©pense valide." };
                       }}
                     />
                     <div className="grid grid-cols-2 gap-4">
                       <FinancialMaskedInput
                         id="expense-amount"
-                        label="Montant décaissé"
+                        label="Montant dÃ©caissÃ©"
                         value={formData.amount || ""}
                         currency={formData.currency || "USD"}
                         onAmountChange={(cleanAmount, currency) => setFormData({ ...formData, amount: cleanAmount, currency })}
                         required
                         placeholder="Ex: 450,00"
-                        helpText="Formatage automatique en temps réel des séparateurs de milliers"
+                        helpText="Formatage automatique en temps rÃ©el des sÃ©parateurs de milliers"
                       />
                       <div>
                         <label htmlFor="expense-category" className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
-                          Catégorie budgétaire <span className="text-[#D4AF37]">*</span>
+                          CatÃ©gorie budgÃ©taire <span className="text-[#D4AF37]">*</span>
                         </label>
                         <select
                           id="expense-category"
-                          value={formData.category || "Matériel"}
+                          value={formData.category || "MatÃ©riel"}
                           onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                           className="w-full bg-[#151515] border border-emerald-500/50 bg-emerald-950/10 rounded p-2 text-xs text-white focus:outline-none focus:border-emerald-400"
                         >
-                          <option value="Matériel">Matériels Scientifiques</option>
-                          <option value="Logistique">Logistique & Déplacements</option>
+                          <option value="MatÃ©riel">MatÃ©riels Scientifiques</option>
+                          <option value="Logistique">Logistique & DÃ©placements</option>
                           <option value="Recherche">Frais de Recherche</option>
-                          <option value="RH">Indemnités RH / Enquêteurs</option>
-                          <option value="Autre">Autre dépense</option>
+                          <option value="RH">IndemnitÃ©s RH / EnquÃªteurs</option>
+                          <option value="Autre">Autre dÃ©pense</option>
                         </select>
                       </div>
                     </div>
                     <ValidatedInputField
                       id="expense-beneficiary"
-                      label="Bénéficiaire du versement"
+                      label="BÃ©nÃ©ficiaire du versement"
                       value={formData.beneficiary || ""}
                       onChange={(e) => setFormData({ ...formData, beneficiary: e.target.value })}
                       placeholder="Ex: Dr. Patrick Mulamba"
                       required
                       validate={(val) => {
                         if (val.trim().length < 2) {
-                          return { isValid: false, message: "✗ Nom du bénéficiaire requis (minimum 2 caractères)." };
+                          return { isValid: false, message: "âœ— Nom du bÃ©nÃ©ficiaire requis (minimum 2 caractÃ¨res)." };
                         }
-                        return { isValid: true, message: "✓ Bénéficiaire identifié." };
+                        return { isValid: true, message: "âœ“ BÃ©nÃ©ficiaire identifiÃ©." };
                       }}
                     />
                   </div>
@@ -6083,9 +6077,9 @@ export default function AdminDashboard({
                   <button
                     type="submit"
                     className="px-4 py-2 bg-[#D4AF37] hover:bg-[#D4AF37]/80 text-slate-950 rounded text-xs font-bold cursor-pointer transition-colors flex items-center gap-1.5"
-                    title="Enregistrer l'opération [Raccourci: Ctrl + S]"
+                    title="Enregistrer l'opÃ©ration [Raccourci: Ctrl + S]"
                   >
-                    <span>Enregistrer l'opération</span>
+                    <span>Enregistrer l'opÃ©ration</span>
                     <kbd className="hidden sm:inline-block text-[10px] font-mono bg-black/20 text-slate-950 font-extrabold px-1.5 py-0.5 rounded border border-black/20">Ctrl+S</kbd>
                   </button>
                 </div>
@@ -6118,7 +6112,7 @@ export default function AdminDashboard({
               <div className="p-5 border-b border-white/5 flex justify-between items-center bg-[#151515]">
                 <div className="flex items-center space-x-2.5">
                   <div className="h-8 w-8 bg-[#D4AF37] rounded flex items-center justify-center text-slate-950 text-base font-black" aria-hidden="true">
-                    📂
+                    ðŸ“‚
                   </div>
                   <div>
                     <h3 id="file-library-title" className="font-display font-extrabold text-sm text-white uppercase tracking-wider">Gestionnaire de Fichiers UR-GEDT</h3>
@@ -6157,9 +6151,9 @@ export default function AdminDashboard({
                     </div>
 
                     <div className="p-4 bg-[#151515] rounded-xl border border-white/5 space-y-2 text-[11px] text-slate-400">
-                      <p className="font-bold text-slate-300">💡 Conseil d'utilisation :</p>
-                      <p>Les fichiers téléversés ici sont encodés et stockés localement de manière sécurisée pour votre session.</p>
-                      <p>Vous pouvez également réutiliser n'importe quel fichier existant de la médiathèque publique.</p>
+                      <p className="font-bold text-slate-300">ðŸ’¡ Conseil d'utilisation :</p>
+                      <p>Les fichiers tÃ©lÃ©versÃ©s ici sont encodÃ©s et stockÃ©s localement de maniÃ¨re sÃ©curisÃ©e pour votre session.</p>
+                      <p>Vous pouvez Ã©galement rÃ©utiliser n'importe quel fichier existant de la mÃ©diathÃ¨que publique.</p>
                     </div>
                   </div>
 
@@ -6208,9 +6202,9 @@ export default function AdminDashboard({
                       return matchesSearch && matchesType;
                     }).length === 0 ? (
                       <div className="h-full flex flex-col items-center justify-center text-center p-8">
-                        <span className="text-4xl mb-2">📁</span>
-                        <p className="text-sm font-bold text-slate-400">Aucun fichier trouvé</p>
-                        <p className="text-xs text-slate-500 mt-1">Importez un nouveau fichier ou modifiez vos critères de recherche.</p>
+                        <span className="text-4xl mb-2">ðŸ“</span>
+                        <p className="text-sm font-bold text-slate-400">Aucun fichier trouvÃ©</p>
+                        <p className="text-xs text-slate-500 mt-1">Importez un nouveau fichier ou modifiez vos critÃ¨res de recherche.</p>
                       </div>
                     ) : (
                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 pb-4">
@@ -6239,8 +6233,8 @@ export default function AdminDashboard({
                                   </div>
                                 ) : file.type === "video" ? (
                                   <div className="flex flex-col items-center justify-center text-blue-400 p-2">
-                                    <span className="text-2xl mb-1">🎬</span>
-                                    <span className="text-[9px] bg-blue-500/10 border border-blue-500/20 px-1.5 py-0.5 rounded font-mono font-bold uppercase">Vidéo</span>
+                                    <span className="text-2xl mb-1">ðŸŽ¬</span>
+                                    <span className="text-[9px] bg-blue-500/10 border border-blue-500/20 px-1.5 py-0.5 rounded font-mono font-bold uppercase">VidÃ©o</span>
                                   </div>
                                 ) : (
                                   <img 
@@ -6271,7 +6265,7 @@ export default function AdminDashboard({
                                   type="button"
                                   onClick={(e) => handleDeleteCustomFile(file.id, e)}
                                   className="absolute bottom-1 right-1 p-1 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white rounded border border-red-500/10 transition-colors z-20 cursor-pointer"
-                                  title="Supprimer définitivement"
+                                  title="Supprimer dÃ©finitivement"
                                 >
                                   <Trash2 className="h-2.5 w-2.5" />
                                 </button>
@@ -6291,7 +6285,7 @@ export default function AdminDashboard({
                   onClick={() => setIsFileLibraryOpen(false)}
                   className="px-4 py-2 bg-[#12261C] hover:bg-white/5 border border-white/5 rounded text-xs font-bold cursor-pointer transition-colors"
                 >
-                  Fermer sans sélectionner
+                  Fermer sans sÃ©lectionner
                 </button>
               </div>
 
@@ -6332,18 +6326,18 @@ export default function AdminDashboard({
               <div className="flex-grow flex items-center justify-center overflow-hidden max-h-[70vh] rounded-xl border border-white/5 bg-black/40 p-1">
                 <img
                   src={activeReceiptUrl}
-                  alt="Facture / Pièce Justificative"
+                  alt="Facture / PiÃ¨ce Justificative"
                   className="max-h-full max-w-full object-contain rounded-lg shadow-md"
                 />
               </div>
               <div className="flex justify-between items-center pt-2 text-[11px] text-slate-500 font-mono">
-                <span>Format: Image stockée en Base64</span>
+                <span>Format: Image stockÃ©e en Base64</span>
                 <a
                   href={activeReceiptUrl}
                   download="justificatif_depense.png"
                   className="text-[#D4AF37] hover:underline flex items-center gap-1 font-bold"
                 >
-                  📥 Télécharger le fichier
+                  ðŸ“¥ TÃ©lÃ©charger le fichier
                 </a>
               </div>
             </motion.div>
@@ -6368,8 +6362,8 @@ export default function AdminDashboard({
                     <FileText className="h-4.5 w-4.5" />
                   </div>
                   <div>
-                    <h3 className="font-display font-black text-sm text-white uppercase tracking-wider">Numérisation de rapports & historiques (PDF)</h3>
-                    <p className="text-[11px] text-slate-500 font-mono">Module propulsé par Gemini-3.5-flash d'Intelligence Artificielle</p>
+                    <h3 className="font-display font-black text-sm text-white uppercase tracking-wider">NumÃ©risation de rapports & historiques (PDF)</h3>
+                    <p className="text-[11px] text-slate-500 font-mono">Module propulsÃ© par Gemini-3.5-flash d'Intelligence Artificielle</p>
                   </div>
                 </div>
                 <button
@@ -6385,7 +6379,7 @@ export default function AdminDashboard({
                 {!pdfScanResult ? (
                   <div className="space-y-4">
                     <p className="text-xs text-slate-400 leading-relaxed">
-                      Importez et numérisez instantanément vos rapports d'activités financières, bordereaux de dépenses consolidés, ou reçus multi-lignes au format PDF. L'intelligence artificielle extraira automatiquement les dépenses de manière structurée pour que vous puissiez les valider et les intégrer au grand livre comptable.
+                      Importez et numÃ©risez instantanÃ©ment vos rapports d'activitÃ©s financiÃ¨res, bordereaux de dÃ©penses consolidÃ©s, ou reÃ§us multi-lignes au format PDF. L'intelligence artificielle extraira automatiquement les dÃ©penses de maniÃ¨re structurÃ©e pour que vous puissiez les valider et les intÃ©grer au grand livre comptable.
                     </p>
 
                     {/* Drag and drop zone */}
@@ -6427,7 +6421,7 @@ export default function AdminDashboard({
                           </div>
                           <div className="min-w-0">
                             <p className="text-xs font-bold text-slate-200 truncate">{pdfScanFileName}</p>
-                            <p className="text-[11px] text-[#D4AF37] font-mono mt-0.5">Prêt pour l'extraction automatique</p>
+                            <p className="text-[11px] text-[#D4AF37] font-mono mt-0.5">PrÃªt pour l'extraction automatique</p>
                           </div>
                         </div>
                         <div className="flex items-center space-x-2 shrink-0">
@@ -6461,10 +6455,10 @@ export default function AdminDashboard({
                                   selected: true,
                                   amount: Number(e.amount) || 0,
                                   beneficiary: e.beneficiary || "Inconnu / Divers",
-                                  category: ["Matériel", "Logistique", "Recherche", "RH", "Autre"].includes(e.category) ? e.category : "Autre"
+                                  category: ["MatÃ©riel", "Logistique", "Recherche", "RH", "Autre"].includes(e.category) ? e.category : "Autre"
                                 }));
                                 setPdfScanResult({
-                                  summary: json.data.summary || "Rapport analysé avec succès.",
+                                  summary: json.data.summary || "Rapport analysÃ© avec succÃ¨s.",
                                   expenses: parsedExpenses
                                 });
                               } catch (err: any) {
@@ -6477,7 +6471,7 @@ export default function AdminDashboard({
                             className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-slate-950 px-4 py-1.5 rounded-lg text-xs font-bold transition-all shadow-md flex items-center space-x-1.5 cursor-pointer"
                           >
                             <Sparkles className="h-4 w-4 animate-pulse" />
-                            <span>Numériser le Rapport</span>
+                            <span>NumÃ©riser le Rapport</span>
                           </button>
                         </div>
                       </div>
@@ -6489,7 +6483,7 @@ export default function AdminDashboard({
                         <div>
                           <p className="text-xs text-[#D4AF37] font-bold uppercase tracking-wider font-mono">Analyse en cours par Gemini-3.5-flash...</p>
                           <p className="text-[11px] text-slate-400 mt-1 max-w-md leading-relaxed">
-                            Nous analysons le contenu du PDF, recherchons les bordereaux de dépenses, convertissons les devises étrangères en USD et classons chaque ligne de budget. Cette opération peut prendre quelques secondes.
+                            Nous analysons le contenu du PDF, recherchons les bordereaux de dÃ©penses, convertissons les devises Ã©trangÃ¨res en USD et classons chaque ligne de budget. Cette opÃ©ration peut prendre quelques secondes.
                           </p>
                         </div>
                       </div>
@@ -6497,7 +6491,7 @@ export default function AdminDashboard({
 
                     {pdfScanError && (
                       <div className="p-4 bg-red-950/20 border border-red-900/40 rounded-xl text-xs text-red-400 font-mono flex gap-2">
-                        <span className="shrink-0">⚠️</span>
+                        <span className="shrink-0">âš ï¸</span>
                         <span>{pdfScanError}</span>
                       </div>
                     )}
@@ -6508,7 +6502,7 @@ export default function AdminDashboard({
                     <div className="bg-[#18181b] border border-[#D4AF37]/20 rounded-xl p-4 space-y-1.5">
                       <span className="text-[11px] uppercase font-bold text-[#D4AF37] font-mono flex items-center gap-1.5">
                         <Sparkles className="h-3 w-3" />
-                        Résumé synthétique généré par l'IA
+                        RÃ©sumÃ© synthÃ©tique gÃ©nÃ©rÃ© par l'IA
                       </span>
                       <p className="text-xs text-slate-300 leading-relaxed italic">
                         "{pdfScanResult.summary}"
@@ -6518,7 +6512,7 @@ export default function AdminDashboard({
                     {/* Table of extracted expenses */}
                     <div className="space-y-3.5">
                       <div className="flex justify-between items-center">
-                        <h4 className="text-xs font-bold text-white uppercase tracking-wider">Lignes de dépenses extraites ({pdfScanResult.expenses.length})</h4>
+                        <h4 className="text-xs font-bold text-white uppercase tracking-wider">Lignes de dÃ©penses extraites ({pdfScanResult.expenses.length})</h4>
                         <button
                           onClick={() => {
                             const allSelected = pdfScanResult.expenses.every(e => e.selected);
@@ -6529,7 +6523,7 @@ export default function AdminDashboard({
                           }}
                           className="text-[11px] text-[#D4AF37] hover:underline font-bold uppercase font-mono cursor-pointer bg-transparent border-none"
                         >
-                          {pdfScanResult.expenses.every(e => e.selected) ? "Tout désélectionner" : "Tout sélectionner"}
+                          {pdfScanResult.expenses.every(e => e.selected) ? "Tout dÃ©sÃ©lectionner" : "Tout sÃ©lectionner"}
                         </button>
                       </div>
 
@@ -6539,9 +6533,9 @@ export default function AdminDashboard({
                             <thead>
                               <tr className="bg-black/40 border-b border-white/5 text-[11px] uppercase font-mono text-slate-400 font-bold">
                                 <th className="py-2.5 px-3 w-12 text-center">Imp.</th>
-                                <th className="py-2.5 px-3">Libellé / Objet</th>
-                                <th className="py-2.5 px-3 w-40">Bénéficiaire</th>
-                                <th className="py-2.5 px-3 w-32">Catégorie</th>
+                                <th className="py-2.5 px-3">LibellÃ© / Objet</th>
+                                <th className="py-2.5 px-3 w-40">BÃ©nÃ©ficiaire</th>
+                                <th className="py-2.5 px-3 w-32">CatÃ©gorie</th>
                                 <th className="py-2.5 px-3 w-28 text-right">Montant (USD)</th>
                               </tr>
                             </thead>
@@ -6599,7 +6593,7 @@ export default function AdminDashboard({
                                       }}
                                       className="w-full bg-[#151515] border border-white/5 rounded px-2 py-1 text-xs text-white focus:outline-none"
                                     >
-                                      <option value="Matériel">Matériel</option>
+                                      <option value="MatÃ©riel">MatÃ©riel</option>
                                       <option value="Logistique">Logistique</option>
                                       <option value="Recherche">Recherche</option>
                                       <option value="RH">RH</option>
@@ -6629,13 +6623,13 @@ export default function AdminDashboard({
                     {/* Summary calculation of what is about to be imported */}
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-[#151515] border border-white/5 rounded-xl p-4 gap-3">
                       <div>
-                        <p className="text-xs font-bold text-white font-display">Prêt à l'importation consolidée</p>
+                        <p className="text-xs font-bold text-white font-display">PrÃªt Ã  l'importation consolidÃ©e</p>
                         <p className="text-[11px] text-slate-500 font-mono mt-0.5">
-                          {pdfScanResult.expenses.filter(e => e.selected).length} dépenses sélectionnées sur {pdfScanResult.expenses.length} extraites du rapport
+                          {pdfScanResult.expenses.filter(e => e.selected).length} dÃ©penses sÃ©lectionnÃ©es sur {pdfScanResult.expenses.length} extraites du rapport
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider">Total à inscrire au budget</p>
+                        <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider">Total Ã  inscrire au budget</p>
                         <p className="text-base font-bold text-[#D4AF37] font-mono">
                           {pdfScanResult.expenses.filter(e => e.selected).reduce((sum, e) => sum + e.amount, 0).toLocaleString()} USD
                         </p>
@@ -6666,15 +6660,15 @@ export default function AdminDashboard({
                     onClick={async () => {
                       const selected = pdfScanResult.expenses.filter(e => e.selected);
                       if (selected.length === 0) {
-                        alert("Veuillez sélectionner au moins une dépense à importer.");
+                        alert("Veuillez sÃ©lectionner au moins une dÃ©pense Ã  importer.");
                         return;
                       }
 
                       if (onBulkRegisterExpenses) {
                         const success = await onBulkRegisterExpenses(selected);
                         if (success) {
-                          setSuccessMsg(`${selected.length} dépenses importées avec succès !`);
-                          addToast(`${selected.length} dépenses numérisées et importées avec succès !`, "success", "Importation PDF");
+                          setSuccessMsg(`${selected.length} dÃ©penses importÃ©es avec succÃ¨s !`);
+                          addToast(`${selected.length} dÃ©penses numÃ©risÃ©es et importÃ©es avec succÃ¨s !`, "success", "Importation PDF");
                           setIsPdfScanModalOpen(false);
                           setTimeout(() => setSuccessMsg(""), 3000);
                         } else {
@@ -6698,12 +6692,12 @@ export default function AdminDashboard({
       <ConfirmationModal
         isOpen={!!deleteConfirmItem}
         title="Confirmation de suppression"
-        message="Êtes-vous absolument sûr de vouloir supprimer définitivement cet élément de la base de données ?"
+        message="ÃŠtes-vous absolument sÃ»r de vouloir supprimer dÃ©finitivement cet Ã©lÃ©ment de la base de donnÃ©es ?"
         itemType={deleteConfirmItem?.type}
         itemId={deleteConfirmItem?.id}
         itemLabel={deleteConfirmItem?.label}
-        warningText="Cette suppression est définitive et irréversible. L'action sera consignée dans le journal d'audit administratif de l'UR-GEDT."
-        confirmText="Supprimer définitivement"
+        warningText="Cette suppression est dÃ©finitive et irrÃ©versible. L'action sera consignÃ©e dans le journal d'audit administratif de l'UR-GEDT."
+        confirmText="Supprimer dÃ©finitivement"
         cancelText="Annuler"
         variant="danger"
         isLoading={isDeleting}
@@ -6752,7 +6746,7 @@ export default function AdminDashboard({
                       Gestion & Modification du Budget Annuel
                     </h3>
                     <p className="text-xs text-slate-400 font-mono">
-                      Ajustement des enveloppes analytiques & enregistrement en Base de Données
+                      Ajustement des enveloppes analytiques & enregistrement en Base de DonnÃ©es
                     </p>
                   </div>
                 </div>
@@ -6771,7 +6765,7 @@ export default function AdminDashboard({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-white uppercase tracking-wider mb-1.5 font-display">
-                      Exercice Budgétaire (Année)
+                      Exercice BudgÃ©taire (AnnÃ©e)
                     </label>
                     <input
                       type="number"
@@ -6799,10 +6793,10 @@ export default function AdminDashboard({
                                       (Number(budgetForm.allocatedMissions) || 0) +
                                       (Number(budgetForm.allocatedInvestments) || 0);
                           setBudgetForm(prev => ({ ...prev, totalBudget: sum }));
-                          addToast(`Budget total calculé automatiquement : ${sum.toLocaleString()} USD`, "info", "Calcul Auto");
+                          addToast(`Budget total calculÃ© automatiquement : ${sum.toLocaleString()} USD`, "info", "Calcul Auto");
                         }}
                         className="text-[11px] font-bold text-[#D4AF37] hover:underline flex items-center gap-1 cursor-pointer"
-                        title="Régler le total égal à la somme des 6 postes ci-dessous"
+                        title="RÃ©gler le total Ã©gal Ã  la somme des 6 postes ci-dessous"
                       >
                         <PieChart className="h-3 w-3" />
                         <span>Calculer la somme</span>
@@ -6824,7 +6818,7 @@ export default function AdminDashboard({
                 <div className="space-y-4 pt-2 border-t border-white/10">
                   <div className="flex items-center justify-between">
                     <p className="text-xs font-bold text-slate-300 uppercase tracking-wider font-display">
-                      Ventilation par Postes de Dépenses (USD)
+                      Ventilation par Postes de DÃ©penses (USD)
                     </p>
                     <span className="text-xs font-mono text-slate-400">
                       Somme des 6 postes : {((Number(budgetForm.allocatedResearch) || 0) + (Number(budgetForm.allocatedLogistics) || 0) + (Number(budgetForm.allocatedEquipment) || 0) + (Number(budgetForm.allocatedPersonnel) || 0) + (Number(budgetForm.allocatedMissions) || 0) + (Number(budgetForm.allocatedInvestments) || 0)).toLocaleString()} USD
@@ -6862,7 +6856,7 @@ export default function AdminDashboard({
                       />
                     </div>
 
-                    {/* Matériels Scientifiques */}
+                    {/* MatÃ©riels Scientifiques */}
                     <div className="p-3.5 bg-[#161616] border border-white/10 rounded-xl space-y-1.5">
                       <label className="block text-xs font-bold text-[#D4AF37] uppercase font-mono">
                         Frais Administratifs
@@ -6928,7 +6922,7 @@ export default function AdminDashboard({
                 {budgetForm.totalBudget > 0 && (
                   <div className="p-4 bg-[#161616] border border-white/10 rounded-xl space-y-2">
                     <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest font-mono">
-                      Répartition visuelle de l'enveloppe ({budgetForm.totalBudget.toLocaleString()} USD)
+                      RÃ©partition visuelle de l'enveloppe ({budgetForm.totalBudget.toLocaleString()} USD)
                     </p>
                     <div className="h-3 w-full bg-[#0d0d0d] rounded-full overflow-hidden flex">
                       <div
@@ -6944,7 +6938,7 @@ export default function AdminDashboard({
                       <div
                         style={{ width: `${Math.min(100, (budgetForm.allocatedEquipment / budgetForm.totalBudget) * 100)}%` }}
                         className="bg-[#D4AF37] h-full transition-all"
-                        title={`Matériels: ${((budgetForm.allocatedEquipment / budgetForm.totalBudget) * 100).toFixed(1)}%`}
+                        title={`MatÃ©riels: ${((budgetForm.allocatedEquipment / budgetForm.totalBudget) * 100).toFixed(1)}%`}
                       />
                       <div
                         style={{ width: `${Math.min(100, (budgetForm.allocatedPersonnel / budgetForm.totalBudget) * 100)}%` }}
@@ -6975,7 +6969,7 @@ export default function AdminDashboard({
                     className="w-full sm:w-auto px-4 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
-                    <span>Réinitialiser à zéro (0 USD)</span>
+                    <span>RÃ©initialiser Ã  zÃ©ro (0 USD)</span>
                   </button>
 
                   <div className="w-full sm:w-auto flex items-center gap-2 justify-end">
@@ -6991,7 +6985,7 @@ export default function AdminDashboard({
                       className="px-5 py-2.5 bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-black font-bold rounded-xl text-xs transition-all cursor-pointer shadow-lg flex items-center gap-1.5"
                     >
                       <Save className="h-3.5 w-3.5" />
-                      <span>Enregistrer dans la Base de Données</span>
+                      <span>Enregistrer dans la Base de DonnÃ©es</span>
                     </button>
                   </div>
                 </div>
@@ -7004,10 +6998,10 @@ export default function AdminDashboard({
       {/* CONFIRMATION MODAL FOR BUDGET RESET */}
       <ConfirmationModal
         isOpen={isResetBudgetConfirmOpen}
-        title="Réinitialiser le Budget à zéro"
-        message="Voulez-vous vraiment réinitialiser toutes les enveloppes budgétaires à zéro (0 USD) dans la base de données ?"
-        warningText="Cette opération remettra l'enveloppe globale et la ventilation de toutes les sous-catégories à 0 USD dans la base de données de l'UR-GEDT. L'action sera consignée dans le journal d'audit administratif."
-        confirmText="Oui, Réinitialiser à zéro"
+        title="RÃ©initialiser le Budget Ã  zÃ©ro"
+        message="Voulez-vous vraiment rÃ©initialiser toutes les enveloppes budgÃ©taires Ã  zÃ©ro (0 USD) dans la base de donnÃ©es ?"
+        warningText="Cette opÃ©ration remettra l'enveloppe globale et la ventilation de toutes les sous-catÃ©gories Ã  0 USD dans la base de donnÃ©es de l'UR-GEDT. L'action sera consignÃ©e dans le journal d'audit administratif."
+        confirmText="Oui, RÃ©initialiser Ã  zÃ©ro"
         cancelText="Annuler"
         variant="danger"
         onClose={() => setIsResetBudgetConfirmOpen(false)}
@@ -7051,14 +7045,14 @@ export default function AdminDashboard({
               {/* Modal Body */}
               <div className="p-5 space-y-3 max-h-[65vh] overflow-y-auto">
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Utilisez ces raccourcis clavier pour accélérer la saisie des pièces comptables, enregistrer vos opérations financières et naviguer sans quitter le clavier :
+                  Utilisez ces raccourcis clavier pour accÃ©lÃ©rer la saisie des piÃ¨ces comptables, enregistrer vos opÃ©rations financiÃ¨res et naviguer sans quitter le clavier :
                 </p>
 
                 <div className="divide-y divide-white/5 border border-white/10 rounded-xl overflow-hidden bg-[#161616]">
                   <div className="p-3 flex items-center justify-between hover:bg-white/[0.02]">
                     <div className="space-y-0.5 pr-2">
                       <p className="text-xs font-bold text-slate-100">Enregistrer le Formulaire Actif</p>
-                      <p className="text-[11px] text-slate-400">Valide et soumet automatiquement les données de la recette ou dépense en cours.</p>
+                      <p className="text-[11px] text-slate-400">Valide et soumet automatiquement les donnÃ©es de la recette ou dÃ©pense en cours.</p>
                     </div>
                     <kbd className="shrink-0 font-mono text-xs font-bold bg-white/10 border border-white/20 text-[#D4AF37] px-2.5 py-1 rounded-lg shadow-sm">
                       Ctrl + S
@@ -7068,7 +7062,7 @@ export default function AdminDashboard({
                   <div className="p-3 flex items-center justify-between hover:bg-white/[0.02]">
                     <div className="space-y-0.5 pr-2">
                       <p className="text-xs font-bold text-slate-100">Saisie Rapide - Nouvelle Recette</p>
-                      <p className="text-[11px] text-slate-400">Ouvre directement le formulaire de saisie de recette budgétaire.</p>
+                      <p className="text-[11px] text-slate-400">Ouvre directement le formulaire de saisie de recette budgÃ©taire.</p>
                     </div>
                     <kbd className="shrink-0 font-mono text-xs font-bold bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 px-2.5 py-1 rounded-lg shadow-sm">
                       Alt + R
@@ -7077,8 +7071,8 @@ export default function AdminDashboard({
 
                   <div className="p-3 flex items-center justify-between hover:bg-white/[0.02]">
                     <div className="space-y-0.5 pr-2">
-                      <p className="text-xs font-bold text-slate-100">Saisie Rapide - Nouvelle Dépense</p>
-                      <p className="text-[11px] text-slate-400">Ouvre directement le formulaire de décaissement avec scannage IA.</p>
+                      <p className="text-xs font-bold text-slate-100">Saisie Rapide - Nouvelle DÃ©pense</p>
+                      <p className="text-[11px] text-slate-400">Ouvre directement le formulaire de dÃ©caissement avec scannage IA.</p>
                     </div>
                     <kbd className="shrink-0 font-mono text-xs font-bold bg-red-500/15 border border-red-500/30 text-red-300 px-2.5 py-1 rounded-lg shadow-sm">
                       Alt + E
@@ -7088,7 +7082,7 @@ export default function AdminDashboard({
                   <div className="p-3 flex items-center justify-between hover:bg-white/[0.02]">
                     <div className="space-y-0.5 pr-2">
                       <p className="text-xs font-bold text-slate-100">Focus sur la Recherche Globale</p>
-                      <p className="text-[11px] text-slate-400">Active la barre de recherche instantanée (Finances, Projets, Membres).</p>
+                      <p className="text-[11px] text-slate-400">Active la barre de recherche instantanÃ©e (Finances, Projets, Membres).</p>
                     </div>
                     <kbd className="shrink-0 font-mono text-xs font-bold bg-white/10 border border-white/20 text-blue-300 px-2.5 py-1 rounded-lg shadow-sm">
                       Ctrl + F
@@ -7098,7 +7092,7 @@ export default function AdminDashboard({
                   <div className="p-3 flex items-center justify-between hover:bg-white/[0.02]">
                     <div className="space-y-0.5 pr-2">
                       <p className="text-xs font-bold text-slate-100">Impression Rapide / PDF</p>
-                      <p className="text-[11px] text-slate-400">Imprime le rapport financier, reçu ou la vue active.</p>
+                      <p className="text-[11px] text-slate-400">Imprime le rapport financier, reÃ§u ou la vue active.</p>
                     </div>
                     <kbd className="shrink-0 font-mono text-xs font-bold bg-white/10 border border-white/20 text-purple-300 px-2.5 py-1 rounded-lg shadow-sm">
                       Ctrl + P
@@ -7108,7 +7102,7 @@ export default function AdminDashboard({
                   <div className="p-3 flex items-center justify-between hover:bg-white/[0.02]">
                     <div className="space-y-0.5 pr-2">
                       <p className="text-xs font-bold text-slate-100">Panneau Finances & Budget</p>
-                      <p className="text-[11px] text-slate-400">Bascule instantanément vers la gestion comptable.</p>
+                      <p className="text-[11px] text-slate-400">Bascule instantanÃ©ment vers la gestion comptable.</p>
                     </div>
                     <kbd className="shrink-0 font-mono text-xs font-bold bg-white/10 border border-white/20 text-amber-300 px-2.5 py-1 rounded-lg shadow-sm">
                       Alt + F
@@ -7117,11 +7111,11 @@ export default function AdminDashboard({
 
                   <div className="p-3 flex items-center justify-between hover:bg-white/[0.02]">
                     <div className="space-y-0.5 pr-2">
-                      <p className="text-xs font-bold text-slate-100">Fermer la Fenêtre / Modal</p>
-                      <p className="text-[11px] text-slate-400">Ferme les formulaires, fenêtres flottantes ou aperçus ouverts.</p>
+                      <p className="text-xs font-bold text-slate-100">Fermer la FenÃªtre / Modal</p>
+                      <p className="text-[11px] text-slate-400">Ferme les formulaires, fenÃªtres flottantes ou aperÃ§us ouverts.</p>
                     </div>
                     <kbd className="shrink-0 font-mono text-xs font-bold bg-white/10 border border-white/20 text-slate-300 px-2.5 py-1 rounded-lg shadow-sm">
-                      Échap (Esc)
+                      Ã‰chap (Esc)
                     </kbd>
                   </div>
                 </div>
@@ -7129,7 +7123,7 @@ export default function AdminDashboard({
 
               {/* Modal Footer */}
               <div className="p-4 border-t border-white/10 bg-[#181818] flex justify-between items-center text-xs">
-                <span className="text-[11px] text-slate-500 font-mono">Appuyez sur <kbd className="text-[#D4AF37]">F1</kbd> à tout moment pour rouvrir</span>
+                <span className="text-[11px] text-slate-500 font-mono">Appuyez sur <kbd className="text-[#D4AF37]">F1</kbd> Ã  tout moment pour rouvrir</span>
                 <button
                   onClick={() => setIsShortcutsModalOpen(false)}
                   className="px-4 py-2 bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-slate-950 font-bold rounded-xl transition-all cursor-pointer shadow-md"
@@ -7154,7 +7148,7 @@ export default function AdminDashboard({
         />
       )}
 
-      {/* MODAL DÉDIÉE DE MODIFICATION DU MOT DE PASSE DU PERSONNEL */}
+      {/* MODAL DÃ‰DIÃ‰E DE MODIFICATION DU MOT DE PASSE DU PERSONNEL */}
       <AnimatePresence>
         {isPasswordModalOpen && passwordModalUser && (
           <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
@@ -7199,7 +7193,7 @@ export default function AdminDashboard({
                       className="text-xs font-bold text-amber-300 hover:text-amber-200 bg-amber-500/10 hover:bg-amber-500/20 px-2.5 py-1 rounded border border-amber-500/30 cursor-pointer flex items-center gap-1.5 transition-colors"
                     >
                       <Sparkles className="h-3 w-3 text-amber-400" />
-                      <span>Générer Auto</span>
+                      <span>GÃ©nÃ©rer Auto</span>
                     </button>
                   </div>
 
@@ -7209,7 +7203,7 @@ export default function AdminDashboard({
                       required
                       value={newPasswordInput}
                       onChange={(e) => setNewPasswordInput(e.target.value)}
-                      placeholder="Saisissez ou générez un mot de passe..."
+                      placeholder="Saisissez ou gÃ©nÃ©rez un mot de passe..."
                       className="w-full bg-[#181818] border border-white/10 focus:border-amber-500/60 rounded-xl p-3 text-xs font-mono text-white focus:outline-none pr-10 shadow-inner"
                       autoFocus
                     />
@@ -7233,12 +7227,12 @@ export default function AdminDashboard({
                     if (/[0-9]/.test(pwd)) score += 1;
                     if (/[^A-Za-z0-9]/.test(pwd)) score += 1;
 
-                    let strengthLabel = "Très Faible";
+                    let strengthLabel = "TrÃ¨s Faible";
                     let colorClass = "bg-red-500 text-red-400";
                     if (score === 2) { strengthLabel = "Faible"; colorClass = "bg-orange-500 text-orange-400"; }
                     if (score === 3) { strengthLabel = "Moyen"; colorClass = "bg-amber-500 text-amber-400"; }
                     if (score === 4) { strengthLabel = "Fort"; colorClass = "bg-emerald-500 text-emerald-400"; }
-                    if (score >= 5) { strengthLabel = "Très Fort"; colorClass = "bg-emerald-400 text-emerald-300"; }
+                    if (score >= 5) { strengthLabel = "TrÃ¨s Fort"; colorClass = "bg-emerald-400 text-emerald-300"; }
 
                     return (
                       <div className="mt-2.5 p-2.5 bg-[#151515] border border-white/5 rounded-lg space-y-1.5">
@@ -7260,7 +7254,7 @@ export default function AdminDashboard({
                 <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start gap-2.5 text-xs text-amber-200/90 font-sans">
                   <ShieldCheck className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                   <span>
-                    Ce mot de passe permettra à <strong>{passwordModalUser.name}</strong> de se connecter avec son identifiant (<strong>{passwordModalUser.email}</strong>).
+                    Ce mot de passe permettra Ã  <strong>{passwordModalUser.name}</strong> de se connecter avec son identifiant (<strong>{passwordModalUser.email}</strong>).
                   </span>
                 </div>
 
@@ -7318,7 +7312,7 @@ export default function AdminDashboard({
                       Fiche d'Inspection du Log d'Audit
                     </h3>
                     <p className="text-[11px] text-slate-400 font-mono">
-                      ID Référence: {selectedLogModal.id}
+                      ID RÃ©fÃ©rence: {selectedLogModal.id}
                     </p>
                   </div>
                 </div>
@@ -7352,17 +7346,17 @@ export default function AdminDashboard({
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-[11px] uppercase font-bold text-slate-500 block">Type d'Opération</span>
+                  <span className="text-[11px] uppercase font-bold text-slate-500 block">Type d'OpÃ©ration</span>
                   <div className="flex items-center gap-2">
                     {getActionBadge(selectedLogModal.action)}
                     <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
-                      Catégorie: {getLogCategory(selectedLogModal).toUpperCase()}
+                      CatÃ©gorie: {getLogCategory(selectedLogModal).toUpperCase()}
                     </span>
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-[11px] uppercase font-bold text-slate-500 block">Détail Opérationnel Renseigné</span>
+                  <span className="text-[11px] uppercase font-bold text-slate-500 block">DÃ©tail OpÃ©rationnel RenseignÃ©</span>
                   <div className="p-3 bg-[#181818] border border-white/5 rounded-xl text-xs text-slate-200 font-sans leading-relaxed">
                     {selectedLogModal.details}
                   </div>
@@ -7371,9 +7365,9 @@ export default function AdminDashboard({
                 <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-between text-xs text-emerald-400 font-mono">
                   <span className="flex items-center gap-1.5 font-bold">
                     <Check className="h-4 w-4" />
-                    <span>Empreinte de Sécurité UR-GEDT</span>
+                    <span>Empreinte de SÃ©curitÃ© UR-GEDT</span>
                   </span>
-                  <span className="text-[11px] text-emerald-300">Intégrité Validée</span>
+                  <span className="text-[11px] text-emerald-300">IntÃ©gritÃ© ValidÃ©e</span>
                 </div>
               </div>
 
@@ -7383,12 +7377,12 @@ export default function AdminDashboard({
                   type="button"
                   onClick={() => {
                     navigator.clipboard.writeText(JSON.stringify(selectedLogModal, null, 2));
-                    addToast("Détails du log copiés dans le presse-papier", "success", "Traçabilité");
+                    addToast("DÃ©tails du log copiÃ©s dans le presse-papier", "success", "TraÃ§abilitÃ©");
                   }}
                   className="px-3 py-2 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
                 >
                   <FileText className="h-3.5 w-3.5 text-[#D4AF37]" />
-                  <span>Copier les détails</span>
+                  <span>Copier les dÃ©tails</span>
                 </button>
 
                 <button
@@ -7415,7 +7409,7 @@ export default function AdminDashboard({
           transition={{ duration: 0.3 }}
           onClick={() => onSyncOfflineQueue?.(true)}
           className="bg-[#121212]/95 backdrop-blur-md border border-white/10 hover:border-[#D4AF37]/60 shadow-2xl rounded-xl px-3 py-2 flex items-center space-x-2 text-xs font-mono group cursor-pointer transition-all"
-          title="Dernière synchronisation réussie avec le serveur. Cliquer pour forcer une nouvelle synchronisation."
+          title="DerniÃ¨re synchronisation rÃ©ussie avec le serveur. Cliquer pour forcer une nouvelle synchronisation."
         >
           <div className="flex items-center justify-center p-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-400 group-hover:scale-105 transition-transform">
             <RefreshCw className={`h-3.5 w-3.5 ${isSyncing ? "animate-spin text-blue-400" : ""}`} />
