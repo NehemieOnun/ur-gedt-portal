@@ -3016,7 +3016,7 @@ export default function AdminDashboard({
                       financeSubTab === tab.id
                         ? "bg-[#D4AF37] text-black shadow-md"
                         : "text-slate-400 hover:text-white hover:bg-white/5"
-                    }}
+                    }`}
                   >
                     {tab.icon}
                     <span>{tab.label}</span>
