@@ -5,6 +5,7 @@ import {
   Package, Receipt, PieChart, Loader2, Building2
 } from "lucide-react";
 import { apiFetch } from "../utils/apiClient";
+import { convertAmount, formatCurrency, DEFAULT_RATES, ExchangeRates } from "../utils/currency";
 import { ToastMessage } from "./ToastContainer";
 
 interface AresBudgetManagerProps {
@@ -1111,6 +1112,19 @@ function MissionFormModal({ fundingApplicationId, existing, onClose, onSaved, ad
 }
 
 function SyntheseView({ synthese, app }: { synthese: any; app: FundingApplication }) {
+  const [rates, setRates] = useState<ExchangeRates>(DEFAULT_RATES);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await apiFetch("/api/settings/exchange-rates");
+        if (res.ok) {
+          const data = await res.json();
+          setRates({ baseCurrency: data.baseCurrency, eurToUsd: data.eurToUsd, eurToCdf: data.eurToCdf });
+        }
+      } catch { /* valeurs par defaut conservees */ }
+    })();
+  }, []);
+
   if (!synthese) {
     return <div className="flex items-center justify-center py-10 text-slate-400"><Loader2 className="h-5 w-5 animate-spin" /></div>;
   }
@@ -1139,6 +1153,11 @@ function SyntheseView({ synthese, app }: { synthese: any; app: FundingApplicatio
           <span className="text-sm font-black text-[#D4AF37] uppercase">Total Général</span>
           <span className="font-mono font-black text-lg text-[#D4AF37]">{fmt(synthese.totalGeneral)} €</span>
         </div>
+      </div>
+      <div className="flex items-center justify-end gap-3 px-1 text-[11px] font-mono text-slate-400">
+        <span>Équivalent : {formatCurrency(convertAmount(synthese.totalGeneral || 0, "EUR", "USD", rates), "USD")}</span>
+        <span>•</span>
+        <span>{formatCurrency(convertAmount(synthese.totalGeneral || 0, "EUR", "CDF", rates), "CDF")}</span>
       </div>
       <p className="text-[11px] text-slate-500 italic">
         Les frais administratifs (G) sont calculés automatiquement selon la formule ARES : 10% des dépenses totales, déduction faite des frais de gestion déjà comptés dans les bourses et missions.
