@@ -181,3 +181,19 @@
     display: none;
   }
 }
+
+
+/* Light Theme Overrides - ajout couleur principale des cartes (theme vert) */
+.theme-light .bg-\[\#12261C\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+.theme-light .hover\:bg-\[\#12261C\]:hover {
+  background-color: #f1f5f9 !important;
+}
+.theme-light [class*="from-[#181818]"] {
+  background-image: none !important;
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
