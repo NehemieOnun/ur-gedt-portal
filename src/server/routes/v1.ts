@@ -4,6 +4,7 @@ import { DbController } from "../controllers/dbController.js";
 import { requirePermission, requireAuth } from "../middlewares/authMiddleware.js";
 import { GeminiService } from "../services/geminiService.js";
 import { AresBudgetController } from "../controllers/aresBudgetController.js";
+import { CurrencyController } from "../controllers/currencyController.js";
 
 const router = Router();
 
@@ -26,6 +27,8 @@ router.post("/finance/recipe", requirePermission("manage_finances"), DbControlle
 router.post("/finance/expense", requirePermission("manage_finances"), DbController.addExpense);
 router.post("/finance/expense/bulk", requirePermission("manage_finances"), DbController.addBulkExpenses);
 router.post("/budget", requirePermission("approve_budget"), DbController.updateBudget);
+router.get("/settings/exchange-rates", requirePermission("manage_finances"), CurrencyController.getExchangeRates);
+router.put("/settings/exchange-rates", requirePermission("manage_finances"), CurrencyController.updateExchangeRates);
 
 // --- PUBLIC SERVICES ---
 router.post("/contact", DbController.addContactMessage);

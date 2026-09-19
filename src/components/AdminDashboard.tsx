@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { apiFetch } from "../utils/apiClient";
+import { convertAmount, formatCurrency, DEFAULT_RATES, CurrencyCode, ExchangeRates } from "../utils/currency";
 import { uploadFileToCloudinary, CloudinaryConfigError } from "../utils/cloudinaryUpload";
 import { 
   ResponsiveContainer, 
@@ -827,6 +828,21 @@ export default function AdminDashboard({
   });
 
   const [financeSubTab, setFinanceSubTab] = useState<"apercu" | "analyse" | "registres">("apercu");
+  const [displayCurrency, setDisplayCurrency] = useState<CurrencyCode>("USD");
+  const [exchangeRates, setExchangeRates] = useState<ExchangeRates>(DEFAULT_RATES);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await apiFetch("/api/settings/exchange-rates");
+        if (res.ok) {
+          const data = await res.json();
+          setExchangeRates({ baseCurrency: data.baseCurrency, eurToUsd: data.eurToUsd, eurToCdf: data.eurToCdf });
+        }
+      } catch (e) {
+        console.warn("Impossible de charger les taux de change, valeurs par defaut utilisees.");
+      }
+    })();
+  }, []);
   const [sessionElapsedLabel, setSessionElapsedLabel] = useState<string>("");
   useEffect(() => {
     const computeElapsed = () => {
@@ -3024,7 +3040,20 @@ export default function AdminDashboard({
                 ))}
               </div>
 
-              {financeSubTab === "apercu" && (
+              <div className="flex items-center gap-2 bg-[#151515] border border-white/10 rounded-lg px-3 py-1.5 w-fit mb-3">
+        <span className="text-[11px] text-slate-400 font-mono uppercase">Devise</span>
+        <select
+          value={displayCurrency}
+          onChange={(e) => setDisplayCurrency(e.target.value as CurrencyCode)}
+          className="bg-transparent text-xs font-bold text-[#D4AF37] focus:outline-none cursor-pointer"
+        >
+          <option value="USD" className="bg-[#151515] text-white">USD ($)</option>
+          <option value="EUR" className="bg-[#151515] text-white">EUR (Euro)</option>
+          <option value="CDF" className="bg-[#151515] text-white">CDF (Franc Congolais)</option>
+        </select>
+      </div>
+
+      {financeSubTab === "apercu" && (
               <>
               {/* PROMINENT BUDGET CONTROL BANNER */}
               <div className="bg-gradient-to-r from-[#181818] via-[#151515] to-[#121212] border border-[#D4AF37]/40 rounded-2xl p-5 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
@@ -3042,8 +3071,8 @@ export default function AdminDashboard({
                       </span>
                     </div>
                     <p className="text-xs text-slate-300 mt-1 font-mono">
-                      Budget Global Alloué : <strong className="text-[#D4AF37] font-extrabold font-mono">{(db.budget?.totalBudget || 0).toLocaleString()} USD</strong> (Recherche: {(db.budget?.allocatedResearch || 0).toLocaleString()} USD | Logistique: {(db.budget?.allocatedLogistics || 0).toLocaleString()} USD | Matériel: {(db.budget?.allocatedEquipment || 0).toLocaleString()} USD | RH: {(db.budget?.allocatedPersonnel || 0).toLocaleString()} USD | Missions: {(db.budget?.allocatedMissions || 0).toLocaleString()} USD | Investissements: {(db.budget?.allocatedInvestments || 0).toLocaleString()} USD)
-                    </p>
+                    Budget Global Alloué : <strong className="text-[#D4AF37] font-extrabold font-mono">{formatCurrency(convertAmount(db.budget?.totalBudget || 0, "USD", displayCurrency, exchangeRates), displayCurrency)}</strong> (Recherche: {formatCurrency(convertAmount(db.budget?.allocatedResearch || 0, "USD", displayCurrency, exchangeRates), displayCurrency)} | Logistique: {formatCurrency(convertAmount(db.budget?.allocatedLogistics || 0, "USD", displayCurrency, exchangeRates), displayCurrency)} | Matériel: {formatCurrency(convertAmount(db.budget?.allocatedEquipment || 0, "USD", displayCurrency, exchangeRates), displayCurrency)} | RH: {formatCurrency(convertAmount(db.budget?.allocatedPersonnel || 0, "USD", displayCurrency, exchangeRates), displayCurrency)} | Missions: {formatCurrency(convertAmount(db.budget?.allocatedMissions || 0, "USD", displayCurrency, exchangeRates), displayCurrency)} | Investissements: {formatCurrency(convertAmount(db.budget?.allocatedInvestments || 0, "USD", displayCurrency, exchangeRates), displayCurrency)})
+                  </p>
                   </div>
                 </div>
 

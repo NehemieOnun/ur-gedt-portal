@@ -145,6 +145,7 @@ model Recipe {
   recordedBy  String
   type        String   // Subvention, Donation, Prestation, Autre
   createdAt   DateTime @default(now())
+  currency      String @default("USD")
 }
 
 model Expense {
@@ -157,6 +158,7 @@ model Expense {
   status      String   // Approuvé, En attente, Rejeté
   recordedBy  String
   createdAt   DateTime @default(now())
+  currency      String @default("USD")
 }
 
 model Budget {
@@ -169,6 +171,16 @@ model Budget {
   allocatedPersonnel  Float
   allocatedMissions   Float @default(0)
   allocatedInvestments Float @default(0)
+  currency      String @default("USD")
+}
+
+model ExchangeRate {
+  id           String   @id @default("1")
+  baseCurrency String   @default("EUR")
+  eurToUsd     Float    @default(1.0)
+  eurToCdf     Float    @default(2800.0)
+  updatedAt    DateTime @updatedAt @default(now())
+  updatedBy    String?
 }
 
 model Log {
