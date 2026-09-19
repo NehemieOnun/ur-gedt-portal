@@ -843,6 +843,12 @@ export default function AdminDashboard({
       }
     })();
   }, []);
+
+  const convertedMonthlyTrends = useMemo(() => (monthlyFinancialTrends || []).map((m: any) => ({
+    ...m,
+    Recettes: convertAmount(m.Recettes || 0, "USD", displayCurrency, exchangeRates),
+    Dépenses: convertAmount(m.Dépenses || 0, "USD", displayCurrency, exchangeRates),
+  })), [monthlyFinancialTrends, displayCurrency, exchangeRates]);
   const [sessionElapsedLabel, setSessionElapsedLabel] = useState<string>("");
   useEffect(() => {
     const computeElapsed = () => {
@@ -2734,7 +2740,7 @@ export default function AdminDashboard({
                 <div className="h-72 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     {chartType === "area" ? (
-                      <AreaChart data={monthlyFinancialTrends} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
+                      <AreaChart data={convertedMonthlyTrends} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
                         <defs>
                           <linearGradient id="colorRecettesDash" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor="#10B981" stopOpacity={0.4}/>
@@ -2750,18 +2756,18 @@ export default function AdminDashboard({
                         <YAxis stroke="#666666" fontSize={11} tickLine={false} tickFormatter={(val) => `${val >= 1000 ? `${(val/1000).toFixed(0)}k` : val}`} />
                         <Tooltip content={<CustomChartTooltip />} />
                         <Legend wrapperStyle={{ paddingTop: 10, fontSize: 12, color: "#94a3b8" }} />
-                        <Area type="monotone" dataKey="Recettes" stroke="#10B981" strokeWidth={2.5} fillOpacity={1} fill="url(#colorRecettesDash)" name="Recettes (USD)" />
-                        <Area type="monotone" dataKey="Dépenses" stroke="#EF4444" strokeWidth={2.5} fillOpacity={1} fill="url(#colorDepensesDash)" name="Dépenses (USD)" />
+                        <Area type="monotone" dataKey="Recettes" stroke="#10B981" strokeWidth={2.5} fillOpacity={1} fill="url(#colorRecettesDash)" name={`Recettes (${displayCurrency})`} />
+                        <Area type="monotone" dataKey="Dépenses" stroke="#EF4444" strokeWidth={2.5} fillOpacity={1} fill="url(#colorDepensesDash)" name={`Dépenses (${displayCurrency})`} />
                       </AreaChart>
                     ) : (
-                      <BarChart data={monthlyFinancialTrends} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
+                      <BarChart data={convertedMonthlyTrends} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#222222" vertical={false} />
                         <XAxis dataKey="monthLabel" stroke="#666666" fontSize={11} tickLine={false} />
                         <YAxis stroke="#666666" fontSize={11} tickLine={false} tickFormatter={(val) => `${val >= 1000 ? `${(val/1000).toFixed(0)}k` : val}`} />
                         <Tooltip content={<CustomChartTooltip />} />
                         <Legend wrapperStyle={{ paddingTop: 10, fontSize: 12, color: "#94a3b8" }} />
-                        <Bar dataKey="Recettes" fill="#10B981" radius={[4, 4, 0, 0]} name="Recettes (USD)" />
-                        <Bar dataKey="Dépenses" fill="#EF4444" radius={[4, 4, 0, 0]} name="Dépenses (USD)" />
+                        <Bar dataKey="Recettes" fill="#10B981" radius={[4, 4, 0, 0]} name={`Recettes (${displayCurrency})`} />
+                        <Bar dataKey="Dépenses" fill="#EF4444" radius={[4, 4, 0, 0]} name={`Dépenses (${displayCurrency})`} />
                       </BarChart>
                     )}
                   </ResponsiveContainer>
@@ -3259,7 +3265,7 @@ export default function AdminDashboard({
 
                   <div className="flex items-center gap-2.5 flex-wrap">
                     <span className="bg-[#151515] border border-white/10 px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold text-[#D4AF37] shadow-sm">
-                      Total : {(db.budget?.totalBudget || 0).toLocaleString()} USD
+                      Total : {formatCurrency(convertAmount(db.budget?.totalBudget || 0, "USD", displayCurrency, exchangeRates), displayCurrency)}
                     </span>
 
                     <button
@@ -3288,32 +3294,32 @@ export default function AdminDashboard({
                   <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-1 h-full bg-emerald-500/50" />
                     <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Fonctionnement</p>
-                    <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedResearch || 0).toLocaleString()} USD</p>
+                    <p className="font-mono text-lg font-bold text-white">{formatCurrency(convertAmount(db.budget?.allocatedResearch || 0, "USD", displayCurrency, exchangeRates), displayCurrency)}</p>
                   </div>
                   <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-1 h-full bg-blue-500/50" />
                     <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Bourses</p>
-                    <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedLogistics || 0).toLocaleString()} USD</p>
+                    <p className="font-mono text-lg font-bold text-white">{formatCurrency(convertAmount(db.budget?.allocatedLogistics || 0, "USD", displayCurrency, exchangeRates), displayCurrency)}</p>
                   </div>
                   <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-1 h-full bg-[#D4AF37]/50" />
                     <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Frais Administratifs</p>
-                    <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedEquipment || 0).toLocaleString()} USD</p>
+                    <p className="font-mono text-lg font-bold text-white">{formatCurrency(convertAmount(db.budget?.allocatedEquipment || 0, "USD", displayCurrency, exchangeRates), displayCurrency)}</p>
                   </div>
                   <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-1 h-full bg-purple-500/50" />
                     <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Personnel</p>
-                    <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedPersonnel || 0).toLocaleString()} USD</p>
+                    <p className="font-mono text-lg font-bold text-white">{formatCurrency(convertAmount(db.budget?.allocatedPersonnel || 0, "USD", displayCurrency, exchangeRates), displayCurrency)}</p>
                   </div>
                   <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-1 h-full bg-orange-500/50" />
                     <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Missions</p>
-                    <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedMissions || 0).toLocaleString()} USD</p>
+                    <p className="font-mono text-lg font-bold text-white">{formatCurrency(convertAmount(db.budget?.allocatedMissions || 0, "USD", displayCurrency, exchangeRates), displayCurrency)}</p>
                   </div>
                   <div className="p-4 bg-[#151515] rounded-lg border border-white/5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-1 h-full bg-rose-500/50" />
                     <p className="text-[11px] text-slate-500 uppercase font-mono tracking-wider mb-2">Investissements</p>
-                    <p className="font-mono text-lg font-bold text-white">{(db.budget?.allocatedInvestments || 0).toLocaleString()} USD</p>
+                    <p className="font-mono text-lg font-bold text-white">{formatCurrency(convertAmount(db.budget?.allocatedInvestments || 0, "USD", displayCurrency, exchangeRates), displayCurrency)}</p>
                   </div>
                 </div>
               </div>
@@ -3360,7 +3366,7 @@ export default function AdminDashboard({
                 <div className="h-72 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     {chartType === "area" ? (
-                      <AreaChart data={monthlyFinancialTrends} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
+                      <AreaChart data={convertedMonthlyTrends} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
                         <defs>
                           <linearGradient id="colorRecettesFin" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor="#10B981" stopOpacity={0.4}/>
@@ -3376,18 +3382,18 @@ export default function AdminDashboard({
                         <YAxis stroke="#666666" fontSize={11} tickLine={false} tickFormatter={(val) => `${val >= 1000 ? `${(val/1000).toFixed(0)}k` : val}`} />
                         <Tooltip content={<CustomChartTooltip />} />
                         <Legend wrapperStyle={{ paddingTop: 10, fontSize: 12, color: "#94a3b8" }} />
-                        <Area type="monotone" dataKey="Recettes" stroke="#10B981" strokeWidth={2.5} fillOpacity={1} fill="url(#colorRecettesFin)" name="Recettes (USD)" />
-                        <Area type="monotone" dataKey="Dépenses" stroke="#EF4444" strokeWidth={2.5} fillOpacity={1} fill="url(#colorDepensesFin)" name="Dépenses (USD)" />
+                        <Area type="monotone" dataKey="Recettes" stroke="#10B981" strokeWidth={2.5} fillOpacity={1} fill="url(#colorRecettesFin)" name={`Recettes (${displayCurrency})`} />
+                        <Area type="monotone" dataKey="Dépenses" stroke="#EF4444" strokeWidth={2.5} fillOpacity={1} fill="url(#colorDepensesFin)" name={`Dépenses (${displayCurrency})`} />
                       </AreaChart>
                     ) : (
-                      <BarChart data={monthlyFinancialTrends} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
+                      <BarChart data={convertedMonthlyTrends} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#222222" vertical={false} />
                         <XAxis dataKey="monthLabel" stroke="#666666" fontSize={11} tickLine={false} />
                         <YAxis stroke="#666666" fontSize={11} tickLine={false} tickFormatter={(val) => `${val >= 1000 ? `${(val/1000).toFixed(0)}k` : val}`} />
                         <Tooltip content={<CustomChartTooltip />} />
                         <Legend wrapperStyle={{ paddingTop: 10, fontSize: 12, color: "#94a3b8" }} />
-                        <Bar dataKey="Recettes" fill="#10B981" radius={[4, 4, 0, 0]} name="Recettes (USD)" />
-                        <Bar dataKey="Dépenses" fill="#EF4444" radius={[4, 4, 0, 0]} name="Dépenses (USD)" />
+                        <Bar dataKey="Recettes" fill="#10B981" radius={[4, 4, 0, 0]} name={`Recettes (${displayCurrency})`} />
+                        <Bar dataKey="Dépenses" fill="#EF4444" radius={[4, 4, 0, 0]} name={`Dépenses (${displayCurrency})`} />
                       </BarChart>
                     )}
                   </ResponsiveContainer>
