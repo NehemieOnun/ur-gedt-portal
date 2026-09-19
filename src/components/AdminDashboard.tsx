@@ -844,11 +844,6 @@ export default function AdminDashboard({
     })();
   }, []);
 
-  const convertedMonthlyTrends = useMemo(() => (monthlyFinancialTrends || []).map((m: any) => ({
-    ...m,
-    Recettes: convertAmount(m.Recettes || 0, "USD", displayCurrency, exchangeRates),
-    Dépenses: convertAmount(m.Dépenses || 0, "USD", displayCurrency, exchangeRates),
-  })), [monthlyFinancialTrends, displayCurrency, exchangeRates]);
   const [sessionElapsedLabel, setSessionElapsedLabel] = useState<string>("");
   useEffect(() => {
     const computeElapsed = () => {
@@ -1328,6 +1323,12 @@ export default function AdminDashboard({
 
     return data;
   }, [db.recipes, db.expenses]);
+
+  const convertedMonthlyTrends = useMemo(() => (monthlyFinancialTrends || []).map((m: any) => ({
+    ...m,
+    Recettes: convertAmount(m.Recettes || 0, "USD", displayCurrency, exchangeRates),
+    Dépenses: convertAmount(m.Dépenses || 0, "USD", displayCurrency, exchangeRates),
+  })), [monthlyFinancialTrends, displayCurrency, exchangeRates]);
 
   // Utility function to export data array to CSV file with UTF-8 encoding
   const exportToCSV = (filename: string, rows: Record<string, any>[], headers: { key: string; label: string }[]) => {
